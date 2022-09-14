@@ -1,0 +1,32 @@
+{
+  "name": "hapnet",
+  "version": "1.0.0",
+  "description": "HapNet.js is a javascript library to draw haplotype network in a fast way.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "serve": "webpack serve --mode development --config webpack.config.js",
+    "build": "webpack build --mode production --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/zhengxinchang/HapNet.js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chroma-js": "^2.4.2",
+    "d3-force": "^3.0.0",
+    "lodash-es": "^4.17.21",
+    "pixi.js": "^6.5.2"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.0"
+  }
+}
