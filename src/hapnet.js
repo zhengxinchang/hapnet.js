@@ -49,16 +49,19 @@ const defaultOptions = {
         },
     },
     coarseGraph: {
-        tickIteration: 1000,
+        tickIteration: 100,
         collideIteration: 2,
         hubNumOFLinksThreshold: 20, // 定义hub Node的最小边的数量
         maxExpandSteps: 50, // 最大的迭代步数
         hubNodePadding: 10,
-        chargeStrength: 200000,
+        chargeStrength: 200,
         forceLinkDistance: 10,
         forceLinkStrength: 2,
     },
-    LayoutSimulationIterations: 100,
+    fullGraph:{
+        LayoutSimulationIterations: 100,
+    },
+    
     style: {
         linkWidth: 4,
         linkColor: "#FFFFFF", //white
