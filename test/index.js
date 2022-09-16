@@ -1,7 +1,7 @@
 
 import { HapNet } from "../src/hapnet";
 
-
+let start = Date.now();
 
 
 function httpGet(theUrl)
@@ -59,12 +59,16 @@ const customOptions = {
             }(d)
         }
     }),
-    palette:"jco",
+    palette:"npg",
+    // coarseGraph:{
+    //     hubNumOFLinksThreshold:10,
+    //     chargeStrength: 20000,
+    // }
 }
 
 
 // console.log(customOptions);
-let start = Date.now();
+
 const hapnet = new HapNet(customOptions);
 let end = Date.now();
 
