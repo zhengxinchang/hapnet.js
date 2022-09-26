@@ -49,13 +49,13 @@ const defaultOptions = {
         },
     },
     coarseGraph: {
-        tickIteration: 100,
+        tickIteration: 1000,
         collideIteration: 2,
         hubNumOFLinksThreshold: 20, // 定义hub Node的最小边的数量
         maxExpandSteps: 50, // 最大的迭代步数
-        hubNodePadding: 10,
-        chargeStrength: 200,
-        forceLinkDistance: 10,
+        hubNodePadding: 100,
+        chargeStrength: 10000,
+        forceLinkDistance: 5,
         forceLinkStrength: 2,
     },
     fullGraph:{
@@ -63,7 +63,7 @@ const defaultOptions = {
     },
     
     style: {
-        linkWidth: 4,
+        linkWidth: 40,
         linkColor: "#FFFFFF", //white
         NodeOutline: {
             show: true,
@@ -154,11 +154,13 @@ class HapNet {
 
         }
 
-
+        const network = new Network(this.options);
+        // network.drawBackground();
         calculateCoarseGraph(this.options);
         calculateFullGraph(this.options);
 
-        const network = new Network(this.options);
+        
+        // network.setOption(this.options)
         console.log(this.options)
         network.draw();
     }
