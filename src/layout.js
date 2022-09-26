@@ -222,13 +222,15 @@ function calculateFullGraph(options){
     // .stop()
     // .tick(200);
     const simulation = d3.forceSimulation(nodesWithPosition)
-    .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
+    .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(120).strength(forceLinkStrength))
     .force("collide", d3.forceCollide().radius(d => d.radius).iterations(2))
-    .force("charge", d3.forceManyBody().strength(chargeStrength*100 *-1).theta(0.99))
-    // .force("x", d3.forceX())
-    // .force("y", d3.forceY())
+    .force("charge", d3.forceManyBody().strength(chargeStrength*20 *-1).theta(0.99)) // charge 决定full graph的点的距离
+    // .force("x", d3.forceX().strength(0.01))
+    // .force("y", d3.forceY().strength(0.01))
+    .force("x", d3.forceX())
+    .force("y", d3.forceY())
     .stop()
-    .tick(200);
+    .tick(150);
 
     /**
      * reset new nodes and links to original options object.
