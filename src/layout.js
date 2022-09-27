@@ -68,7 +68,7 @@ function calculateCoarseGraph(options) {
 
         while (true) {
             i++
-            if(maxExpandSteps && i > maxExpandSteps && true || false ) {
+            if (maxExpandSteps && i > maxExpandSteps && true || false) {
                 // alert("aa")
                 break;
             }
@@ -123,7 +123,7 @@ function calculateCoarseGraph(options) {
         /**
          * remove hub node from the historyNodeSet
          */
-        Object.keys(hubNode).forEach(nodeName=>{
+        Object.keys(hubNode).forEach(nodeName => {
             historyNodeSet.has(nodeName) && historyNodeSet.delete(nodeName)
         })
 
@@ -136,8 +136,8 @@ function calculateCoarseGraph(options) {
             /**
              * Here I consider the radius of each node to calculate the radius of the hub node.
              */
-            radius: Math.ceil(raidusSum  + hubNodePadding)/2,
-            neighborList:Array.from(historyNodeSet)
+            radius: Math.ceil(raidusSum + hubNodePadding) / 2,
+            neighborList: Array.from(historyNodeSet)
         });
 
     }
@@ -178,7 +178,7 @@ function calculateCoarseGraph(options) {
     options.coarseLinks = Object.values(hubLink);
 };
 
-function calculateFullGraph(options){
+function calculateFullGraph(options) {
 
     const tickIteration = options.coarseGraph.tickIteration;
     const collideIteration = options.coarseGraph.collideIteration;
@@ -191,23 +191,23 @@ function calculateFullGraph(options){
 
 
     let nodesDict = {};
-    options.nodes.forEach(node=>{
+    options.nodes.forEach(node => {
         nodesDict[node.id] = node;
     });
-    
+
     /**
      * assign postion of hubnode to 
      */
-    options.coarseNodes.forEach(cnode=>{
+    options.coarseNodes.forEach(cnode => {
         nodesDict[cnode.id].x = cnode.x
         nodesDict[cnode.id].y = cnode.y
         // nodesDict[cnode.id].fx = cnode.x // setup fix postion of hubnode
         // nodesDict[cnode.id].fy = cnode.y
         nodesDict[cnode.id].isHub = true;
-        cnode.neighborList.forEach(neighbor=>{ 
-            nodesDict[neighbor].isHub= false;
-            nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(Math.random()* Math.PI *2) ;
-            nodesDict[neighbor].y = cnode.y + cnode.radius * Math.cos(Math.random()* Math.PI *2) ;
+        cnode.neighborList.forEach(neighbor => {
+            nodesDict[neighbor].isHub = false;
+            nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(Math.random() * Math.PI * 2);
+            nodesDict[neighbor].y = cnode.y + cnode.radius * Math.cos(Math.random() * Math.PI * 2);
         });
     });
 
@@ -222,23 +222,23 @@ function calculateFullGraph(options){
     // .stop()
     // .tick(200);
     const simulation = d3.forceSimulation(nodesWithPosition)
-    .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(120).strength(forceLinkStrength))
-    .force("collide", d3.forceCollide().radius(d => d.radius).iterations(2))
-    .force("charge", d3.forceManyBody().strength(chargeStrength*20 *-1).theta(0.99)) // charge 决定full graph的点的距离
-    // .force("x", d3.forceX().strength(0.01))
-    // .force("y", d3.forceY().strength(0.01))
-    .force("x", d3.forceX())
-    .force("y", d3.forceY())
-    .stop()
-    .tick(150);
+        .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(1).strength(1))
+        .force("collide", d3.forceCollide().radius(d => d.radius).iterations(2))
+        .force("charge", d3.forceManyBody().strength(chargeStrength * 80 * -1).theta(0.99)) // charge 决定full graph的点的距离
+        // .force("x", d3.forceX().strength(0.01))
+        // .force("y", d3.forceY().strength(0.01))
+        .force("x", d3.forceX())
+        .force("y", d3.forceY())
+        .stop()
+        .tick(150);
 
     /**
      * reset new nodes and links to original options object.
      * Please note that the d3-force will modify the option.links directly!
      */
-    options.nodes = simulation.nodes() ;
- 
+    options.nodes = simulation.nodes();
+
 };
 
 
-export { calculateCoarseGraph,calculateFullGraph }
+export { calculateCoarseGraph, calculateFullGraph }

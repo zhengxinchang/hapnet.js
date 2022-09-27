@@ -1,10 +1,10 @@
-import { SINGLEPIE,LINK } from "./drawElement";
+import { SINGLEPIE, LINK } from "./drawElement";
 import * as PIXI from 'pixi.js';
 
 
 class Network {
 
-    constructor(options){
+    constructor(options) {
 
         this.options = options;
         this.app = new PIXI.Application({ width: this.options.width, height: this.options.height, antialias: true, resolution: this.options.zoom });
@@ -13,11 +13,11 @@ class Network {
         this.hapcanvas.appendChild(this.app.view);
 
 
-       
+
         /** 
          * Add zoom and span function
          */
-         const  zoom = (s, x, y) => {
+        const zoom = (s, x, y) => {
 
             s = s < 0 ? 1.1 : 0.9;
             // document.getElementById("oldScale").innerHTML = stage.scale.x.toFixed(4);
@@ -43,13 +43,13 @@ class Network {
             zoom(e.deltaY, e.offsetX, e.offsetY);
         }
         var lastPos = null
-        this.hapcanvas.onmousedown = (e) =>{
+        this.hapcanvas.onmousedown = (e) => {
             lastPos = { x: e.offsetX, y: e.offsetY };
         }
-        this.hapcanvas.onmouseup =  (e)=> {
+        this.hapcanvas.onmouseup = (e) => {
             lastPos = null;
         }
-        this.hapcanvas.onmousemove =  (e) =>{
+        this.hapcanvas.onmousemove = (e) => {
             if (lastPos) {
                 this.app.stage.x += (e.offsetX - lastPos.x); // stage的x和y 根据鼠标的x和y移动相同的像素，这样就实现了stage跟随鼠标移动
                 this.app.stage.y += (e.offsetY - lastPos.y);
@@ -122,22 +122,22 @@ class Network {
     //     }
     // }
 
-   
 
-        
-    
 
-    draw(){
-        
-        this.nodeStyle =  this.options.style.NodeOutline;
+
+
+
+    draw() {
+
+        this.nodeStyle = this.options.style.NodeOutline;
         this.linkStyle = {
-            linkWidth:this.options.style.linkWidth,
-            linkColor:this.options.style.linkColor,
+            linkWidth: this.options.style.linkWidth,
+            linkColor: this.options.style.linkColor,
         }
 
         this.options.links.forEach(link => {
             // console.log(this.linkStyle)
-            const sedge = new LINK(link,this.linkStyle);
+            const sedge = new LINK(link, this.linkStyle);
             this.app.stage.addChild(sedge);
             sedge.draw(); //string2hex(string: string) → {number}
 
@@ -146,9 +146,9 @@ class Network {
         this.options.nodes.forEach(node => {
             // console.log(node.x,node.y)
             // console.log("before input to PIE",node);
-           
 
-            const spie = new SINGLEPIE(node,this.nodeStyle);
+
+            const spie = new SINGLEPIE(node, this.nodeStyle);
 
             this.app.stage.addChild(spie);
             spie.draw();
@@ -164,4 +164,4 @@ class Network {
 }
 
 
-export {Network}
+export { Network }
