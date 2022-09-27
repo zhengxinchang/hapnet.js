@@ -32,19 +32,16 @@ with open(sys.argv[1]) as fj:
         minidat['nodes'].append(tmpnode)
 
     for item in dat['links']:
-
         # tmpvalue = []
         # for d in item["pieChart"]:
         #     tmpvalue.append(d["percent"])
         #     # map(d=>{ return d.percent})
-
         tmpedge = {
             "source": item["source"],
             "target":   item["target"],
             "distance": item["distance"],
             "minTime": item["minTime"],
             "subset": item["subset"],
-
         }
         minidat['edges'].append(tmpedge)
 
