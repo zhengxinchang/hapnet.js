@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { conformsTo, isNull, isNumber, isArray, isObject, isBoolean, isString } from 'lodash-es';
-
+import { calLineHitArea } from './utils'
 // const defaultNodeOptions = {
 //     id:null,
 //     radius:null,
@@ -19,7 +19,7 @@ class SINGLEPIE extends PIXI.Container {
         /**
          * Validate inputs
          */
-         const isValidate = conformsTo(nodeOptions, {
+        const isValidate = conformsTo(nodeOptions, {
             id: id => !isNull(id),
             radius: radius => isNumber(radius),
             x: x => !isNull(x),
@@ -30,16 +30,16 @@ class SINGLEPIE extends PIXI.Container {
             show: d => isBoolean(d),
             lineWidth: d => isNumber(d),
             lineColor: d => isNumber(d),
-        }) 
-        
-        if(isValidate){
+        })
+
+        if (isValidate) {
             this.nodeOptions = nodeOptions;
             this.nodeStyles = nodeStyles;
-        }else{
+        } else {
             this.nodeOptions = null;
             console.error("can not draw haplotype!")
         }
-        
+
 
 
         this.debug = debug;
@@ -100,8 +100,8 @@ class SINGLEPIE extends PIXI.Container {
     _drawPie() {
         // calculate percent of each sector
         this.total = 0;
-        this.nodeOptions.sectors.forEach((a) => this.total += a.number );
-        
+        this.nodeOptions.sectors.forEach((a) => this.total += a.number);
+
         this.sectorsWithPercent = this.nodeOptions.sectors.map(item => {
             item.percent = item.number / this.total
             return item
@@ -208,8 +208,17 @@ class LINK extends PIXI.Container {
         this.chart = this.addChild(new PIXI.Graphics());
         this.chart.interactive = true;
         this.chart.buttonMode = true;
+
         this.chart.on("pointerdown", function (e) {
-            console.log(`link: ${this.linkOptions}`)
+            /**
+             *  'this' is the polygen object. It's parent is the link object
+             */
+            // console.log(e)
+            
+            
+            const linkObj = this.parent
+
+            console.log("link", linkObj)
         });
 
     }
@@ -220,6 +229,20 @@ class LINK extends PIXI.Container {
             .lineStyle(this.linkStyles.linkWidth, this.linkStyles.linkColor, 1)
             .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
             .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
+
+        // let rawHitPath = this.chart.geometry.points
+        // let point4 = rawHitPath.slice(7,8)
+        // console.log(point4)
+        // console.log(hitPath)
+        const hitPath = calLineHitArea(
+            this.linkOptions.source.x, 
+            this.linkOptions.source.y, 
+            this.linkOptions.target.x, 
+            this.linkOptions.target.y, 
+            this.linkStyles.linkWidth
+            )
+
+        this.chart.hitArea = new PIXI.Polygon(hitPath)
     }
 }
 
