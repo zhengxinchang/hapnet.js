@@ -1,7 +1,7 @@
 {
   "name": "hapnet",
   "version": "1.0.0",
-  "description": "HapNet.js is a javascript library to draw haplotype network in a fast way.",
+  "description": "Javascript library to draw haplotype network.",
   "main": "index.js",
   "directories": {
     "example": "examples"
@@ -12,11 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/zhengxinchang/HapNet.js.git"
+    "url": "https://github.com/zhengxinchang/hapnet.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["haplotype network","webGL","visualization"],
+  "author": "Xinchang Zheng",
+  "license": "MIT",
   "dependencies": {
     "chroma-js": "^2.4.2",
     "d3-force": "^3.0.0",
