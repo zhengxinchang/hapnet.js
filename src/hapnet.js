@@ -59,7 +59,13 @@ const defaultOptions = {
         forceLinkStrength: 2,
     },
     fullGraph:{
-        LayoutSimulationIterations: 100,
+        tickIteration:150,
+        collideIteration: 2,
+        forceLinkDistance: 1,
+        forceLinkStrength: 1,
+        eachNodePadding: 100,
+        chargeStrength: 800000,
+        chargeTheta:0.99,
     },
     
     style: {
@@ -71,9 +77,6 @@ const defaultOptions = {
             lineColor: "#FFFFFF"
         }
     }
-
-
-
 }
 
 

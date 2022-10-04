@@ -180,15 +180,13 @@ function calculateCoarseGraph(options) {
 
 function calculateFullGraph(options) {
 
-    const tickIteration = options.coarseGraph.tickIteration;
-    const collideIteration = options.coarseGraph.collideIteration;
-    const maxExpandSteps = options.coarseGraph.maxExpandSteps;
-    const hubNodePadding = options.coarseGraph.hubNodePadding;
-    const hubNumOFLinksThreshold = options.coarseGraph.hubNumOFLinksThreshold;
-    const chargeStrength = options.coarseGraph.chargeStrength;
-    const forceLinkDistance = options.coarseGraph.forceLinkDistance;
-    const forceLinkStrength = options.coarseGraph.forceLinkStrength;
-
+    const tickIteration = options.fullGraph.tickIteration;
+    const collideIteration = options.fullGraph.collideIteration;
+    const eachNodePadding = options.fullGraph.eachNodePadding;
+    const chargeStrength = options.fullGraph.chargeStrength;
+    const forceLinkDistance = options.fullGraph.forceLinkDistance;
+    const forceLinkStrength = options.fullGraph.forceLinkStrength;
+    const chargeTheta  = options.fullGraph.chargeTheta;
 
     let nodesDict = {};
     options.nodes.forEach(node => {
@@ -222,15 +220,15 @@ function calculateFullGraph(options) {
     // .stop()
     // .tick(200);
     const simulation = d3.forceSimulation(nodesWithPosition)
-        .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(1).strength(1))
-        .force("collide", d3.forceCollide().radius(d => d.radius).iterations(2))
-        .force("charge", d3.forceManyBody().strength(chargeStrength * 80 * -1).theta(0.99)) // charge 决定full graph的点的距离
+        .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
+        .force("collide", d3.forceCollide().radius(d => d.radius +eachNodePadding ).iterations(collideIteration))
+        .force("charge", d3.forceManyBody().strength(chargeStrength * -1).theta(chargeTheta)) // charge 决定full graph的点的距离
         // .force("x", d3.forceX().strength(0.01))
         // .force("y", d3.forceY().strength(0.01))
         .force("x", d3.forceX())
         .force("y", d3.forceY())
         .stop()
-        .tick(150);
+        .tick(tickIteration);
 
     /**
      * reset new nodes and links to original options object.

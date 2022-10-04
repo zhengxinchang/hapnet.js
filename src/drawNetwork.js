@@ -20,9 +20,6 @@ class Network {
         const zoom = (s, x, y) => {
 
             s = s < 0 ? 1.1 : 0.9;
-            // document.getElementById("oldScale").innerHTML = stage.scale.x.toFixed(4);
-            // document.getElementById("oldXY").innerHTML = '('+stage.x.toFixed(4)+','+stage.y.toFixed(4)+')';
-
             let worldPos = { x: (x - this.app.stage.x) / this.app.stage.scale.x, y: (y - this.app.stage.y) / this.app.stage.scale.y };
             let newScale = { x: this.app.stage.scale.x * s, y: this.app.stage.scale.y * s };
 
@@ -32,11 +29,6 @@ class Network {
             this.app.stage.y -= (newScreenPos.y - y);
             this.app.stage.scale.x = newScale.x;
             this.app.stage.scale.y = newScale.y;
-            // console.log(app.stage);
-            // document.getElementById("scale").innerHTML = newScale.x.toFixed(4);
-            // document.getElementById("xy").innerHTML = '('+stage.x.toFixed(4)+','+stage.y.toFixed(4)+')';
-
-            // document.getElementById("c").innerHTML=c;
         };
 
         this.hapcanvas.onwheel = function (e) {
@@ -54,8 +46,6 @@ class Network {
                 this.app.stage.x += (e.offsetX - lastPos.x); // stage的x和y 根据鼠标的x和y移动相同的像素，这样就实现了stage跟随鼠标移动
                 this.app.stage.y += (e.offsetY - lastPos.y);
                 lastPos = { x: e.offsetX, y: e.offsetY }; //然后更新lastPos
-
-
             }
 
         }
