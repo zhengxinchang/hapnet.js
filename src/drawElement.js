@@ -10,7 +10,9 @@ import { calLineHitArea } from './utils'
 //     meta:{}
 // }
 
-
+/**
+ *  Pie chart element
+ */
 class SINGLEPIE extends PIXI.Container {
 
     constructor(nodeOptions, nodeStyles, drawCoarseGraph = false, debug = false) {
@@ -179,6 +181,9 @@ class SINGLEPIE extends PIXI.Container {
 //     meta:null,
 // }
 
+/**
+ * Link object
+ */
 class LINK extends PIXI.Container {
 
     constructor(linkOptions, linkStyles, drawCoarseGraph = false, debug = false) {
@@ -234,6 +239,10 @@ class LINK extends PIXI.Container {
         // let point4 = rawHitPath.slice(7,8)
         // console.log(point4)
         // console.log(hitPath)
+
+        /**
+         * calculate hit area of the link
+         */
         const hitPath = calLineHitArea(
             this.linkOptions.source.x, 
             this.linkOptions.source.y, 
