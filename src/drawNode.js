@@ -72,10 +72,26 @@ class SINGLEPIE extends PIXI.Container {
                  * 1. add callback functions
                  */
                 // event.preventDefault();
-                console.log("mouse over node")
-                console.log(this.nodeOptions);
+                // console.log("mouse over node")
+                // console.log(this.nodeOptions);
 
                 // this.emit("pointerdown")
+
+                /**
+                 * add node_menu to the center of node
+                 */
+                    console.log("nodeMessageBox")
+                    this.nodeMessageBox = this.parent.getChildByName("node_menu");
+                    console.log(this.nodeMessageBox)
+      
+                    
+                    this.nodeMessageBox.x = this.nodeOptions.x;
+                    this.nodeMessageBox.y = this.nodeOptions.y;
+                    this.nodeMessageBox.visible = true;
+                    
+
+
+
             });
 
             this.on('mouseout', (event) => {
@@ -84,10 +100,14 @@ class SINGLEPIE extends PIXI.Container {
                  * 1. add callback functions
                  */
                 // event.preventDefault();
-                console.log("mouse leave node")
-                console.log(this.nodeOptions);
+                // console.log("mouse leave node")
+                // console.log(this.nodeOptions);
 
                 // this.emit("pointerdown")
+
+
+
+                this.nodeMessageBox.visible = false;
             });
 
             // this.on('mousemove', (event) => {
