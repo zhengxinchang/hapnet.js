@@ -18,7 +18,7 @@ class HapNet {
         this.options.backgroundColor = chroma(this.options.backgroundColor).num();
         this.options.style.linkColor = chroma(this.options.style.linkColor).num();
         this.options.style.NodeOutline.lineColor = chroma(this.options.style.NodeOutline.lineColor).num();
-
+        
         /**
          * TODO:
          * if paletteArray is not null and  like [{category:A, color:'#FFFFFF'}],
@@ -90,6 +90,7 @@ class HapNet {
         
         // network.setOption(this.options)
         console.log(this.options)
+
         network.draw();
     }
 

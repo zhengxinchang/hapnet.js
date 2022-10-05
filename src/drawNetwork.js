@@ -15,13 +15,41 @@ class Network {
         
 
         this.options = options;
-        this.app = new PIXI.Application({ width: this.options.width, height: this.options.height, antialias: true, resolution: this.options.zoom });
+        this.app = new PIXI.Application({ 
+            width: this.options.width, 
+            height: this.options.height, 
+            antialias: true, 
+            resolution: this.options.zoom });
         this.app.renderer.backgroundColor = this.options.backgroundColor;
         this.hapcanvas = document.getElementById(this.options.el);
         this.hapcanvas.appendChild(this.app.view);
 
 
+        // 参考代码
+        // this.app.stage.x -= (newScreenPos.x - x);
+        // this.app.stage.y -= (newScreenPos.y - y);
+        // this.app.stage.scale.x = newScale.x;
+        // this.app.stage.scale.y = newScale.y;
 
+
+        this.app.stage.scale.x = 0.01;
+        this.app.stage.scale.y = 0.01;
+        /**
+         * enable zindex layer.
+         */
+        this.app.stage.sortableChildren = true
+        const style = new PIXI.TextStyle({
+            fill: "#fafafa",
+            fontSize: 95
+        });
+
+        const text = new PIXI.Text('Hello World', style);
+        text.name = "node_menu";
+        text.x = 1000;
+        text.y = 1000;
+        text.zIndex = 2;
+
+        this.app.stage.addChild(text)
         /** 
          * Add zoom and span function
          */
@@ -67,9 +95,6 @@ class Network {
             linkWidth: this.options.style.linkWidth,
             linkColor: this.options.style.linkColor,
         }
-
-        
- 
         this.options.links.forEach(link => {
             // console.log(link)
             const linkID = [link.source.id,link.target.id].sort().join("_");
@@ -85,8 +110,6 @@ class Network {
                     anotherNodeID: link.target.id
                 })
             }
-
-
             if(! hapnetConfig.nodeFirstLevel[link.target.id] ){
                 hapnetConfig.nodeFirstLevel[link.target.id] = [];
                 hapnetConfig.nodeFirstLevel[link.target.id].push({
@@ -116,8 +139,7 @@ class Network {
 
         /**
          * Add event listener function for pointer down event
-         * 
-         * The progress is:
+         * The steps are:
          * if one node is clicked, 
          * 1. set style to normal for objects in highlightedObjList.
          * 2. the related links and level-1 nodes will be highlight.
@@ -125,7 +147,7 @@ class Network {
          */
         this.app.stage.interactive=true;
         this.app.stage.buttonMode = true;
-        this.app.stage.on("pointerdown",(e)=>{
+        this.app.stage.on("mousedown",(e)=>{
 
             // set all highlighted nodes to normal
             hapnetConfig.highlightedObjList.nodes.forEach(d=>{
@@ -149,33 +171,36 @@ class Network {
                  */
                 e.target.draw({heighLight:true}) // Named parameters are not permitted. Probably due to the way to call draw().
                 hapnetConfig.highlightedObjList.nodes.push(e.target.name)
+
+                /**
+                 * highlight related links and related nodes
+                 */
                 const relatedNodesAndLinks = hapnetConfig.nodeFirstLevel[e.target.name];
                 relatedNodesAndLinks.forEach(d=>{
-
                     this.app.stage.getChildByName(d.anotherNodeID).draw({heighLight:true})
                     this.app.stage.getChildByName(d.linkID).draw({heighLight:true})
-
-
                     hapnetConfig.highlightedObjList.nodes.push(d.anotherNodeID)
                     hapnetConfig.highlightedObjList.links.push(d.linkID)
-                })
-
+                });
             }
 
             if (e.target.parent instanceof LINK){
+                
+                /**
+                 * highlight link self
+                 */
                 e.target.parent.draw({heighLight:true});
                 hapnetConfig.highlightedObjList.links.push(e.target.parent.name)
-                // console.log(e.target.parent)
+                /**
+                 * highlight link related source node and target node
+                 */
                 this.app.stage.getChildByName(e.target.parent.linkOptions.source.id).draw({heighLight:true})
                 this.app.stage.getChildByName(e.target.parent.linkOptions.target.id).draw({heighLight:true})
-
-
             }
-
             console.log("app stage is clicked")
             console.log(hapnetConfig.highlightedObjList)
             console.log(hapnetConfig.nodeFirstLevel)
-            console.log(this.app.stage)
+            console.log(this.app)
         })
 
 
