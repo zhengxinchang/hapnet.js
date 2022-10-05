@@ -192,7 +192,7 @@ function calculateFullGraph(options) {
     options.nodes.forEach(node => {
         nodesDict[node.id] = node;
     });
-
+    
     /**
      * assign postion of hubnode to 
      */
