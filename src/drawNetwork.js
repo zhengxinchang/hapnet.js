@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 // import "@pixi/events"
 // import { EventSystem } from "@pixi/events";
 import {hapnetConfig} from './envs'
-
+import {toolTip} from './drawToolTip'
 
 class Network {
 
@@ -23,33 +23,10 @@ class Network {
         this.app.renderer.backgroundColor = this.options.backgroundColor;
         this.hapcanvas = document.getElementById(this.options.el);
         this.hapcanvas.appendChild(this.app.view);
+        // hapnetConfig.initViewWidth = this.app.view.width;
+        // hapnetConfig.initViewHeight = this.app.view.height;
 
 
-        // 参考代码
-        // this.app.stage.x -= (newScreenPos.x - x);
-        // this.app.stage.y -= (newScreenPos.y - y);
-        // this.app.stage.scale.x = newScale.x;
-        // this.app.stage.scale.y = newScale.y;
-
-
-        this.app.stage.scale.x = 0.01;
-        this.app.stage.scale.y = 0.01;
-        /**
-         * enable zindex layer.
-         */
-        this.app.stage.sortableChildren = true
-        const style = new PIXI.TextStyle({
-            fill: "#fafafa",
-            fontSize: 95
-        });
-
-        const text = new PIXI.Text('Hello World', style);
-        text.name = "node_menu";
-        text.x = 1000;
-        text.y = 1000;
-        text.zIndex = 2;
-
-        this.app.stage.addChild(text)
         /** 
          * Add zoom and span function
          */
@@ -65,6 +42,14 @@ class Network {
             this.app.stage.y -= (newScreenPos.y - y);
             this.app.stage.scale.x = newScale.x;
             this.app.stage.scale.y = newScale.y;
+            hapnetConfig.currentZoomScale = newScale;
+            hapnetConfig.currentStageWidth = this.app.stage.width;
+            hapnetConfig.currentStageHeight = this.app.stage.height;
+            // console.log("zooming")
+            // console.log(hapnetConfig)
+            // hapnetConfig.appView = this.app.view;
+            // hapnetConfig.appStage = this.app.stage;
+
         };
 
         this.hapcanvas.onwheel = function (e) {
@@ -87,8 +72,69 @@ class Network {
         }
     }
 
+    init(){
+        this.options.nodes.forEach(node => {
+            // console.log(node.x,node.y)
+            // console.log("before input to PIE",node);
+            // console.log(node)
+            if (hapnetConfig.plotBorders.x.max < node.x) hapnetConfig.plotBorders.x.max = node.x;
+            if (hapnetConfig.plotBorders.x.min > node.x) hapnetConfig.plotBorders.x.min = node.x;
+            if (hapnetConfig.plotBorders.y.max < node.y) hapnetConfig.plotBorders.y.max = node.y;
+            if (hapnetConfig.plotBorders.y.min > node.y) hapnetConfig.plotBorders.y.min = node.y;
+            
+        });
+
+        const scaleNumberX = this.app.view.width/ (hapnetConfig.plotBorders.x.max - hapnetConfig.plotBorders.x.min)
+        const scaleNumberY = this.app.view.height/ (hapnetConfig.plotBorders.y.max - hapnetConfig.plotBorders.y.min)
+        const scaleNumberFinal =  scaleNumberX > scaleNumberY ? scaleNumberY : scaleNumberX
+        
+        const initStageApproxWidth = (hapnetConfig.plotBorders.x.max - hapnetConfig.plotBorders.x.min) * scaleNumberFinal
+        const initStageApproxHeight = (hapnetConfig.plotBorders.y.max - hapnetConfig.plotBorders.y.min) * scaleNumberFinal
+        // console.log(`stage width ${}`)
+        hapnetConfig.initScale = scaleNumberFinal
+        hapnetConfig.initStageWidth = initStageApproxWidth;
+        hapnetConfig.initStageHeight =initStageApproxHeight;
+        hapnetConfig.currentStageWidth = initStageApproxWidth;
+        hapnetConfig.currentStageHeight =initStageApproxHeight;
+        // console.log(this.app.stage)
+        // console.log("init")
+        // console.log(hapnetConfig);
+
+
+        /**
+         * enable zindex layer.
+         */
+        this.app.stage.sortableChildren = true
+
+
+
+
+        const hapnetToolTop = new toolTip(this.options);
+        this.app.stage.addChild(hapnetToolTop);
+
+    }
 
     draw() {
+
+
+        /**
+         * Auto scale the canvas
+         */
+
+
+        // console.log("options")
+        // console.log(this.options)
+
+        // 参考代码
+        // this.app.stage.x -= (newScreenPos.x - x);
+        // this.app.stage.y -= (newScreenPos.y - y);
+        // this.app.stage.scale.x = newScale.x;
+        // this.app.stage.scale.y = newScale.y;
+
+
+        // this.app.stage.scale.x = 0.01;
+        // this.app.stage.scale.y = 0.01;
+
 
         this.nodeStyle = this.options.style.NodeOutline;
         this.linkStyle = {
@@ -131,11 +177,27 @@ class Network {
         this.options.nodes.forEach(node => {
             // console.log(node.x,node.y)
             // console.log("before input to PIE",node);
+
+            // if (hapnetConfig.plotBorders.x.max < node.x) hapnetConfig.plotBorders.x.max = node.x;
+            // if (hapnetConfig.plotBorders.x.min > node.x) hapnetConfig.plotBorders.x.min = node.x;
+            // if (hapnetConfig.plotBorders.y.max < node.y) hapnetConfig.plotBorders.y.max = node.y;
+            // if (hapnetConfig.plotBorders.y.min > node.y) hapnetConfig.plotBorders.y.min = node.y;
+            
             const spie = new SINGLEPIE(node, this.nodeStyle);
             this.app.stage.addChild(spie);
             spie.draw();
         });
 
+        
+
+
+
+        this.app.stage.scale.x = hapnetConfig.initScale;
+        this.app.stage.scale.y = hapnetConfig.initScale;
+        this.app.stage.x = this.app.stage.x + (this.app.view.width/2);
+        this.app.stage.y = this.app.stage.y + (this.app.view.height/2 );
+        // this.app.stage.y = hapnetConfig.plotBorders.y.min;
+        console.log(`this.app.stage.x :${this.app.stage.x}`)
 
         /**
          * Add event listener function for pointer down event
@@ -182,6 +244,8 @@ class Network {
                     hapnetConfig.highlightedObjList.nodes.push(d.anotherNodeID)
                     hapnetConfig.highlightedObjList.links.push(d.linkID)
                 });
+
+                // console.log(e.target)
             }
 
             if (e.target.parent instanceof LINK){
@@ -197,10 +261,10 @@ class Network {
                 this.app.stage.getChildByName(e.target.parent.linkOptions.source.id).draw({heighLight:true})
                 this.app.stage.getChildByName(e.target.parent.linkOptions.target.id).draw({heighLight:true})
             }
-            console.log("app stage is clicked")
-            console.log(hapnetConfig.highlightedObjList)
-            console.log(hapnetConfig.nodeFirstLevel)
-            console.log(this.app)
+            // console.log("app stage is clicked")
+            // console.log(hapnetConfig.highlightedObjList)
+            // console.log(hapnetConfig.nodeFirstLevel)
+            // console.log(this.app)
         })
 
 
