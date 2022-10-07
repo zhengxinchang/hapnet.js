@@ -37,8 +37,14 @@ const defaultOptions = {
     palette: "default",
     paletteArray: null,
     zoom: 1,
-    tooTip: {
+    toolTip: {
         show: true,
+        fontSize:10,
+        backgroundColor:"#FFFFFF",
+        borderColor:"#616161",
+        borderWidth: 10,
+        width:window.innerWidth*0.2,
+        height:window.innerHeight*0.5,
         formatter: function (meta) {
             return null
         },
@@ -94,7 +100,26 @@ let hapnetConfig = {
          * ]
          *
          */
-    }
+    },
+    plotBorders : {
+        x:{
+            max:0,
+            min:0,
+        },
+        y:{
+            max:0,
+            min:0,
+        }
+    },
+    initScale:1,
+    zoomScale:{
+        x:1,
+        y:1,
+    },
+    initStageHeight:null,
+    initStageWidth:null,
+    currentStageWidth:null,
+    currentStageHeight:null,
 }; 
 
 

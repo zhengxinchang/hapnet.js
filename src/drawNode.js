@@ -80,16 +80,18 @@ class SINGLEPIE extends PIXI.Container {
                 /**
                  * add node_menu to the center of node
                  */
-                    console.log("nodeMessageBox")
-                    this.nodeMessageBox = this.parent.getChildByName("node_menu");
-                    console.log(this.nodeMessageBox)
-      
+                    // console.log("nodeMessageBox")
+                    // this.nodeMessageBox = this.parent.getChildByName("node_menu");
+                    // console.log(this.nodeMessageBox)
                     
-                    this.nodeMessageBox.x = this.nodeOptions.x;
-                    this.nodeMessageBox.y = this.nodeOptions.y;
-                    this.nodeMessageBox.visible = true;
+                    // this.nodeMessageBox.x = this.nodeOptions.x;
+                    // this.nodeMessageBox.y = this.nodeOptions.y;
+                    // this.nodeMessageBox.visible = true;
                     
-
+                    this.toolTip = this.parent.getChildByName("hapnet_menu");
+                    this.toolTip.setAndShow(this.nodeOptions);
+                    console.log("tooltip")
+                    console.log(this.toolTip)
 
 
             });
@@ -105,9 +107,9 @@ class SINGLEPIE extends PIXI.Container {
 
                 // this.emit("pointerdown")
 
+                this.toolTip.clear();
 
-
-                this.nodeMessageBox.visible = false;
+                // this.nodeMessageBox.visible = false;
             });
 
             // this.on('mousemove', (event) => {

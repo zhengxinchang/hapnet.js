@@ -18,6 +18,8 @@ class HapNet {
         this.options.backgroundColor = chroma(this.options.backgroundColor).num();
         this.options.style.linkColor = chroma(this.options.style.linkColor).num();
         this.options.style.NodeOutline.lineColor = chroma(this.options.style.NodeOutline.lineColor).num();
+        this.options.toolTip.backgroundColor = chroma(this.options.toolTip.backgroundColor ).num();
+        this.options.toolTip.borderColor = chroma(this.options.toolTip.borderColor ).num();
         
         /**
          * TODO:
@@ -87,7 +89,7 @@ class HapNet {
         calculateCoarseGraph(this.options);
         calculateFullGraph(this.options);
 
-        
+        network.init();
         // network.setOption(this.options)
         console.log(this.options)
 
