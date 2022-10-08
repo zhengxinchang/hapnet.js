@@ -91,7 +91,7 @@ class HapNet {
 
         network.init();
         // network.setOption(this.options)
-        console.log(this.options)
+        // console.log(this.options)
 
         network.draw();
     }
