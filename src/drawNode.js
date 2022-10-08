@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import { conformsTo, isNull, isNumber, isArray, isObject, isBoolean, isString } from 'lodash-es';
 import { calLineHitArea } from './utils'
 import {defaultsDeep} from 'lodash-es'
+import {hapnetConfig } from './envs';
 import {hapnet_options} from './envs'
 // const defaultNodeOptions = {
 //     id:null,
@@ -88,10 +89,12 @@ class SINGLEPIE extends PIXI.Container {
                     // this.nodeMessageBox.y = this.nodeOptions.y;
                     // this.nodeMessageBox.visible = true;
                     
-                    this.toolTip = this.parent.getChildByName("hapnet_menu");
-                    this.toolTip.setAndShow(this.nodeOptions);
+                    this.toolTip = hapnetConfig.toolTipObj;
+                    
+                    this.toolTip.setAndShow(this.nodeOptions,event.data.global.x,event.data.global.y);
                     console.log("tooltip")
-                    console.log(this.toolTip)
+                    console.log(event)
+                    console.log(this.nodeOptions)
 
 
             });
@@ -101,13 +104,14 @@ class SINGLEPIE extends PIXI.Container {
                  * TODO:
                  * 1. add callback functions
                  */
+                // this.toolTip.clear();
                 // event.preventDefault();
                 // console.log("mouse leave node")
                 // console.log(this.nodeOptions);
 
                 // this.emit("pointerdown")
 
-                this.toolTip.clear();
+                // this.toolTip.clear();
 
                 // this.nodeMessageBox.visible = false;
             });
