@@ -8,12 +8,6 @@ import {toolTip} from './drawToolTip'
 class Network {
 
     constructor(options) {
-
-        // console.log(hapnetConfig)
-        // console.log(options)
-        // console.log(hapnetConfig.options == options)
-        
-
         this.options = options;
         this.app = new PIXI.Application({ 
             width: this.options.width, 
@@ -23,9 +17,7 @@ class Network {
         this.app.renderer.backgroundColor = this.options.backgroundColor;
         this.hapcanvas = document.getElementById(this.options.el);
         this.hapcanvas.appendChild(this.app.view);
-        // hapnetConfig.initViewWidth = this.app.view.width;
-        // hapnetConfig.initViewHeight = this.app.view.height;
-
+        
 
         /** 
          * Add zoom and span function
@@ -74,9 +66,7 @@ class Network {
 
     init(){
         this.options.nodes.forEach(node => {
-            // console.log(node.x,node.y)
-            // console.log("before input to PIE",node);
-            // console.log(node)
+
             if (hapnetConfig.plotBorders.x.max < node.x) hapnetConfig.plotBorders.x.max = node.x;
             if (hapnetConfig.plotBorders.x.min > node.x) hapnetConfig.plotBorders.x.min = node.x;
             if (hapnetConfig.plotBorders.y.max < node.y) hapnetConfig.plotBorders.y.max = node.y;
@@ -90,50 +80,21 @@ class Network {
         
         const initStageApproxWidth = (hapnetConfig.plotBorders.x.max - hapnetConfig.plotBorders.x.min) * scaleNumberFinal
         const initStageApproxHeight = (hapnetConfig.plotBorders.y.max - hapnetConfig.plotBorders.y.min) * scaleNumberFinal
-        // console.log(`stage width ${}`)
         hapnetConfig.initScale = scaleNumberFinal
         hapnetConfig.initStageWidth = initStageApproxWidth;
         hapnetConfig.initStageHeight =initStageApproxHeight;
         hapnetConfig.currentStageWidth = initStageApproxWidth;
         hapnetConfig.currentStageHeight =initStageApproxHeight;
-        // console.log(this.app.stage)
-        // console.log("init")
-        // console.log(hapnetConfig);
-
-
         /**
          * enable zindex layer.
          */
         this.app.stage.sortableChildren = true
-
-
-
-
         const hapnetToolTop = new toolTip(this.options);
         this.app.stage.addChild(hapnetToolTop);
 
     }
 
     draw() {
-
-
-        /**
-         * Auto scale the canvas
-         */
-
-
-        // console.log("options")
-        // console.log(this.options)
-
-        // 参考代码
-        // this.app.stage.x -= (newScreenPos.x - x);
-        // this.app.stage.y -= (newScreenPos.y - y);
-        // this.app.stage.scale.x = newScale.x;
-        // this.app.stage.scale.y = newScale.y;
-
-
-        // this.app.stage.scale.x = 0.01;
-        // this.app.stage.scale.y = 0.01;
 
 
         this.nodeStyle = this.options.style.NodeOutline;
@@ -175,20 +136,10 @@ class Network {
         });
 
         this.options.nodes.forEach(node => {
-            // console.log(node.x,node.y)
-            // console.log("before input to PIE",node);
-
-            // if (hapnetConfig.plotBorders.x.max < node.x) hapnetConfig.plotBorders.x.max = node.x;
-            // if (hapnetConfig.plotBorders.x.min > node.x) hapnetConfig.plotBorders.x.min = node.x;
-            // if (hapnetConfig.plotBorders.y.max < node.y) hapnetConfig.plotBorders.y.max = node.y;
-            // if (hapnetConfig.plotBorders.y.min > node.y) hapnetConfig.plotBorders.y.min = node.y;
-            
             const spie = new SINGLEPIE(node, this.nodeStyle);
             this.app.stage.addChild(spie);
             spie.draw();
         });
-
-        
 
 
 
@@ -196,8 +147,8 @@ class Network {
         this.app.stage.scale.y = hapnetConfig.initScale;
         this.app.stage.x = this.app.stage.x + (this.app.view.width/2);
         this.app.stage.y = this.app.stage.y + (this.app.view.height/2 );
-        // this.app.stage.y = hapnetConfig.plotBorders.y.min;
-        console.log(`this.app.stage.x :${this.app.stage.x}`)
+
+
 
         /**
          * Add event listener function for pointer down event
