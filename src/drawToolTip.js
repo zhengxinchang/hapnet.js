@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import {defaultsDeep} from 'lodash-es'
 import { hapnetConfig } from './envs'
-
+import {Scrollbox} from 'pixi-scrollbox'
 
 class toolTip extends PIXI.Container {
 
@@ -9,87 +9,94 @@ class toolTip extends PIXI.Container {
         super();
         this.options = options;
         this.name = "hapnet_menu";
+        //sub objects must be initialized in the constructor(), otherwise, accidents will occur!
         this.chartBackGround = this.addChild(new PIXI.Graphics())
-
-        this.scale.x = 1/hapnetConfig.initScale
-        this.scale.y = 1/hapnetConfig.initScale
-
-        
-
-
-
         this.chartText = this.addChild( new PIXI.Text());
-
+        this.boundMask = this.addChild(new PIXI.Graphics());
+        // this.scrollbox = new Scrollbox();
     }
 
     clear(){
-        this.chartBackGround.visible = false;
-        this.chartBackGround.clear();
-        this.chartText.visible = false;
+
+        
+        console.log('toolTip code cleaning....')
+
     }
 
-    setAndShow(node){
+    setAndShow(node,posX,posY){
 
-        // console.log(node)
         const initVScurrent = hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight
-        console.log(`initVScurrent ${ Math.log10(initVScurrent)}`)
+        // console.log(`initVScurrent ${ Math.log10(initVScurrent)}`)
         // const zoomToLarge = hapnetConfig.currentStageHeight / hapnetConfig.initStageHeight
-        const scaledNodeX = node.x * hapnetConfig.initScale;
-        const scaledNodeY = node.y * hapnetConfig.initScale;
+        // const scaledNodeX = node.x * hapnetConfig.initScale;
+        // const scaledNodeY = node.y * hapnetConfig.initScale;
+        const scaledNodeX = posX;
+        const scaledNodeY = posY;
         const scaleBorderWidth = this.options.toolTip.width * 0.2 * hapnetConfig.initScale * hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight ;
-        const toolTipWidth = window.innerWidth *0.2 * hapnetConfig.initStageWidth / hapnetConfig.currentStageWidth ;
-        const toolTipHeight = window.innerHeight *0.5  * hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight ;
-        const toolTipFontSize = this.options.toolTip.fontSize *1.5  * hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight ;
+        // const toolTipWidth = window.innerWidth *0.2 * hapnetConfig.initStageWidth / hapnetConfig.currentStageWidth ;
+        // const toolTipHeight = window.innerHeight *0.5  * hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight ;
+        const toolTipWidth = window.innerWidth *0.2 
+        const toolTipHeight = window.innerHeight *0.5  
+        const toolTipFontSize = this.options.toolTip.fontSize  ;
 
-        console.log(`window.innerWidth ${window.innerWidth}`)
-        console.log(`hapnetConfig.initStageWidth ${hapnetConfig.initStageWidth}`)
-        console.log(`hapnetConfig.currentStageWidth  ${ hapnetConfig.currentStageWidth }`)
-        console.log(`toolTipWidth  ${toolTipWidth }`)
+
         this.x = scaledNodeX;
         this.y = scaledNodeY;
-        console.log(hapnetConfig)
         this.chartBackGround.visible = true;
-        // this.chart.zIndex = 2;
         this.zIndex = 2;
+
+        
+        // this.scrollbox.boxWidth= toolTipWidth;
+        // this.scrollbox.boxHeight = toolTipHeight /2 ;
+
+        // the position of this.chartBackGround is based on parent container. 
         this.chartBackGround
         .beginFill(this.options.toolTip.backgroundColor, 1)
         .lineStyle(scaleBorderWidth, this.options.toolTip.borderColor)
-        .moveTo(scaledNodeX,                 scaledNodeY)
-        .lineTo(scaledNodeX + toolTipWidth,  scaledNodeY)
-        .lineTo(scaledNodeX + toolTipWidth,  scaledNodeY+toolTipHeight)
-        .lineTo(scaledNodeX,                 scaledNodeY + toolTipHeight)
-        .lineTo(scaledNodeX,                 scaledNodeY)
+        .moveTo(0,0)
+        .lineTo(toolTipWidth,0)
+        .lineTo(toolTipWidth,toolTipHeight)
+        .lineTo(0,toolTipHeight)
+        .lineTo(0,0)
         .endFill();
 
-        console.log(this)
 
-        console.log(`toolTipWidth: ${toolTipWidth}`)
 
         const  style = new PIXI.TextStyle({
-            fill: "#FF0000",
+            fill: this.options.toolTip.fontColor,
             fontSize: toolTipFontSize ,
             breakWords:true,
             wordWrap:true,
             wordWrapWidth:toolTipWidth ,
-            width:toolTipWidth ,
+            // width:toolTipWidth ,
         });
         // let textMetrics = PIXI.TextMetrics.measureText('hello woo000000000000000000000000000000oorld', style)
-        // console.log(textMetrics)
-        // this.chartText.destroy()
-        this.chartText.x = scaledNodeX +1 ;
-        this.chartText.y = scaledNodeY + 1;
-        // console.log(`this.chartText.resolution  ${this.chartText.resolution }`)
-        this.chartText.resolution = 20 ;
-        console.log(this.chartText)
-        // this.chartText.scale.y =  hapnetConfig.initStageHeight/hapnetConfig. currentStageHeight
-        // this.chartText.scale.x =  hapnetConfig.initStageWidth /hapnetConfig.currentStageWidth
+        this.chartText.resolution = 2 ;
         this.chartText.zIndex = 4;
         this.chartText.style =  style
-        this.chartText.text = `Node ID: ${node.id}`
-        this.chartText.width = toolTipWidth *0.95
+
+        const toolTipText = `ID: ${node.id}\n\nRadius: ${node.radius}\n\nComposition: \n${
+            node.sectors.map(d=>{
+                return d.category +": "+d.number.toFixed(4)
+            }).join("\n")
+        }\n
+        `
+
+        this.chartText.text = toolTipText;
+        // this.chartText.width = toolTipWidth *0.95
         this.chartText.visible = true;
 
-
+        // let textMetrics = PIXI.TextMetrics.measureText(toolTipText, style)
+        
+        // Add the rectangular area to show
+        this.boundMask.beginFill(0xff19ff,1)
+        .moveTo(0,0)
+        .lineTo(toolTipWidth,0)
+        .lineTo(toolTipWidth,toolTipHeight)
+        .lineTo(0,toolTipHeight)
+        .lineTo(0,0)
+        .endFill();
+        this.mask = this.boundMask;
     }
 }
 

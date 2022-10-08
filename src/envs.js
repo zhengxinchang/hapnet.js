@@ -14,7 +14,7 @@ const preDefinedPalettesList = {
         "#BC3C29FF", "#0072B5FF", "#E18727FF", "#20854EFF", "#7876B1FF", "#6F99ADFF", "#FFDC91FF", "#EE4C97FF"
     ],
     lancet: [
-        "#00468BFF", "#ED0000FF", "#42B540FF", "#0099B4FF", "#925E9FFF", "#FDAF91FF", "#AD002AFF", "#ADB6B6FF", "#1B1919FF"
+        "#00468BFF", "#ED0000FF", "#42B540FF", "#0099B4FF", "#925E9FFF", "#FDAF91FF", "#AD002AFF", "#ADB6B6FF", "#19FF"
     ],
     jama: [
         "#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", "#6A6599FF", "#80796BFF"
@@ -39,8 +39,9 @@ const defaultOptions = {
     zoom: 1,
     toolTip: {
         show: true,
-        fontSize:10,
-        backgroundColor:"#FFFFFF",
+        fontSize:20,
+        fontColor:'#FFFFFF',
+        backgroundColor:"#19FF",
         borderColor:"#616161",
         borderWidth: 10,
         width:window.innerWidth*0.2,
