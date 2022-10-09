@@ -9,7 +9,7 @@
   "scripts": {
     "serve": "webpack serve --mode development --config webpack.config.js",
     "build": "webpack build --mode production --config webpack.config.js",
-    "doc":"jsdoc src -r -c jsdoc.config.json -d docs -P package.json --readme README.md"
+    "doc": "jsdoc src -r -c jsdoc.config.json -d docs -P package.json --readme README.md"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,10 @@
   "keywords": [
     "haplotype network",
     "webGL",
-    "visualization"
+    "visualization",
+    "covid-19",
+    "evolution",
+    "bioinformatics"
   ],
   "author": "Xinchang Zheng",
   "license": "MIT",
