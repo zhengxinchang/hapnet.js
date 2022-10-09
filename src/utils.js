@@ -1,13 +1,13 @@
 
 /**
  * 
- * @param {x position of the start point of the line} sourcex 
- * @param {y position of the start point of the line} sourcey 
- * @param {x position of the end point of the line} targetx 
- * @param {y position of the end point of the line} targety 
- * @param {line width} lineWidth 
+ * @param {Number} sourcex x position of the start point of the line
+ * @param {Number} sourcey y position of the start point of the line
+ * @param {Number} targetx x position of the end point of the line
+ * @param {Number} targety y position of the end point of the line
+ * @param {Number} lineWidth line width
  * @returns Array | 
- *  [
+ * [
  *       pointAx, pointAy, 
  *       pointBx, pointBy, 
  *       pointCx, pointCy, 

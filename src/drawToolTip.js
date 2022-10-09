@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import {defaultsDeep} from 'lodash-es'
 import { hapnetConfig } from './envs'
-import {Scrollbox} from 'pixi-scrollbox'
+
 
 class toolTip extends PIXI.Container {
 

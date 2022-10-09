@@ -194,14 +194,14 @@ function calculateFullGraph(options) {
     });
     
     /**
-     * assign postion of hubnode to 
+     * assign position of hub-node and non-hub node
      */
     options.coarseNodes.forEach(cnode => {
         nodesDict[cnode.id].x = cnode.x
         nodesDict[cnode.id].y = cnode.y
-        // nodesDict[cnode.id].fx = cnode.x // setup fix postion of hubnode
-        // nodesDict[cnode.id].fy = cnode.y
         nodesDict[cnode.id].isHub = true;
+
+        // assign non-hub-node position
         cnode.neighborList.forEach(neighbor => {
             nodesDict[neighbor].isHub = false;
             nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(Math.random() * Math.PI * 2);
@@ -211,14 +211,6 @@ function calculateFullGraph(options) {
 
     let nodesWithPosition = Object.values(nodesDict);
 
-    // const simulation = d3.forceSimulation(nodesWithPosition)
-    // .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(10).strength(2))
-    // .force("collide", d3.forceCollide().radius(d => d.radius).iterations(2))
-    // .force("charge", d3.forceManyBody().strength(-10e5).theta(0.99))
-    // .force("x", d3.forceX())
-    // .force("y", d3.forceY())
-    // .stop()
-    // .tick(200);
     const simulation = d3.forceSimulation(nodesWithPosition)
         .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
         .force("collide", d3.forceCollide().radius(d => d.radius +eachNodePadding ).iterations(collideIteration))
