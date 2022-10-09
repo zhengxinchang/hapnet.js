@@ -26,7 +26,16 @@ const preDefinedPalettesList = {
 }
 
 /**
- * Default options
+ *  Default init options. default value of width and height is 'auto', if set, hapnet.js will use the width and height of dom element.
+ */
+const defaultInitOptions ={
+    el:null,
+    width:'auto',
+    height:'auto',
+}
+
+/**
+ * Default plot options
  */
 const defaultOptions = {
     el: null,
@@ -131,4 +140,5 @@ let hapnetConfig = {
 
 
 
-export {hapnetConfig,preDefinedPalettesList,defaultOptions}
+export {hapnetConfig,defaultInitOptions,
+        preDefinedPalettesList,defaultOptions}
