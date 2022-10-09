@@ -1,5 +1,8 @@
 
-
+/**
+ * Build in palettes 
+ * Currently, there are **6** palettes which are derived from the [ggsci](https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html) package.
+ */
 const preDefinedPalettesList = {
     npg: [
         "#E64B35FF", "#4DBBD5FF", "#00A087FF", "#3C5488FF", "#F39B7FFF", "#8491B4FF", "#91D1C2FF", "#DC0000FF", "#7E6148FF", "#B09C85FF"
@@ -22,6 +25,9 @@ const preDefinedPalettesList = {
 
 }
 
+/**
+ * Default options
+ */
 const defaultOptions = {
     el: null,
     nodes: [
@@ -69,7 +75,6 @@ const defaultOptions = {
         chargeStrength: 800000,
         chargeTheta:0.99,
     },
-    
     style: {
         linkWidth: 40,
         linkColor: "#FFFFFF", //white

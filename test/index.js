@@ -23,7 +23,7 @@ let dat = JSON.parse(httpGet("/A.2.mini.json"));
 
 const customOptions = {
     el: "hapnet",
-    backgroundColor: '#212121',
+    backgroundColor: '#223342',
     nodes: dat.nodes.map(d => {
         return {
             id: d.id,
@@ -59,6 +59,13 @@ const customOptions = {
         }
     }),
     palette: "jco",
+    fullGraph:{
+        tickIteration:60,
+    },
+    coarseGraph:{
+        tickIteration: 1000,
+    }
+
     // coarseGraph:{
     //     hubNumOFLinksThreshold:10,
     //     chargeStrength: 20000,

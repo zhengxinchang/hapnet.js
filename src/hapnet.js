@@ -8,8 +8,20 @@ import { hapnetConfig,preDefinedPalettesList,defaultOptions } from "./envs";
 
 
 
+/**
+ * Main class of hapnet.js
+ */
 class HapNet {
 
+
+    static init(initOption){
+    
+    }
+
+    /**
+     * 
+     * @param {Object} options hapnet global configure
+     */
     constructor(options) {
 
         this.options = options;

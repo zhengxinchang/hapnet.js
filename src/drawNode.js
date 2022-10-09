@@ -4,17 +4,10 @@ import { calLineHitArea } from './utils'
 import {defaultsDeep} from 'lodash-es'
 import {hapnetConfig } from './envs';
 import {hapnet_options} from './envs'
-// const defaultNodeOptions = {
-//     id:null,
-//     radius:null,
-//     x:null,
-//     y:null
-//     values:[],
-//     meta:{}
-// }
+
 
 /**
- *  Pie chart element
+ *  Class Pie chart element
  */
 class SINGLEPIE extends PIXI.Container {
     constructor(nodeOptions, nodeStyles, drawCoarseGraph = false, debug = false) {
@@ -22,7 +15,6 @@ class SINGLEPIE extends PIXI.Container {
         /**
          * Validate inputs
          */
-
         const isValidate = conformsTo(nodeOptions, {
             id: id => !isNull(id),
             radius: radius => isNumber(radius),
@@ -59,7 +51,7 @@ class SINGLEPIE extends PIXI.Container {
             // this.chart.buttonMode = true;
             // this.chart.on('pointerdown', (event) => {
             //     /**
-            //      * TODO:
+            //      * TODO: 
             //      * 1. add callback functions
             //      */
             //     console.log(this.nodeOptions)
@@ -90,11 +82,11 @@ class SINGLEPIE extends PIXI.Container {
                     // this.nodeMessageBox.visible = true;
                     
                     this.toolTip = hapnetConfig.toolTipObj;
-                    
                     this.toolTip.setAndShow(this.nodeOptions,event.data.global.x,event.data.global.y);
-                    console.log("tooltip")
-                    console.log(event)
-                    console.log(this.nodeOptions)
+                    this.toolTip.visible = true;
+                    // console.log("tooltip")
+                    // console.log(event)
+                    // console.log(this.nodeOptions)
 
 
             });
@@ -346,8 +338,6 @@ class SINGLEPIE extends PIXI.Container {
                     this._drawHeightLightPie();
                 }
             }
-
-
         }
     }
 

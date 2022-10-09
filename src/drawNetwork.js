@@ -5,6 +5,9 @@ import * as PIXI from 'pixi.js';
 import {hapnetConfig} from './envs'
 import {toolTip} from './drawToolTip'
 
+/**
+ * Netowrk
+ */
 class Network {
 
     constructor(options) {
@@ -23,29 +26,10 @@ class Network {
         /** 
          * Add zoom and span function
          */
+
         const zoom = (s, x, y) => {
 
             s = s < 0 ? 1.1 : 0.9;
-            // let worldPos = { 
-            //     x: (x - this.app.stage.x) / this.app.stage.scale.x, 
-            //     y: (y - this.app.stage.y) / this.app.stage.scale.y 
-            // };
-            // let newScale = { 
-            //     x: this.app.stage.scale.x * s, 
-            //     y: this.app.stage.scale.y * s 
-            // };
-
-            // let newScreenPos = { x: (worldPos.x) * newScale.x + this.app.stage.x, y: (worldPos.y) * newScale.y + this.app.stage.y };
-
-            // this.app.stage.x -= (newScreenPos.x - x);
-            // this.app.stage.y -= (newScreenPos.y - y);
-            // this.app.stage.scale.x = newScale.x;
-            // this.app.stage.scale.y = newScale.y;
-            // hapnetConfig.currentZoomScale = newScale;
-            // hapnetConfig.currentStageWidth = this.app.stage.width;
-            // hapnetConfig.currentStageHeight = this.app.stage.height;
-
-
             let worldPos = { 
                 x: (x - this.netowrkContainer.x) / this.netowrkContainer.scale.x, 
                 y: (y - this.netowrkContainer.y) / this.netowrkContainer.scale.y 
@@ -75,12 +59,16 @@ class Network {
 
         };
 
+
+        // 这里的事件不应该是canvas的事件，而应该是stage的事件。一切都放到pixi.js中去
+
         this.hapcanvas.onwheel = function (e) {
             zoom(e.deltaY, e.offsetX, e.offsetY);
         }
         var lastPos = null
         this.hapcanvas.onmousedown = (e) => {
-            
+            console.log("outclicked")
+            hapnetConfig.toolTipObj.visible = false;
             lastPos = { x: e.offsetX, y: e.offsetY };
         }
         this.hapcanvas.onmouseup = (e) => {
@@ -96,6 +84,11 @@ class Network {
             }
 
         }
+        this.netowrkContainer.interactive = true;
+        this.netowrkContainer.buttonMode = true;
+        // this.app.view.on('mousedown',(event)=>{
+        //     console.log("netowrkContainer clicked")
+        // })
     }
 
     init(){
