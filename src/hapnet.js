@@ -1,3 +1,26 @@
+/*
+MIT License
+
+Copyright (c) 2022 zhengxinchang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 import chroma from "chroma-js";
 import { defaultsDeep, isArray } from "lodash-es";
@@ -5,21 +28,38 @@ import { Network } from "./drawNetwork";
 import { calculateCoarseGraph,calculateFullGraph } from './layout'
 import { hapnetConfig,preDefinedPalettesList,defaultOptions } from "./envs";
 
-
-
-
 /**
  * Main class of hapnet.js
  */
 class HapNet {
 
-
-    static init(initOption){
-    
-    }
-
     /**
-     * 
+     * @param {Object} initOption <pre> initialization option 
+     *   {
+     *      el: string , // Id of the DOM element
+     *      width: number, // Width of the plot area
+     *      height: number, // Height of the plot area
+     *   }
+     *  <pre>
+     *  @return {HapNet} Instance of HapNet class.
+     */
+    static init(initOption){
+        /*
+            Format validation
+        */
+        if(! initOption instanceof Object){
+            throw TypeError("initOption MUST be an Object.")
+        };
+
+        if ( ! 'el'  in initOption  ) {
+            throw Error("attr 'el' is required.")
+        }
+        
+    }
+    
+    /**
+     * @hideconstructor
+     * @constructor
      * @param {Object} options hapnet global configure
      */
     constructor(options) {
