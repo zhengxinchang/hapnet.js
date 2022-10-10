@@ -85,13 +85,14 @@ class HapNet {
                 throw Error(`attr width is invalid ${initOption.width}`)
             }
         }
-        if (!initOption.hasOwnProperty("heigth")) {
-            initOption.heigth = window.innerHeight;
+        if (!initOption.hasOwnProperty("height")) {
+            initOption.height = window.innerHeight;
         } else {
-            if (!isNumber(initOption.heigth)) {
-                throw Error(`attr heigth is invalid ${initOption.heigth}`)
+            if (!isNumber(initOption.height)) {
+                throw Error(`attr height is invalid ${initOption.height}`)
             }
         }
+
         /*
         Add initialization options to instance 
         */
@@ -187,16 +188,12 @@ class HapNet {
 
         }
 
-        const network = new Network(); // Will read store.runtimeGlobal
+        Network.create(); // Will read store.runtimeGlobal
         // network.drawBackground();
         calculateCoarseGraph(store.runtimeGlobal.plotOption);
         calculateFullGraph(store.runtimeGlobal.plotOption);
-
-        // network.init();
-        // network.setOption(this.options)
-        // console.log(this.options)
-
-        // network.draw();
+        Network.init();
+        Network.draw();
         console.log(store.runtimeGlobal)
     }
 

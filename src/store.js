@@ -32,7 +32,7 @@ export default {
                 networkContainer:null,
                 ui:null,
                 canvas:null,
-                hapnetToolTop:null,
+                hapnetToolTip:null,
             },
             highlightedObjList:{
                 nodes:[],
@@ -59,5 +59,13 @@ export default {
             initStageWidth:null,
             currentStageWidth:null,
             currentStageHeight:null,
+            mouseStatus:{
+                onNode:false,
+                onLink:false,
+                onToolTip:false,
+                onPanel:false,
+                onNetworkContainer:false,
+                onUI:false,
+            }
     },
 }

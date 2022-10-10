@@ -23,22 +23,27 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import { conformsTo, isNull, isNumber, isArray, isObject, isBoolean, isString } from 'lodash-es';
+import { conformsTo, isNull, isNumber, isArray, isObject, isBoolean, isString, cloneDeep } from 'lodash-es';
 import { calLineHitArea } from './utils'
 import {defaultsDeep} from 'lodash-es'
 import {hapnetConfig } from './envs';
 import {hapnet_options} from './envs'
+import store from './store'
 
 
 /**
  *  Class Pie chart element
  */
 class SINGLEPIE extends PIXI.Container {
-    constructor(nodeOptions, nodeStyles, drawCoarseGraph = false, debug = false) {
+
+    /**
+     * 
+     * @param {Object} nodeOptions one node option
+     * @param {Object} nodeStyles node style from store.runtimeGlobal.plotOption
+     */
+    constructor(nodeOptions, nodeStyles) {
         super();
-        /**
-         * Validate inputs
-         */
+        /* Validate inputs */
         const isValidate = conformsTo(nodeOptions, {
             id: id => !isNull(id),
             radius: radius => isNumber(radius),
@@ -51,7 +56,6 @@ class SINGLEPIE extends PIXI.Container {
             lineWidth: d => isNumber(d),
             lineColor: d => isNumber(d),
         })
-
         if (isValidate) {
             this.nodeOptions = nodeOptions;
             this.nodeStyles = nodeStyles;
@@ -62,87 +66,24 @@ class SINGLEPIE extends PIXI.Container {
 
 
 
-        this.debug = debug;
         this.name = this.nodeOptions.id; // set unique name for each node.
-        this.drawCoarseGraph = drawCoarseGraph;
         if (this.nodeOptions != null) {
 
-            /**
-             * init the graphic object and append it to container
-             */
+            /* init the graphic object and append it to container */
             this.chart = this.addChild(new PIXI.Graphics())
-            // this.chart.interactive = true;
-            // this.chart.buttonMode = true;
-            // this.chart.on('pointerdown', (event) => {
-            //     /**
-            //      * TODO: 
-            //      * 1. add callback functions
-            //      */
-            //     console.log(this.nodeOptions)
-            // });
-
             this.interactive = true; // add event listener in this object, everything works well too.
             this.buttonMode = true;
+
+            /* trigger tooltip when hover */
             this.on('mouseover', (event) => {
-                /**
-                 * TODO:
-                 * 1. add callback functions
-                 */
-                // event.preventDefault();
-                // console.log("mouse over node")
-                // console.log(this.nodeOptions);
-
-                // this.emit("pointerdown")
-
-                /**
-                 * add node_menu to the center of node
-                 */
-                    // console.log("nodeMessageBox")
-                    // this.nodeMessageBox = this.parent.getChildByName("node_menu");
-                    // console.log(this.nodeMessageBox)
-                    
-                    // this.nodeMessageBox.x = this.nodeOptions.x;
-                    // this.nodeMessageBox.y = this.nodeOptions.y;
-                    // this.nodeMessageBox.visible = true;
-                    
-                    this.toolTip = hapnetConfig.toolTipObj;
+                    this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
                     this.toolTip.setAndShow(this.nodeOptions,event.data.global.x,event.data.global.y);
                     this.toolTip.visible = true;
-                    // console.log("tooltip")
-                    // console.log(event)
-                    // console.log(this.nodeOptions)
-
-
+                    store.runtimeGlobal.mouseStatus.onNode = true;
             });
-
             this.on('mouseout', (event) => {
-                /**
-                 * TODO:
-                 * 1. add callback functions
-                 */
-                // this.toolTip.clear();
-                // event.preventDefault();
-                // console.log("mouse leave node")
-                // console.log(this.nodeOptions);
-
-                // this.emit("pointerdown")
-
-                // this.toolTip.clear();
-
-                // this.nodeMessageBox.visible = false;
+                store.runtimeGlobal.mouseStatus.onNode = false;
             });
-
-            // this.on('mousemove', (event) => {
-            //     /**
-            //      * TODO:
-            //      * 1. add callback functions
-            //      */
-            //     // event.preventDefault();
-            //     console.log("mouse moving node")
-            //     console.log(this.nodeOptions);
-
-            //     // this.emit("pointerdown")
-            // });
 
         }
     }
