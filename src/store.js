@@ -21,3 +21,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
+export default {
+    runtimeGlobal:{
+            initOption:null,
+            plotOption:null,
+            hapnetMainInstance:null,
+            pixiApp:{
+                app:null,
+                networkContainer:null,
+                ui:null,
+                canvas:null,
+                hapnetToolTop:null,
+            },
+            highlightedObjList:{
+                nodes:[],
+                links:[],
+            },
+            nodeFirstLevel:{
+            },
+            plotBorders : {
+                x:{
+                    max:0,
+                    min:0,
+                },
+                y:{
+                    max:0,
+                    min:0,
+                }
+            },
+            initScale:1,
+            zoomScale:{
+                x:1,
+                y:1,
+            },
+            initStageHeight:null,
+            initStageWidth:null,
+            currentStageWidth:null,
+            currentStageHeight:null,
+    },
+}

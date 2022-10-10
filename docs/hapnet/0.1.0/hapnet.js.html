@@ -26,24 +26,42 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
+            <pre class="prettyprint source linenums"><code>/*
+MIT License
+
+Copyright (c) 2022 zhengxinchang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 import chroma from "chroma-js";
-import { defaultsDeep, isArray } from "lodash-es";
+import { defaultsDeep, isArray, isNumber } from "lodash-es";
 import { Network } from "./drawNetwork";
-import { calculateCoarseGraph,calculateFullGraph } from './layout'
-import { hapnetConfig,preDefinedPalettesList,defaultOptions } from "./envs";
-
-
-
+import { calculateCoarseGraph, calculateFullGraph } from './layout'
+import { hapnetConfig, preDefinedPalettesList, defaultOptions } from "./envs";
 
 /**
  * Main class of hapnet.js
  */
-
 class HapNet {
 
     /**
-     * 
      * @param {Object} initOption &lt;pre> initialization option 
      *   {
      *      el: string , // Id of the DOM element
@@ -53,11 +71,46 @@ class HapNet {
      *  &lt;pre>
      *  @return {HapNet} Instance of HapNet class.
      */
-    static init(initOption){
-        if(! initOption instanceof Object){
-            throw TypeError("initOption is not an Object")
+    static init(initOption) {
+        /*
+            Format validation
+        */
+        if (!initOption instanceof Object) {
+            throw TypeError("initOption MUST be an Object.")
         };
-        
+        if (! 'el' in initOption) {
+            throw Error("attr 'el' is required.")
+        }
+        /*
+        validate el point
+         */
+        try {
+            document.getElementById(initOption.el)
+        } catch (error) {
+            throw Error(`can not get element ${initOption.el}`)
+        }
+        /*
+        set width and height
+        */
+        if (! 'width' in initOption) {
+            initOption.width = window.innerWidth;
+        } else {
+            if (!isNumber(initOption.width)) {
+                throw Error(`attr width is invalid ${initOption.width}`)
+            }
+        }
+        if (! 'heigth' in initOption) {
+            initOption.heigth = window.innerHeight;
+        } else {
+            if (!isNumber(initOption.heigth)) {
+                throw Error(`attr heigth is invalid ${initOption.heigth}`)
+            }
+        }
+        /*
+        Add initialization options to instance 
+        */
+        this.initOption = initOption;
+
     }
 
     /**
@@ -73,9 +126,9 @@ class HapNet {
         this.options.backgroundColor = chroma(this.options.backgroundColor).num();
         this.options.style.linkColor = chroma(this.options.style.linkColor).num();
         this.options.style.NodeOutline.lineColor = chroma(this.options.style.NodeOutline.lineColor).num();
-        this.options.toolTip.backgroundColor = chroma(this.options.toolTip.backgroundColor ).num();
-        this.options.toolTip.borderColor = chroma(this.options.toolTip.borderColor ).num();
-        
+        this.options.toolTip.backgroundColor = chroma(this.options.toolTip.backgroundColor).num();
+        this.options.toolTip.borderColor = chroma(this.options.toolTip.borderColor).num();
+
         /**
          * TODO:
          * if paletteArray is not null and  like [{category:A, color:'#FFFFFF'}],
@@ -93,15 +146,15 @@ class HapNet {
         this.options.nodes.forEach(d => {
             d.sectors &amp;&amp; d.sectors.forEach(x => {
                 nodeColors.add(x.category);
-                if(d.radius > maxRadius) maxRadius = d.radius;
-                if(d.radius &lt; minRadius) minRadius = d.radius;
+                if (d.radius > maxRadius) maxRadius = d.radius;
+                if (d.radius &lt; minRadius) minRadius = d.radius;
             })
         });
         nodeColors = Array.from(nodeColors);
 
-        const radiusInterval = this.options.radiusMax- this.options.radiusMin
+        const radiusInterval = this.options.radiusMax - this.options.radiusMin
         this.options.nodes.forEach(d => {
-            d.radius = this.options.radiusMin + radiusInterval/(maxRadius-minRadius ) * (d.radius - minRadius);
+            d.radius = this.options.radiusMin + radiusInterval / (maxRadius - minRadius) * (d.radius - minRadius);
         });
 
 
@@ -128,8 +181,8 @@ class HapNet {
                     tmpPalette[d] = nodeColorsPalette[idx]
                 })
                 this.options.nodeColors = tmpPalette
-                this.options.nodes.forEach(node=>{
-                    node.sectors.forEach(sector=>{
+                this.options.nodes.forEach(node => {
+                    node.sectors.forEach(sector => {
                         sector.color = this.options.nodeColors[sector.category];
                         return sector;
                     });
@@ -151,6 +204,10 @@ class HapNet {
         network.draw();
     }
 
+    setOption() {
+
+        
+    }
 
 
 
@@ -167,13 +224,13 @@ export { HapNet }</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HapNet.html">HapNet</a></li><li><a href="LINK.html">LINK</a></li><li><a href="Network.html">Network</a></li><li><a href="SINGLEPIE.html">SINGLEPIE</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calLineHitArea">calLineHitArea</a></li><li><a href="global.html#defaultInitOptions">defaultInitOptions</a></li><li><a href="global.html#defaultOptions">defaultOptions</a></li><li><a href="global.html#hapnetConfig">hapnetConfig</a></li><li><a href="global.html#preDefinedPalettesList">preDefinedPalettesList</a></li><li><a href="global.html#radius">radius</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HapNet.html">HapNet</a></li><li><a href="LINK.html">LINK</a></li><li><a href="Network.html">Network</a></li><li><a href="SINGLEPIE.html">SINGLEPIE</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calLineHitArea">calLineHitArea</a></li><li><a href="global.html#defaultInitOption">defaultInitOption</a></li><li><a href="global.html#defaultInitOptions">defaultInitOptions</a></li><li><a href="global.html#defaultOptions">defaultOptions</a></li><li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li><li><a href="global.html#hapnetConfig">hapnetConfig</a></li><li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li><li><a href="global.html#preDefinedPalettesList">preDefinedPalettesList</a></li><li><a href="global.html#radius">radius</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Oct 09 2022 19:54:19 GMT+0800 (China Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 10 2022 14:26:36 GMT+0800 (China Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
