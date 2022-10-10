@@ -75,7 +75,12 @@ const customOptions = {
 
 // console.log(customOptions);
 
-const hapnet = new HapNet(customOptions);
+const hapnet = HapNet.init({
+    el: "hapnet",
+});
+
+hapnet.setOption(customOptions)
+
 let end = Date.now();
 
 console.log(`time consuming : ${(end - start) / 1000}`)

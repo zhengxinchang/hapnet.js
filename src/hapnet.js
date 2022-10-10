@@ -23,10 +23,24 @@ SOFTWARE.
 */
 
 import chroma from "chroma-js";
-import { defaultsDeep, isArray } from "lodash-es";
+import {
+    cloneDeep,
+    defaultsDeep,
+    isArray,
+    isNumber
+} from "lodash-es";
 import { Network } from "./drawNetwork";
-import { calculateCoarseGraph,calculateFullGraph } from './layout'
-import { hapnetConfig,preDefinedPalettesList,defaultOptions } from "./envs";
+import {
+    defaultInitOption,
+    defaultPlotOption,
+    predefinedPalettesList
+} from './constant'
+import { 
+    calculateCoarseGraph, 
+    calculateFullGraph 
+} from './layout'
+// import { hapnetConfig, preDefinedPalettesList, defaultOptions } from "./envs";
+import store from './store'
 
 /**
  * Main class of hapnet.js
@@ -43,36 +57,74 @@ class HapNet {
      *  <pre>
      *  @return {HapNet} Instance of HapNet class.
      */
-    static init(initOption){
+    static init(initOption) {
         /*
             Format validation
         */
-        if(! initOption instanceof Object){
+        if (!initOption instanceof Object) {
             throw TypeError("initOption MUST be an Object.")
         };
-
-        if ( ! 'el'  in initOption  ) {
+        if (! 'el' in initOption) {
             throw Error("attr 'el' is required.")
         }
-        
+        /*
+        validate el point
+         */
+        try {
+            document.getElementById(initOption.el)
+        } catch (error) {
+            throw Error(`can not get element ${initOption.el}`)
+        }
+        /*
+        set width and height
+        */
+        if (!initOption.hasOwnProperty("width")) {
+            initOption.width = window.innerWidth;
+        } else {
+            if (!isNumber(initOption.width)) {
+                throw Error(`attr width is invalid ${initOption.width}`)
+            }
+        }
+        if (!initOption.hasOwnProperty("heigth")) {
+            initOption.heigth = window.innerHeight;
+        } else {
+            if (!isNumber(initOption.heigth)) {
+                throw Error(`attr heigth is invalid ${initOption.heigth}`)
+            }
+        }
+        /*
+        Add initialization options to instance 
+        */
+        store.runtimeGlobal.initOption = initOption;
+        store.runtimeGlobal.hapnetMainInstance = new HapNet();
+        return store.runtimeGlobal.hapnetMainInstance;
     }
-    
-    /**
-     * @hideconstructor
-     * @constructor
-     * @param {Object} options hapnet global configure
-     */
-    constructor(options) {
 
-        this.options = options;
-        defaultsDeep(this.options, defaultOptions);
-        hapnetConfig.options = this.options
-        this.options.backgroundColor = chroma(this.options.backgroundColor).num();
-        this.options.style.linkColor = chroma(this.options.style.linkColor).num();
-        this.options.style.NodeOutline.lineColor = chroma(this.options.style.NodeOutline.lineColor).num();
-        this.options.toolTip.backgroundColor = chroma(this.options.toolTip.backgroundColor ).num();
-        this.options.toolTip.borderColor = chroma(this.options.toolTip.borderColor ).num();
+    // /**
+    //  * @hideconstructor
+    //  * @constructor
+    //  * @param {Object} options hapnet global configure
+    //  */
+    // constructor() {
+
+
+    // }
+    /**
+     * 
+     * @param {Object} plotOption <pre>setup the plot option
+     * </pre>
+     */
+    setOption(plotOption) {
         
+        store.runtimeGlobal.plotOption = this.plotOption = cloneDeep(plotOption) ;
+        // console.log(store.runtimeGlobal.plotOption)
+        defaultsDeep(store.runtimeGlobal.plotOption, defaultPlotOption);
+        store.runtimeGlobal.plotOption.backgroundColor = chroma(store.runtimeGlobal.plotOption.backgroundColor).num();
+        store.runtimeGlobal.plotOption.style.linkColor = chroma(store.runtimeGlobal.plotOption.style.linkColor).num();
+        store.runtimeGlobal.plotOption.style.NodeOutline.lineColor = chroma(store.runtimeGlobal.plotOption.style.NodeOutline.lineColor).num();
+        store.runtimeGlobal.plotOption.toolTip.backgroundColor = chroma(store.runtimeGlobal.plotOption.toolTip.backgroundColor).num();
+        store.runtimeGlobal.plotOption.toolTip.borderColor = chroma(store.runtimeGlobal.plotOption.toolTip.borderColor).num();
+
         /**
          * TODO:
          * if paletteArray is not null and  like [{category:A, color:'#FFFFFF'}],
@@ -87,47 +139,46 @@ class HapNet {
         let nodeColors = new Set();
         let maxRadius = 0;
         let minRadius = 0;
-        this.options.nodes.forEach(d => {
+        store.runtimeGlobal.plotOption.nodes.forEach(d => {
             d.sectors && d.sectors.forEach(x => {
                 nodeColors.add(x.category);
-                if(d.radius > maxRadius) maxRadius = d.radius;
-                if(d.radius < minRadius) minRadius = d.radius;
+                if (d.radius > maxRadius) maxRadius = d.radius;
+                if (d.radius < minRadius) minRadius = d.radius;
             })
         });
-        nodeColors = Array.from(nodeColors);
 
-        const radiusInterval = this.options.radiusMax- this.options.radiusMin
-        this.options.nodes.forEach(d => {
-            d.radius = this.options.radiusMin + radiusInterval/(maxRadius-minRadius ) * (d.radius - minRadius);
+        nodeColors = Array.from(nodeColors);
+        const radiusInterval = store.runtimeGlobal.plotOption.radiusMax - store.runtimeGlobal.plotOption.radiusMin
+        store.runtimeGlobal.plotOption.nodes.forEach(d => {
+            d.size = cloneDeep(d.radius);
+            d.radius = store.runtimeGlobal.plotOption.radiusMin + radiusInterval / (maxRadius - minRadius) * (d.radius - minRadius);
         });
 
-
-        if (isArray(this.options.paletteArray)) {
+        if (isArray(store.runtimeGlobal.plotOption.paletteArray)) {
             /**
              * 1. validate paletteArray
              * 2. assign color to each category accorrding to paletteArray
              * 3. fill the reset catetory by palette
              */
         } else {
-
             /**
              * check wether the palette is in the pre-defined list
              */
-            if (!preDefinedPalettesList[this.options.palette]) {
-                console.error(`Palette is not valid, please select one from: ${Object.keys(preDefinedPalettesList)}`)
+            if (!predefinedPalettesList[store.runtimeGlobal.plotOption.palette]) {
+                console.error(`Palette is not valid, please select one from: ${Object.keys(predefinedPalettesList)}`)
             } else {
                 /**
                  * calculate palette and convert them to number
                  */
-                const nodeColorsPalette = chroma.scale(preDefinedPalettesList[this.options.palette]).colors(nodeColors.length).map(d => chroma(d).num());
+                const nodeColorsPalette = chroma.scale(predefinedPalettesList[store.runtimeGlobal.plotOption.palette]).colors(nodeColors.length).map(d => chroma(d).num());
                 let tmpPalette = {}
                 nodeColors.forEach((d, idx) => {
                     tmpPalette[d] = nodeColorsPalette[idx]
                 })
-                this.options.nodeColors = tmpPalette
-                this.options.nodes.forEach(node=>{
-                    node.sectors.forEach(sector=>{
-                        sector.color = this.options.nodeColors[sector.category];
+                store.runtimeGlobal.plotOption.nodeColors = tmpPalette
+                store.runtimeGlobal.plotOption.nodes.forEach(node => {
+                    node.sectors.forEach(sector => {
+                        sector.color = store.runtimeGlobal.plotOption.nodeColors[sector.category];
                         return sector;
                     });
                     return node;
@@ -136,18 +187,18 @@ class HapNet {
 
         }
 
-        const network = new Network(this.options);
+        const network = new Network(); // Will read store.runtimeGlobal
         // network.drawBackground();
-        calculateCoarseGraph(this.options);
-        calculateFullGraph(this.options);
+        calculateCoarseGraph(store.runtimeGlobal.plotOption);
+        calculateFullGraph(store.runtimeGlobal.plotOption);
 
-        network.init();
+        // network.init();
         // network.setOption(this.options)
         // console.log(this.options)
 
-        network.draw();
+        // network.draw();
+        console.log(store.runtimeGlobal)
     }
-
 
 
 
