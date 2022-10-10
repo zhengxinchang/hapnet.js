@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 import * as PIXI from 'pixi.js'
-import {defaultsDeep} from 'lodash-es'
-import { hapnetConfig } from './envs'
+import store from './store'
 
 
 class toolTip extends PIXI.Container {
@@ -36,7 +35,29 @@ class toolTip extends PIXI.Container {
         this.chartBackGround = this.addChild(new PIXI.Graphics())
         this.chartText = this.addChild( new PIXI.Text());
         this.boundMask = this.addChild(new PIXI.Graphics());
-        // this.scrollbox = new Scrollbox();
+
+        /* turn on the interactive mode */
+        this.interactive = true;
+        this.buttonMode = true;
+        /* set mouse status */
+        this.on('mouseover', (event) => {
+            // console.log(event)
+            store.runtimeGlobal.mouseStatus.onToolTip = true;
+        });
+        this.on('mouseout', (event) => {
+            // console.log(event)
+            store.runtimeGlobal.mouseStatus.onToolTip = false;
+        });
+
+                /* init parameters */
+        this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002 ;
+        this.toolTipWidth = store.runtimeGlobal.initOption.width *0.2 
+        this.toolTipHeight = store.runtimeGlobal.initOption.height *0.5  
+        this.toolTipFontSize = store.runtimeGlobal.plotOption.toolTip.fontSize  ;
+        this.toolTipBackGroundColor = store.runtimeGlobal.plotOption.toolTip.backgroundColor;
+        this.toolTipBorderColor = store.runtimeGlobal.plotOption.toolTip.borderColor;
+
+
     }
 
     clear(){
@@ -46,54 +67,64 @@ class toolTip extends PIXI.Container {
 
     }
 
+    scroll(deltaFixed){
+        console.log(`
+        this.chartText.y:${this.chartText.y},
+        deltaFixed:${deltaFixed},
+        this.textMetrics.height:${this.textMetrics.height},
+        (this.chartText.y + Math.max(this.textMetrics.height,this.toolTipHeight)) :${(this.chartText.y + Math.max(this.textMetrics.height,this.toolTipHeight)) }
+        `)
+        // this.chartBackGround.y +=  this.toolTipHeight * deltaFixed /100
+        // if(this.chartText.y >= 0 && deltaFixed < 0){
+            
+        //     this.chartText.y +=  this.toolTipHeight * deltaFixed /100
+        // }else if( this.chartText.y < 0 && deltaFixed <0  ){
+            
+        // }
+
+        if( this.chartText.y >= this.toolTipWidth *0.02 || (Math.abs(this.chartText.y) - Math.max(this.textMetrics.height,this.toolTipHeight)) > this.toolTipWidth *0.02 ){
+
+        }else{
+            this.chartText.y +=  this.toolTipHeight * deltaFixed /100
+        }
+        
+        // this.chartText.y +=  this.toolTipHeight * deltaFixed /100
+    }
+        
+
     setAndShow(node,posX,posY){
 
-        const initVScurrent = hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight
-        // console.log(`initVScurrent ${ Math.log10(initVScurrent)}`)
-        // const zoomToLarge = hapnetConfig.currentStageHeight / hapnetConfig.initStageHeight
-        // const scaledNodeX = node.x * hapnetConfig.initScale;
-        // const scaledNodeY = node.y * hapnetConfig.initScale;
-        const scaledNodeX = posX;
-        const scaledNodeY = posY;
-        const scaleBorderWidth = this.options.toolTip.width * 0.2 * hapnetConfig.initScale * hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight ;
-        // const toolTipWidth = window.innerWidth *0.2 * hapnetConfig.initStageWidth / hapnetConfig.currentStageWidth ;
-        // const toolTipHeight = window.innerHeight *0.5  * hapnetConfig.initStageHeight / hapnetConfig.currentStageHeight ;
-        const toolTipWidth = window.innerWidth *0.2 
-        const toolTipHeight = window.innerHeight *0.5  
-        const toolTipFontSize = this.options.toolTip.fontSize  ;
 
 
-        this.x = scaledNodeX;
-        this.y = scaledNodeY;
+        this.x = posX+1;
+        this.y = posY+1;
+        this.chartBackGround.x = 0;
+        this.chartBackGround.y = 0;
         this.chartBackGround.visible = true;
         this.zIndex = 2;
 
-        
-        // this.scrollbox.boxWidth= toolTipWidth;
-        // this.scrollbox.boxHeight = toolTipHeight /2 ;
-
         // the position of this.chartBackGround is based on parent container. 
         this.chartBackGround
-        .beginFill(this.options.toolTip.backgroundColor, 1)
-        .lineStyle(scaleBorderWidth, this.options.toolTip.borderColor)
+        .beginFill(this.toolTipBackGroundColor, 1)
+        .lineStyle(this.scaleBorderWidth, this.toolTipBorderColor)
         .moveTo(0,0)
-        .lineTo(toolTipWidth,0)
-        .lineTo(toolTipWidth,toolTipHeight)
-        .lineTo(0,toolTipHeight)
+        .lineTo(this.toolTipWidth,0)
+        .lineTo(this.toolTipWidth,this.toolTipHeight)
+        .lineTo(0,this.toolTipHeight)
         .lineTo(0,0)
         .endFill();
 
-
-
         const  style = new PIXI.TextStyle({
-            fill: this.options.toolTip.fontColor,
-            fontSize: toolTipFontSize ,
+            fill: store.runtimeGlobal.plotOption.toolTip.fontColor,
+            fontSize: this.toolTipFontSize ,
             breakWords:true,
             wordWrap:true,
-            wordWrapWidth:toolTipWidth ,
+            wordWrapWidth:this.toolTipWidth *0.95 ,
             // width:toolTipWidth ,
         });
         // let textMetrics = PIXI.TextMetrics.measureText('hello woo000000000000000000000000000000oorld', style)
+        this.chartText.x = this.toolTipWidth *0.02;
+        this.chartText.y = this.toolTipHeight *0.02;
         this.chartText.resolution = 2 ;
         this.chartText.zIndex = 4;
         this.chartText.style =  style
@@ -103,23 +134,26 @@ class toolTip extends PIXI.Container {
                 return d.category +": "+d.number.toFixed(4)
             }).join("\n")
         }\n
+        asdfasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         `
 
         this.chartText.text = toolTipText;
         // this.chartText.width = toolTipWidth *0.95
         this.chartText.visible = true;
 
-        // let textMetrics = PIXI.TextMetrics.measureText(toolTipText, style)
+        this.textMetrics = PIXI.TextMetrics.measureText(toolTipText, style)
         
+        // console.log(textMetrics)
         // Add the rectangular area to show
         this.boundMask.beginFill(0xff19ff,1)
         .moveTo(0,0)
-        .lineTo(toolTipWidth,0)
-        .lineTo(toolTipWidth,toolTipHeight)
-        .lineTo(0,toolTipHeight)
+        .lineTo(this.toolTipWidth,0)
+        .lineTo(this.toolTipWidth,this.toolTipHeight)
+        .lineTo(0,this.toolTipHeight)
         .lineTo(0,0)
         .endFill();
         this.mask = this.boundMask;
+
     }
 }
 

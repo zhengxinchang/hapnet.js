@@ -23,12 +23,13 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import { conformsTo,  isNumber,  isObject,defaultsDeep } from 'lodash-es';
+import { conformsTo, isNumber, isObject, defaultsDeep } from 'lodash-es';
 import { calLineHitArea } from './utils'
+import store from './store'
 /**
  * Link object
  */
- class LINK extends PIXI.Container {
+class LINK extends PIXI.Container {
 
     constructor(linkOptions, linkStyles, drawCoarseGraph = false, debug = false) {
         super();
@@ -52,8 +53,8 @@ import { calLineHitArea } from './utils'
         }
 
         // 
-        this.name =  [linkOptions.source.id,linkOptions.target.id].sort().join("_") ; // set unique name for each link.
-        
+        this.name = [linkOptions.source.id, linkOptions.target.id].sort().join("_"); // set unique name for each link.
+
         this.chart = this.addChild(new PIXI.Graphics());
         this.chart.interactive = true;
         this.chart.buttonMode = true;
@@ -63,37 +64,49 @@ import { calLineHitArea } from './utils'
         //      *  'this' is the polygen object. It's parent is the link object
         //      */
         //     // console.log(e)
-            
+
         //     console.log(this)
-            
+
         //     const linkObj = this.parent
 
         //     console.log("link", linkObj)
         // });
 
+        /* trigger tooltip when hover */
+        this.chart.on('mouseover', (event) => {
+            
+            store.runtimeGlobal.mouseStatus.onLink = true;
+            // console.log(store.runtimeGlobal.mouseStatus.onLink)
+        });
+        this.chart.on('mouseout', (event) => {
+            store.runtimeGlobal.mouseStatus.onLink = false;
+        });
+
+
+
     }
 
     draw(drawOptions) {
 
-        if(drawOptions === undefined){
+        if (drawOptions === undefined) {
             drawOptions = {}
         }
 
-        const defaultDrawOptions = { 
-            heighLight:false
+        const defaultDrawOptions = {
+            heighLight: false
         }
         defaultsDeep(drawOptions, defaultDrawOptions);
         this.chart.clear();
-        if(drawOptions.heighLight == false){
+        if (drawOptions.heighLight == false) {
             this.chart
-            .lineStyle(this.linkStyles.linkWidth, this.linkStyles.linkColor, 1)
-            .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
-            .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
-        }else{
+                .lineStyle(this.linkStyles.linkWidth, this.linkStyles.linkColor, 1)
+                .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
+                .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
+        } else {
             this.chart
-            .lineStyle(this.linkStyles.linkWidth*2, 0xFF0000, 1)
-            .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
-            .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
+                .lineStyle(this.linkStyles.linkWidth * 2, 0xFF0000, 1)
+                .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
+                .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
         }
 
 
@@ -109,15 +122,15 @@ import { calLineHitArea } from './utils'
          * calculate hit area of the link
          */
         const hitPath = calLineHitArea(
-            this.linkOptions.source.x, 
-            this.linkOptions.source.y, 
-            this.linkOptions.target.x, 
-            this.linkOptions.target.y, 
+            this.linkOptions.source.x,
+            this.linkOptions.source.y,
+            this.linkOptions.target.x,
+            this.linkOptions.target.y,
             this.linkStyles.linkWidth
-            )
+        )
 
         this.chart.hitArea = new PIXI.Polygon(hitPath)
     }
 }
 
-export {LINK}
+export { LINK }
