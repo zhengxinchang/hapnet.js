@@ -23,7 +23,7 @@ let dat = JSON.parse(httpGet("/A.2.mini.json"));
 
 const customOptions = {
     el: "hapnet",
-    backgroundColor: '#223342',
+    // backgroundColor: '#223342',
     nodes: dat.nodes.map(d => {
         return {
             id: d.id,
@@ -47,28 +47,27 @@ const customOptions = {
                 Object.keys(d).filter(x => {
                     if (!["source", "target", "distance"].includes(x)) {
                         return true
-                    }
-                    else {
-                        return false
+                    } else {
+                      return false
                     }
                 }).forEach(k => {
-                    meta[k] = d[k]
+                  meta[k] = d[k]
                 })
-                return meta
+              return meta
             }(d)
         }
     }),
-    palette: "jco",
-    fullGraph:{
-        tickIteration:60,
-    },
-    coarseGraph:{
-        tickIteration: 1000,
-    }
+  palette: "jama",
+  fullGraph: {
+    tickIteration: 60,
+  },
+  coarseGraph: {
+    tickIteration: 1000,
+  }
 
-    // coarseGraph:{
-    //     hubNumOFLinksThreshold:10,
-    //     chargeStrength: 20000,
+  // coarseGraph:{
+  //     hubNumOFLinksThreshold:10,
+  //     chargeStrength: 20000,
     // }
 }
 

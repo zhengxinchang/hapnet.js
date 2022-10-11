@@ -116,25 +116,28 @@ class HapNet {
      * </pre>
      */
     setOption(plotOption) {
-        
-        store.runtimeGlobal.plotOption = this.plotOption = cloneDeep(plotOption) ;
-        // console.log(store.runtimeGlobal.plotOption)
-        defaultsDeep(store.runtimeGlobal.plotOption, defaultPlotOption);
-        store.runtimeGlobal.plotOption.backgroundColor = chroma(store.runtimeGlobal.plotOption.backgroundColor).num();
-        store.runtimeGlobal.plotOption.style.linkColor = chroma(store.runtimeGlobal.plotOption.style.linkColor).num();
-        store.runtimeGlobal.plotOption.style.NodeOutline.lineColor = chroma(store.runtimeGlobal.plotOption.style.NodeOutline.lineColor).num();
-        store.runtimeGlobal.plotOption.toolTip.backgroundColor = chroma(store.runtimeGlobal.plotOption.toolTip.backgroundColor).num();
-        store.runtimeGlobal.plotOption.toolTip.borderColor = chroma(store.runtimeGlobal.plotOption.toolTip.borderColor).num();
 
-        /**
-         * TODO:
-         * if paletteArray is not null and  like [{category:A, color:'#FFFFFF'}],
-         * this Array will be applied to draw pie chart. If the length of the 
-         * Array is less than real category in all nodes. it will be filled by 
-         * palette which is spicified in the 'palette' option.
-         * 
-         * if paletteArray is null. Hapnet.js will assingn all category accroding 
-         * to the 'palette' option.
+      store.runtimeGlobal.plotOption = this.plotOption = cloneDeep(plotOption);
+      // console.log(store.runtimeGlobal.plotOption)
+      defaultsDeep(store.runtimeGlobal.plotOption, defaultPlotOption);
+      store.runtimeGlobal.plotOption.backgroundColor = chroma(store.runtimeGlobal.plotOption.backgroundColor).num();
+      store.runtimeGlobal.plotOption.style.linkColor = chroma(store.runtimeGlobal.plotOption.style.linkColor).num();
+      store.runtimeGlobal.plotOption.style.NodeOutline.lineColor = chroma(store.runtimeGlobal.plotOption.style.NodeOutline.lineColor).num();
+      store.runtimeGlobal.plotOption.toolTip.backgroundColor = chroma(store.runtimeGlobal.plotOption.toolTip.backgroundColor).num();
+      store.runtimeGlobal.plotOption.toolTip.borderColor = chroma(store.runtimeGlobal.plotOption.toolTip.borderColor).num();
+      store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor).num();
+      store.runtimeGlobal.plotOption.nodeColorLegend.borderColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.borderColor).num();
+      store.runtimeGlobal.plotOption.style.highlightColor = chroma(store.runtimeGlobal.plotOption.style.highlightColor).num();
+
+      /**
+       * TODO:
+       * if paletteArray is not null and  like [{category:A, color:'#FFFFFF'}],
+       * this Array will be applied to draw pie chart. If the length of the
+       * Array is less than real category in all nodes. it will be filled by
+       * palette which is spicified in the 'palette' option.
+       *
+       * if paletteArray is null. Hapnet.js will assingn all category accroding
+       * to the 'palette' option.
          * 
          */
         let nodeColors = new Set();

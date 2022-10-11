@@ -26,6 +26,21 @@ import * as PIXI from 'pixi.js'
 import store from './store'
 
 /**
- * Class
+ * Class to draw panel ui to show data in the nodes -> one node -> meta -> panel
  */
+
+class UIPanel extends PIXI.Container {
+
+
+  /**
+   * @constructor
+   * @param {Object} options options to draw nodes -> one node -> meta -> panel
+   */
+  constructor(options) {
+    super();
+    this.options = options;
+    this.chartBackGround = this.addChild(new PIXI.Graphics());
+
+  }
+}
 
