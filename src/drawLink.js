@@ -104,7 +104,7 @@ class LINK extends PIXI.Container {
                 .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
         } else {
             this.chart
-                .lineStyle(this.linkStyles.linkWidth * 2, 0xFF0000, 1)
+              .lineStyle(this.linkStyles.linkWidth * 2, store.runtimeGlobal.plotOption.style.highlightColor, 1)
                 .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
                 .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
         }

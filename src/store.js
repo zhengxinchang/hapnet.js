@@ -23,49 +23,49 @@ SOFTWARE.
 */
 
 export default {
-    runtimeGlobal:{
-            initOption:null,
-            plotOption:null,
-            hapnetMainInstance:null,
-            pixiApp:{
-                app:null,
-                networkContainer:null,
-                ui:null,
-                canvas:null,
-                hapnetToolTip:null,
-            },
-            highlightedObjList:{
-                nodes:[],
-                links:[],
-            },
-            nodeFirstLevel:{
-            },
-            plotBorders : {
-                x:{
-                    max:0,
-                    min:0,
-                },
-                y:{
-                    max:0,
-                    min:0,
-                }
-            },
-            initScale:1,
-            zoomScale:{
-                x:1,
-                y:1,
-            },
-            initStageHeight:null,
-            initStageWidth:null,
-            currentStageWidth:null,
-            currentStageHeight:null,
-            mouseStatus:{
-                onNode:false,
-                onLink:false,
-                onToolTip:false,
-                onPanel:false,
-                onNetworkContainer:false,
-                onUI:false,
-            }
+  runtimeGlobal: {
+    initOption: null,
+    plotOption: null,
+    hapnetMainInstance: null,
+    pixiApp: {
+      app: null,
+      networkContainer: null,
+      ui: null,
+      canvas: null,
+      hapnetToolTip: null,
+      hapnetNodeColorLegend: null,
     },
+    highlightedObjList: {
+      nodes: [],
+      links: [],
+    },
+    nodeFirstLevel: {},
+    plotBorders: {
+      x: {
+        max: 0,
+        min: 0,
+      },
+      y: {
+        max: 0,
+        min: 0,
+      }
+    },
+    initScale: 1,
+    zoomScale: {
+      x: 1,
+      y: 1,
+    },
+    initStageHeight: null,
+    initStageWidth: null,
+    currentStageWidth: null,
+    currentStageHeight: null,
+    mouseStatus: {
+      onNode: false,
+      onLink: false,
+      onToolTip: false,
+      onPanel: false,
+      onNetworkContainer: false,
+      onUI: false,
+    }
+  },
 }

@@ -23,19 +23,18 @@ SOFTWARE.
 */
 import * as PIXI from 'pixi.js'
 import store from './store'
+import {capitalize} from "lodash-es";
 
 /**
- * Class of tooltip
+ * Class of tooltip to show data in  the nodes -> one node -> meta -> hover
  */
-class toolTip extends PIXI.Container {
+class UIToolTipNode extends PIXI.Container {
 
   /**
    * @constructor
-   * @param {Object} options options to construct tooltip
    */
-  constructor(options) {
+  constructor() {
     super();
-    this.options = options;
     this.name = "hapnet_menu";
     //sub objects must be initialized in the constructor(), otherwise, accidents will occur!
     this.chartBackGround = this.addChild(new PIXI.Graphics())
@@ -56,8 +55,8 @@ class toolTip extends PIXI.Container {
 
     /* init parameters */
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
-    this.toolTipWidth = store.runtimeGlobal.initOption.width * 0.2
-    this.toolTipHeight = store.runtimeGlobal.initOption.height * 0.5
+    this.toolTipWidth = store.runtimeGlobal.initOption.width * 0.15
+    this.toolTipHeight = store.runtimeGlobal.initOption.height * 0.3
     this.toolTipFontSize = store.runtimeGlobal.plotOption.toolTip.fontSize;
     this.toolTipBackGroundColor = store.runtimeGlobal.plotOption.toolTip.backgroundColor;
     this.toolTipBorderColor = store.runtimeGlobal.plotOption.toolTip.borderColor;
@@ -144,14 +143,12 @@ class toolTip extends PIXI.Container {
     this.chartText.zIndex = 4;
     this.chartText.style = style
 
-    const toolTipText = `ID: ${node.id}\n\nRadius: ${node.radius}\n\nComposition: \n${
-      node.sectors.map(d => {
-        return d.category + ": " + d.number.toFixed(4)
-      }).join("\n")
-    }\n
-        asdfasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        `
-
+    let toolTipText = `ID: ${node.id}\n\nRadius: ${node.size}\n\n`
+    Object.keys(node.meta.hover).forEach(d => {
+      toolTipText += `${capitalize(d)}: ${node.meta.hover[d]}\n\n`
+    })
+    console.log(toolTipText)
+    console.log(node)
     this.chartText.text = toolTipText;
     // this.chartText.width = toolTipWidth *0.95
     this.chartText.visible = true;
@@ -159,9 +156,9 @@ class toolTip extends PIXI.Container {
     this.textMetrics = PIXI.TextMetrics.measureText(toolTipText, style)
 
     // console.log(textMetrics)
-        // Add the rectangular area to show
-        this.boundMask.beginFill(0xff19ff,1)
-        .moveTo(0,0)
+    // Add the rectangular area to show
+    this.boundMask.beginFill(0xff19ff, 1)
+      .moveTo(0, 0)
         .lineTo(this.toolTipWidth,0)
         .lineTo(this.toolTipWidth,this.toolTipHeight)
         .lineTo(0,this.toolTipHeight)
@@ -173,4 +170,4 @@ class toolTip extends PIXI.Container {
 }
 
 
-export {toolTip}
+export {UIToolTipNode}
