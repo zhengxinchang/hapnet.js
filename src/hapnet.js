@@ -127,6 +127,8 @@ class HapNet {
       store.runtimeGlobal.plotOption.toolTip.borderColor = chroma(store.runtimeGlobal.plotOption.toolTip.borderColor).num();
       store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor).num();
       store.runtimeGlobal.plotOption.nodeColorLegend.borderColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.borderColor).num();
+      store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor = chroma(store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor).num();
+      store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor = chroma(store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor).num();
       store.runtimeGlobal.plotOption.style.highlightColor = chroma(store.runtimeGlobal.plotOption.style.highlightColor).num();
 
       /**
@@ -144,11 +146,20 @@ class HapNet {
         let maxRadius = 0;
         let minRadius = 0;
         store.runtimeGlobal.plotOption.nodes.forEach(d => {
-            d.sectors && d.sectors.forEach(x => {
-                nodeColors.add(x.category);
-                if (d.radius > maxRadius) maxRadius = d.radius;
-                if (d.radius < minRadius) minRadius = d.radius;
-            })
+          d.sectors && d.sectors.forEach(x => {
+            nodeColors.add(x.category);
+            if (d.radius > maxRadius) maxRadius = d.radius;
+            if (d.radius < minRadius) minRadius = d.radius;
+          })
+          /* sort sectors by number, larger rank to top */
+          d.sectors && d.sectors.sort((a, b) => {
+            if (a.number > b.number) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+
         });
 
         nodeColors = Array.from(nodeColors);

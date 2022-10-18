@@ -77,17 +77,17 @@ class UIToolTipNode extends PIXI.Container {
 
     const scrollContentDelta = this.toolTipHeight * deltaFixed / 30;
     const nextYPosition = this.chartText.y + scrollContentDelta;
-    const scrollContent = Math.max((this.textMetrics.lineHeight * this.textMetrics.lines.length), this.toolTipHeight)
+    const scrollContent = Math.max((this.textMetricsMeasure.lineHeight * this.textMetrics.lines.length), this.toolTipHeight)
     // console.log(`
     // this.chartText.y:${this.chartText.y},
     // deltaFixed:${deltaFixed},
-    // this.textMetrics.height:${this.textMetrics.height},
+    // this.textMetricsMeasure.height:${this.textMetricsMeasure.height},
     // this.toolTipHeight ${this.toolTipHeight}
     // nextYPosition ${nextYPosition}
     // this.paddingTop ${this.paddingTop}
     // scrollContent ${scrollContent}
     // `)
-    // console.log(this.textMetrics)
+    // console.log(this.textMetricsMeasure)
 
     /* use delta to compare two value */
 
@@ -136,24 +136,24 @@ class UIToolTipNode extends PIXI.Container {
       wordWrapWidth: this.toolTipWidth * 0.95,
       // width:toolTipWidth ,
     });
-    // let textMetrics = PIXI.TextMetrics.measureText('hello woo000000000000000000000000000000oorld', style)
+    // let textMetricsMeasure = PIXI.TextMetrics.measureText('hello woo000000000000000000000000000000oorld', style)
     this.chartText.x = this.paddingLeft;
     this.chartText.y = this.paddingTop;
     this.chartText.resolution = 2;
     this.chartText.zIndex = 4;
     this.chartText.style = style
 
-    let toolTipText = `ID: ${node.id}\n\nRadius: ${node.size}\n\n`
+    let toolTipText = `ID: ${node.id}\n\nSize: ${node.size}\n\n`
     Object.keys(node.meta.hover).forEach(d => {
       toolTipText += `${capitalize(d)}: ${node.meta.hover[d]}\n\n`
     })
-    console.log(toolTipText)
-    console.log(node)
+    // console.log(toolTipText)
+    // console.log(node)
     this.chartText.text = toolTipText;
     // this.chartText.width = toolTipWidth *0.95
     this.chartText.visible = true;
 
-    this.textMetrics = PIXI.TextMetrics.measureText(toolTipText, style)
+    this.textMetricsMeasure = PIXI.TextMetrics.measureText(toolTipText, style)
 
     // console.log(textMetrics)
     // Add the rectangular area to show

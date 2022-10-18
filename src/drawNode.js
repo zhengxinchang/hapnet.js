@@ -84,6 +84,7 @@ class SINGLEPIE extends PIXI.Container {
       });
       this.on('mouseout', (event) => {
         store.runtimeGlobal.mouseStatus.onNode = false;
+        this.toolTip.visible = false;
       });
 
     }
