@@ -26,213 +26,296 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { SINGLEPIE, LINK } from "./drawElement";
+            <pre class="prettyprint source linenums"><code>/*
+MIT License
+
+Copyright (c) 2022 zhengxinchang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+import {SINGLEPIE, LINK} from "./drawElement";
 import * as PIXI from 'pixi.js';
-// import "@pixi/events"
-// import { EventSystem } from "@pixi/events";
-import {hapnetConfig} from './envs'
-import {toolTip} from './drawToolTip'
+import {UIToolTipNode} from './drawUIToolTipNode'
+import store from './store'
+import {UINodeColorLegend} from "./drawUINodeColorLegend";
+import {UINodeColorLegendUnit} from './drawUINodeColorLegendUnit'
 
 /**
  * Netowrk
  */
 class Network {
 
-    constructor(options) {
-        this.options = options;
-        this.app = new PIXI.Application({ 
-            width: this.options.width, 
-            height: this.options.height, 
+  static create() {
+
+    /* setup main pixi application */
+
+        store.runtimeGlobal.pixiApp.app = new PIXI.Application({ 
+            width: store.runtimeGlobal.initOption.width, 
+            height: store.runtimeGlobal.initOption.height, 
             antialias: true, 
-            resolution: this.options.zoom });
-        this.app.renderer.backgroundColor = this.options.backgroundColor;
-        this.hapcanvas = document.getElementById(this.options.el);
-        this.hapcanvas.appendChild(this.app.view);
-        console.log(this.app)
-        this.netowrkContainer = this.app.stage.addChild(new PIXI.Container())
-        this.ui = this.app.stage.addChild(new PIXI.Container())
-        /** 
-         * Add zoom and span function
-         */
+            resolution: store.runtimeGlobal.plotOption.resolution });
+        
+        /* setup canvas */
+        store.runtimeGlobal.pixiApp.canvas = document
+        .getElementById(store.runtimeGlobal.initOption.el)
+        .appendChild(store.runtimeGlobal.pixiApp.app.view);
+        
+        
+        /* setup network container(layer) */
+        store.runtimeGlobal.pixiApp.networkContainer = store.runtimeGlobal.pixiApp.app.stage.addChild(new PIXI.Container())
+        store.runtimeGlobal.pixiApp.networkContainer.interactive = true;
+        store.runtimeGlobal.pixiApp.networkContainer.buttonMode = true;
+        /* setup mouse status for the networkContainer */
+        store.runtimeGlobal.pixiApp.networkContainer.on("mouseover",event=>{
+            store.runtimeGlobal.mouseStatus.onNetworkContainer= true;
+          // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
+        });
+        store.runtimeGlobal.pixiApp.networkContainer.on("mouseout",event=>{
+            store.runtimeGlobal.mouseStatus.onNetworkContainer= false;
+          // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
+        });
 
+        /* setup ui contianer(layer)*/
+        store.runtimeGlobal.pixiApp.ui = store.runtimeGlobal.pixiApp.app.stage.addChild(new PIXI.Container());
+        store.runtimeGlobal.pixiApp.ui.interactive = true;
+        store.runtimeGlobal.pixiApp.ui.buttonMode = true;
+        /* setup mouse status for the ui */
+        store.runtimeGlobal.pixiApp.ui.on("mouseover",event=>{
+            store.runtimeGlobal.mouseStatus.onUI= true;
+          // console.log(`store.runtimeGlobal.mouseStatus.onUI ${store.runtimeGlobal.mouseStatus.onUI}`)
+        });
+        store.runtimeGlobal.pixiApp.ui.on("mouseout",event=>{
+            store.runtimeGlobal.mouseStatus.onUI= false;
+          // console.log(`store.runtimeGlobal.mouseStatus.onUI ${store.runtimeGlobal.mouseStatus.onUI}`)
+        });
+
+
+        /* setup background color */
+        store.runtimeGlobal.pixiApp.app.renderer.backgroundColor = store.runtimeGlobal.plotOption.backgroundColor;
+
+
+        /* define zoom function  */
         const zoom = (s, x, y) => {
-
             s = s &lt; 0 ? 1.1 : 0.9;
             let worldPos = { 
-                x: (x - this.netowrkContainer.x) / this.netowrkContainer.scale.x, 
-                y: (y - this.netowrkContainer.y) / this.netowrkContainer.scale.y 
+                x: (x - store.runtimeGlobal.pixiApp.networkContainer.x) / store.runtimeGlobal.pixiApp.networkContainer.scale.x, 
+                y: (y - store.runtimeGlobal.pixiApp.networkContainer.y) / store.runtimeGlobal.pixiApp.networkContainer.scale.y 
             };
             let newScale = { 
-                x: this.netowrkContainer.scale.x * s, 
-                y: this.netowrkContainer.scale.y * s 
+                x: store.runtimeGlobal.pixiApp.networkContainer.scale.x * s, 
+                y: store.runtimeGlobal.pixiApp.networkContainer.scale.y * s 
             };
-
             let newScreenPos = { 
-                x: (worldPos.x) * newScale.x + this.netowrkContainer.x, 
-                y: (worldPos.y) * newScale.y + this.netowrkContainer.y 
+                x: (worldPos.x) * newScale.x + store.runtimeGlobal.pixiApp.networkContainer.x, 
+                y: (worldPos.y) * newScale.y + store.runtimeGlobal.pixiApp.networkContainer.y 
             };
-
-            this.netowrkContainer.x -= (newScreenPos.x - x);
-            this.netowrkContainer.y -= (newScreenPos.y - y);
-            this.netowrkContainer.scale.x = newScale.x;
-            this.netowrkContainer.scale.y = newScale.y;
-            hapnetConfig.currentZoomScale = newScale;
-            hapnetConfig.currentStageWidth = this.netowrkContainer.width;
-            hapnetConfig.currentStageHeight = this.netowrkContainer.height;
-
-            // console.log("zooming")
-            // console.log(hapnetConfig)
-            // hapnetConfig.appView = this.app.view;
-            // hapnetConfig.appStage = this.app.stage;
-
+            store.runtimeGlobal.pixiApp.networkContainer.x -= (newScreenPos.x - x);
+            store.runtimeGlobal.pixiApp.networkContainer.y -= (newScreenPos.y - y);
+            store.runtimeGlobal.pixiApp.networkContainer.scale.x = newScale.x;
+            store.runtimeGlobal.pixiApp.networkContainer.scale.y = newScale.y;
+            store.runtimeGlobal.currentZoomScale = newScale;
+            store.runtimeGlobal.currentStageWidth = store.runtimeGlobal.pixiApp.networkContainer.width;
+            store.runtimeGlobal.currentStageHeight = store.runtimeGlobal.pixiApp.networkContainer.height;
         };
 
+        /* handle wheel event */
+        store.runtimeGlobal.pixiApp.canvas.onwheel = function (e) {
+            e.preventDefault();
 
-        // 这里的事件不应该是canvas的事件，而应该是stage的事件。一切都放到pixi.js中去
+            if(store.runtimeGlobal.mouseStatus.onUI === false){
+                store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
+                zoom(e.deltaY, e.offsetX, e.offsetY);
+            }
+            else if (store.runtimeGlobal.mouseStatus.onUI === true){
+                /* 
+                handle wheel event that fired from the UI layer 
+                code is inspired by this repo: https://github.com/Mwni/pixi-mousewheel
+                */
 
-        this.hapcanvas.onwheel = function (e) {
-            zoom(e.deltaY, e.offsetX, e.offsetY);
+                const hit = store.runtimeGlobal.pixiApp.app.renderer.plugins.interaction.hitTest({ x: e.offsetX, y: e.offsetY })
+              console.log("mouse on ui detected...")
+              console.log(hit)
+              if (hit instanceof UIToolTipNode) {
+
+                const deltaFixed = e.deltaY &lt; 0 ? 1 : -1; // s = s &lt; 0 ? 1.1 : 0.9;
+                // console.log(deltaFixed)
+                hit.scroll(deltaFixed);
+              } else if (hit instanceof UINodeColorLegend || hit instanceof UINodeColorLegendUnit) {
+                const deltaFixed = e.deltaY &lt; 0 ? 1 : -1;
+                store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.scroll(deltaFixed);
+              }
+
+            };
+
         }
         var lastPos = null
-        this.hapcanvas.onmousedown = (e) => {
-            console.log("outclicked")
-            hapnetConfig.toolTipObj.visible = false;
-            lastPos = { x: e.offsetX, y: e.offsetY };
+        store.runtimeGlobal.pixiApp.canvas.onmousedown = (e) => {
+            // console.log("outclicked")
+            e.preventDefault();
+            if(store.runtimeGlobal.mouseStatus.onUI === false){
+                store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
+                lastPos = { x: e.offsetX, y: e.offsetY };
+            }
         }
-        this.hapcanvas.onmouseup = (e) => {
+        store.runtimeGlobal.pixiApp.canvas.onmouseup = (e) => {
             lastPos = null;
         }
-        this.hapcanvas.onmousemove = (e) => {
-            
+        store.runtimeGlobal.pixiApp.canvas.onmousemove = (e) => {
             if (lastPos) {
-                // hapnetConfig.toolTipObj.clear();
-                this.netowrkContainer.x += (e.offsetX - lastPos.x); // stage的x和y 根据鼠标的x和y移动相同的像素，这样就实现了stage跟随鼠标移动
-                this.netowrkContainer.y += (e.offsetY - lastPos.y);
+                // store.runtimeGlobal.toolTipObj.clear();
+                store.runtimeGlobal.pixiApp.networkContainer.x += (e.offsetX - lastPos.x); // stage的x和y 根据鼠标的x和y移动相同的像素，这样就实现了stage跟随鼠标移动
+                store.runtimeGlobal.pixiApp.networkContainer.y += (e.offsetY - lastPos.y);
                 lastPos = { x: e.offsetX, y: e.offsetY }; //然后更新lastPos
             }
-
+            // console.log(store.runtimeGlobal.mouseStatus.onLink)
         }
-        this.netowrkContainer.interactive = true;
-        this.netowrkContainer.buttonMode = true;
-        // this.app.view.on('mousedown',(event)=>{
-        //     console.log("netowrkContainer clicked")
-        // })
+
+
+        // store.runtimeGlobal.pixiApp.canvas.addEventListener("onmousewheel",function(e){alert("aaa")})
+
     }
 
-    init(){
-        this.options.nodes.forEach(node => {
-
-            if (hapnetConfig.plotBorders.x.max &lt; node.x) hapnetConfig.plotBorders.x.max = node.x;
-            if (hapnetConfig.plotBorders.x.min > node.x) hapnetConfig.plotBorders.x.min = node.x;
-            if (hapnetConfig.plotBorders.y.max &lt; node.y) hapnetConfig.plotBorders.y.max = node.y;
-            if (hapnetConfig.plotBorders.y.min > node.y) hapnetConfig.plotBorders.y.min = node.y;
+    static init(){
+        
+        
+        store.runtimeGlobal.plotOption.nodes.forEach(node => {
+            // console.log(store.runtimeGlobal.plotBorders.x.max)
+            // console.log(node)
+            if (store.runtimeGlobal.plotBorders.x.max &lt; node.x) store.runtimeGlobal.plotBorders.x.max = node.x;
+            if (store.runtimeGlobal.plotBorders.x.min > node.x) store.runtimeGlobal.plotBorders.x.min = node.x;
+            if (store.runtimeGlobal.plotBorders.y.max &lt; node.y) store.runtimeGlobal.plotBorders.y.max = node.y;
+            if (store.runtimeGlobal.plotBorders.y.min > node.y) store.runtimeGlobal.plotBorders.y.min = node.y;
             
         });
 
-        const scaleNumberX = this.app.view.width/ (hapnetConfig.plotBorders.x.max - hapnetConfig.plotBorders.x.min)
-        const scaleNumberY = this.app.view.height/ (hapnetConfig.plotBorders.y.max - hapnetConfig.plotBorders.y.min)
+        const scaleNumberX = store.runtimeGlobal.pixiApp.canvas.width/ (store.runtimeGlobal.plotBorders.x.max - store.runtimeGlobal.plotBorders.x.min)
+        const scaleNumberY = store.runtimeGlobal.pixiApp.canvas.height/ (store.runtimeGlobal.plotBorders.y.max - store.runtimeGlobal.plotBorders.y.min)
+        // console.log(scaleNumberX,scaleNumberY)
         const scaleNumberFinal =  scaleNumberX > scaleNumberY ? scaleNumberY : scaleNumberX
         
-        const initStageApproxWidth = (hapnetConfig.plotBorders.x.max - hapnetConfig.plotBorders.x.min) * scaleNumberFinal
-        const initStageApproxHeight = (hapnetConfig.plotBorders.y.max - hapnetConfig.plotBorders.y.min) * scaleNumberFinal
-        hapnetConfig.initScale = scaleNumberFinal
-        hapnetConfig.initStageWidth = initStageApproxWidth;
-        hapnetConfig.initStageHeight =initStageApproxHeight;
-        hapnetConfig.currentStageWidth = initStageApproxWidth;
-        hapnetConfig.currentStageHeight =initStageApproxHeight;
-        /**
-         * enable zindex layer.
-         */
-        this.app.stage.sortableChildren = true
-        
-        
-        this.hapnetToolTop = this.ui.addChild(new toolTip(this.options));
-        hapnetConfig.toolTipObj = this.hapnetToolTop;
-        this.hapnetToolTop.name = "hapnet_menu"
-        this.hapnetToolTop.x = 0;
-        this.hapnetToolTop.y = 0;
-        this.hapnetToolTop.visible= true;
-        // this.app.stage.addChild(hapnetToolTop);
+        const initStageApproxWidth = (store.runtimeGlobal.plotBorders.x.max - store.runtimeGlobal.plotBorders.x.min) * scaleNumberFinal
+        const initStageApproxHeight = (store.runtimeGlobal.plotBorders.y.max - store.runtimeGlobal.plotBorders.y.min) * scaleNumberFinal
+        store.runtimeGlobal.initScale = scaleNumberFinal
+      store.runtimeGlobal.initStageWidth = initStageApproxWidth;
+      store.runtimeGlobal.initStageHeight = initStageApproxHeight;
+      store.runtimeGlobal.currentStageWidth = initStageApproxWidth;
+      store.runtimeGlobal.currentStageHeight = initStageApproxHeight;
+      /**
+       * enable zindex layer.
+       */
+      store.runtimeGlobal.pixiApp.app.stage.sortableChildren = true
 
+
+      store.runtimeGlobal.pixiApp.hapnetToolTip = store.runtimeGlobal.pixiApp.ui.addChild(new UIToolTipNode());
+      store.runtimeGlobal.pixiApp.hapnetNodeColorLegend = store.runtimeGlobal.pixiApp.ui.addChild(new UINodeColorLegend());
+
+      // store.runtimeGlobal.toolTipObj = store.runtimeGlobal.pixiApp.hapnetToolTip;
+      // store.runtimeGlobal.pixiApp.hapnetToolTip.name = "hapnet_menu"
+      // store.runtimeGlobal.pixiApp.hapnetToolTip.interactive = true;
+      // store.runtimeGlobal.pixiApp.hapnetToolTip.buttonMode = true;
+      // store.runtimeGlobal.pixiApp.hapnetToolTip.x = 0;
+      // store.runtimeGlobal.pixiApp.hapnetToolTip.y = 0;
+      // // store.runtimeGlobal.pixiApp.hapnetToolTip.visible= true;
+
+      console.log(store)
     }
 
-    draw() {
+
+    static draw() {
 
 
-        this.nodeStyle = this.options.style.NodeOutline;
-        this.linkStyle = {
-            linkWidth: this.options.style.linkWidth,
-            linkColor: this.options.style.linkColor,
+        const nodeStyle = store.runtimeGlobal.plotOption.style.NodeOutline;
+        const lineStyle = {
+            linkWidth: store.runtimeGlobal.plotOption.style.linkWidth,
+            linkColor: store.runtimeGlobal.plotOption.style.linkColor,
         }
-        this.options.links.forEach(link => {
+
+        store.runtimeGlobal.plotOption.links.forEach(link => {
             // console.log(link)
             const linkID = [link.source.id,link.target.id].sort().join("_");
-            if(! hapnetConfig.nodeFirstLevel[link.source.id] ){
-                hapnetConfig.nodeFirstLevel[link.source.id] = [];
-                hapnetConfig.nodeFirstLevel[link.source.id].push({
+            if(! store.runtimeGlobal.nodeFirstLevel[link.source.id] ){
+                store.runtimeGlobal.nodeFirstLevel[link.source.id] = [];
+                store.runtimeGlobal.nodeFirstLevel[link.source.id].push({
                     linkID  : linkID,
                     anotherNodeID: link.target.id
                 })
             }else{
-                hapnetConfig.nodeFirstLevel[link.source.id].push({
+                store.runtimeGlobal.nodeFirstLevel[link.source.id].push({
                     linkID  : linkID,
                     anotherNodeID: link.target.id
                 })
             }
-            if(! hapnetConfig.nodeFirstLevel[link.target.id] ){
-                hapnetConfig.nodeFirstLevel[link.target.id] = [];
-                hapnetConfig.nodeFirstLevel[link.target.id].push({
+            if(! store.runtimeGlobal.nodeFirstLevel[link.target.id] ){
+                store.runtimeGlobal.nodeFirstLevel[link.target.id] = [];
+                store.runtimeGlobal.nodeFirstLevel[link.target.id].push({
                     linkID  : linkID,
                     anotherNodeID: link.source.id
                 })
             }else{
-                hapnetConfig.nodeFirstLevel[link.target.id].push({
+                store.runtimeGlobal.nodeFirstLevel[link.target.id].push({
                     linkID  : linkID,
                     anotherNodeID: link.source.id
                 })
             }
-            const sedge = new LINK(link, this.linkStyle);
-            this.netowrkContainer.addChild(sedge);
+            const sedge = new LINK(link, lineStyle);
+            store.runtimeGlobal.pixiApp.networkContainer.addChild(sedge);
             sedge.draw(); //string2hex(string: string) → {number}
 
         });
 
-        this.options.nodes.forEach(node => {
-            const spie = new SINGLEPIE(node, this.nodeStyle);
-            this.netowrkContainer.addChild(spie);
+        store.runtimeGlobal.plotOption.nodes.forEach(node => {
+            const spie = new SINGLEPIE(node, nodeStyle);
+            store.runtimeGlobal.pixiApp.networkContainer.addChild(spie);
             spie.draw();
         });
 
 
 
-        this.netowrkContainer.scale.x = hapnetConfig.initScale;
-        this.netowrkContainer.scale.y = hapnetConfig.initScale;
-        this.netowrkContainer.x = this.netowrkContainer.x + (this.app.view.width/2);
-        this.netowrkContainer.y = this.netowrkContainer.y + (this.app.view.height/2 );
+        store.runtimeGlobal.pixiApp.networkContainer.scale.x = store.runtimeGlobal.initScale;
+        store.runtimeGlobal.pixiApp.networkContainer.scale.y = store.runtimeGlobal.initScale;
+        store.runtimeGlobal.pixiApp.networkContainer.x = store.runtimeGlobal.pixiApp.networkContainer.x + (store.runtimeGlobal.pixiApp.app.view.width/2);
+        store.runtimeGlobal.pixiApp.networkContainer.y = store.runtimeGlobal.pixiApp.networkContainer.y + (store.runtimeGlobal.pixiApp.app.view.height/2 );
 
 
 
-        /**
-         * Add event listener function for pointer down event
-         * The steps are:
-         * if one node is clicked, 
-         * 1. set style to normal for objects in highlightedObjList.
-         * 2. the related links and level-1 nodes will be highlight.
-         * 3. the highlighted links and nodes will be addded to an array in hapnetConf named highlightedObjList.
+        /*
+        Add event listener function for pointer down event
+        The steps are:
+        if one node is clicked, 
+        1. set style to normal for objects in highlightedObjList.
+        2. the related links and level-1 nodes will be highlight.
+        3. the highlighted links and nodes will be addded to an array in hapnetConf named highlightedObjList.
          */
-        this.app.stage.interactive=true;
-        this.app.stage.buttonMode = true;
-        this.app.stage.on("mousedown",(e)=>{
+        store.runtimeGlobal.pixiApp.app.stage.interactive=true;
+        store.runtimeGlobal.pixiApp.app.stage.buttonMode = true;
+        store.runtimeGlobal.pixiApp.app.stage.on("mousedown",(e)=>{
 
             // set all highlighted nodes to normal
-            hapnetConfig.highlightedObjList.nodes.forEach(d=>{
-                const highlightedNode = this.netowrkContainer.getChildByName(d);
+            store.runtimeGlobal.highlightedObjList.nodes.forEach(d=>{
+                const highlightedNode = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
                 highlightedNode.draw({heighLight:false});
             });
 
             // set all highlighted links to normal
-            hapnetConfig.highlightedObjList.links.forEach(d=>{
-                const highlightedLink = this.netowrkContainer.getChildByName(d);
+            store.runtimeGlobal.highlightedObjList.links.forEach(d=>{
+                const highlightedLink = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
                 highlightedLink.draw({heighLight:false});
             });            
 
@@ -241,48 +324,47 @@ class Network {
              */
             if (e.target instanceof SINGLEPIE){
 
-                /**
-                 * highlight node self
-                 */
+              /* highlight node self */
                 e.target.draw({heighLight:true}) // Named parameters are not permitted. Probably due to the way to call draw().
-                hapnetConfig.highlightedObjList.nodes.push(e.target.name)
+                store.runtimeGlobal.highlightedObjList.nodes.push(e.target.name)
 
-                /**
-                 * highlight related links and related nodes
-                 */
-                const relatedNodesAndLinks = hapnetConfig.nodeFirstLevel[e.target.name];
-                relatedNodesAndLinks.forEach(d=>{
-                    this.netowrkContainer.getChildByName(d.anotherNodeID).draw({heighLight:true})
-                    this.netowrkContainer.getChildByName(d.linkID).draw({heighLight:true})
-                    hapnetConfig.highlightedObjList.nodes.push(d.anotherNodeID)
-                    hapnetConfig.highlightedObjList.links.push(d.linkID)
-                });
+              /* highlight related links and related nodes */
+              const relatedNodesAndLinks = store.runtimeGlobal.nodeFirstLevel[e.target.name];
+              relatedNodesAndLinks.forEach(d => {
+                store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d.anotherNodeID).draw({heighLight: true})
+                store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d.linkID).draw({heighLight: true})
+                store.runtimeGlobal.highlightedObjList.nodes.push(d.anotherNodeID)
+                store.runtimeGlobal.highlightedObjList.links.push(d.linkID)
+              });
 
-                // console.log(e.target)
+              /* tigger node color legend */
+              this.uiNodeColorLegend = store.runtimeGlobal.pixiApp.hapnetNodeColorLegend;
+              this.uiNodeColorLegend.setAndShow(e.target.nodeOptions);
+
             }
 
             if (e.target.parent instanceof LINK){
                 
-                /**
+                /*
                  * highlight link self
                  */
                 e.target.parent.draw({heighLight:true});
-                hapnetConfig.highlightedObjList.links.push(e.target.parent.name)
-                /**
+                store.runtimeGlobal.highlightedObjList.links.push(e.target.parent.name)
+                /*
                  * highlight link related source node and target node
                  */
-                this.netowrkContainer.getChildByName(e.target.parent.linkOptions.source.id).draw({heighLight:true})
-                this.netowrkContainer.getChildByName(e.target.parent.linkOptions.target.id).draw({heighLight:true})
+                store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.parent.linkOptions.source.id).draw({heighLight:true})
+                store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.parent.linkOptions.target.id).draw({heighLight:true})
             }
         })
 
         // /**
         //  * Add global event capture to handel tooltip
         //  */
-        // this.app.stage.on("mouseover",(e)=>{
+        // store.runtimeGlobal.pixiApp.app.stage.on("mouseover",(e)=>{
         //     if (e.target instanceof SINGLEPIE){
 
-        //         this.hapnetToolTop.setAndShow(e.target.nodeOptions);
+        //         this.hapnetToolTip.setAndShow(e.target.nodeOptions);
         //         console.log()
         //     }
         // });
@@ -291,10 +373,10 @@ class Network {
         //  * clear tooltip
         //  */
 
-        // this.app.stage.on("mouseleave",(e)=>{
+        // store.runtimeGlobal.pixiApp.app.stage.on("mouseleave",(e)=>{
         //     if (e.target instanceof SINGLEPIE){
 
-        //         this.hapnetToolTop.clear();
+        //         this.hapnetToolTip.clear();
         
         //     }
         // });
@@ -317,13 +399,36 @@ export { Network }</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HapNet.html">HapNet</a></li><li><a href="LINK.html">LINK</a></li><li><a href="Network.html">Network</a></li><li><a href="SINGLEPIE.html">SINGLEPIE</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calLineHitArea">calLineHitArea</a></li><li><a href="global.html#defaultInitOption">defaultInitOption</a></li><li><a href="global.html#defaultInitOptions">defaultInitOptions</a></li><li><a href="global.html#defaultOptions">defaultOptions</a></li><li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li><li><a href="global.html#hapnetConfig">hapnetConfig</a></li><li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li><li><a href="global.html#preDefinedPalettesList">preDefinedPalettesList</a></li><li><a href="global.html#radius">radius</a></li></ul>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Classes</h3>
+    <ul>
+        <li><a href="HapNet.html">HapNet</a></li>
+        <li><a href="LINK.html">LINK</a></li>
+        <li><a href="Network.html">Network</a></li>
+        <li><a href="SINGLEPIE.html">SINGLEPIE</a></li>
+        <li><a href="UINodeColorLegend.html">UINodeColorLegend</a></li>
+        <li><a href="UINodeColorLegendUnit.html">UINodeColorLegendUnit</a></li>
+        <li><a href="UIPanel.html">UIPanel</a></li>
+        <li><a href="UIToolTipNode.html">UIToolTipNode</a></li>
+    </ul>
+    <h3>Global</h3>
+    <ul>
+        <li><a href="global.html#calculateCoarseGraph">calculateCoarseGraph</a></li>
+        <li><a href="global.html#calculateFullGraph">calculateFullGraph</a></li>
+        <li><a href="global.html#calLineHitArea">calLineHitArea</a></li>
+        <li><a href="global.html#defaultInitOption">defaultInitOption</a></li>
+        <li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li>
+        <li><a href="global.html#hapnetConfig">hapnetConfig</a></li>
+        <li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li>
+        <li><a href="global.html#radius">radius</a></li>
+    </ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 10 2022 14:26:36 GMT+0800 (China Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Oct 11 2022 17:04:27
+    GMT+0800 (China Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

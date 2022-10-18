@@ -11,8 +11,9 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
-let dat = JSON.parse(httpGet("/A.2.mini.json"));
+// let dat = JSON.parse(httpGet("/A.2.mini.json"));
 // let dat = JSON.parse(httpGet("/AY.3.mini.json")) ;
+let dat = JSON.parse(httpGet("/B.1.1.10.mini.json"));
 // let dat = JSON.parse(httpGet("/haplotype0508.mini.json")) ;
 // console.log(dat);
 // console.log(dat)
@@ -72,7 +73,7 @@ const customOptions = {
 }
 
 
-// console.log(customOptions);
+console.log(customOptions);
 
 const hapnet = HapNet.init({
     el: "hapnet",

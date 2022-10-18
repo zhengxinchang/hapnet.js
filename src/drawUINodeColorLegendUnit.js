@@ -41,13 +41,13 @@ class UINodeColorLegendUnit extends PIXI.Container {
    * }
    * </pre>
    * @param {String} nodeName name of related node
-   * @param {number} offset the idx of sector
+   * @param {number} idx the idx of sector
    */
-  constructor(options, nodeName, offset) {
+  constructor(options, nodeName, idx) {
     super();
     this.options = options;
     this.nodeName = nodeName;
-    this.offset = offset;
+    this.idx = idx;
     /* init UINodeColorLegend object*/
     this.name = "hapnet_ui_color_legend";
     this.interactive = true;
@@ -76,7 +76,7 @@ class UINodeColorLegendUnit extends PIXI.Container {
 
     // debugger;
     this.chartBackGround.x = 0;
-    this.chartBackGround.y = 0 + this.toolTipHeight * this.offset;
+    this.chartBackGround.y = 0 + this.toolTipHeight * this.idx;
     this.chartBackGround.visible = true;
     this.zIndex = 2;
 
@@ -100,11 +100,11 @@ class UINodeColorLegendUnit extends PIXI.Container {
     });
 
     this.chartText.x = this.paddingLeft;
-    this.chartText.y = this.paddingTop + this.toolTipHeight * this.offset;
+    this.chartText.y = this.paddingTop + this.toolTipHeight * this.idx;
     this.chartText.resolution = 2;
     this.chartText.zIndex = 8;
     this.chartText.style = style
-    this.chartText.text = `${this.options.category}  ${(this.options.percent * 100).toFixed(4)}%`;
+    this.chartText.text = `${this.options.category}  ${(this.options.percent * 100).toFixed(2)}%`;
 
     // this.boundMask
     //   .beginFill(0xff19ff,1)

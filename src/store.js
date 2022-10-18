@@ -34,6 +34,7 @@ export default {
       canvas: null,
       hapnetToolTip: null,
       hapnetNodeColorLegend: null,
+      hapnetNodeMetadatPanel: null,
     },
     highlightedObjList: {
       nodes: [],

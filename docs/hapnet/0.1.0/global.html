@@ -160,130 +160,6 @@
 
         
             
-<h4 class="name" id="defaultInitOptions"><span class="type-signature">(constant) </span>defaultInitOptions<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Default init options. default value of width and height is 'auto', if set, hapnet.js will use the width and height of dom element.</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="envs.js.html">envs.js</a>, <a href="envs.js.html#line31">line 31</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="defaultOptions"><span class="type-signature">(constant) </span>defaultOptions<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Default plot options</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="envs.js.html">envs.js</a>, <a href="envs.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
 <h4 class="name" id="defaultPlotOption"><span class="type-signature">(constant) </span>defaultPlotOption<span class="type-signature"></span></h4>
 
 
@@ -346,7 +222,8 @@
 
         
             
-<h4 class="name" id="hapnetConfig"><span class="type-signature"></span>hapnetConfig<span class="type-signature"></span></h4>
+<h4 class="name" id="hapnetConfig"><span class="type-signature">(constant) </span>hapnetConfig<span
+        class="type-signature"></span></h4>
 
 
 
@@ -389,9 +266,10 @@
 
     
     <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="envs.js.html">envs.js</a>, <a href="envs.js.html#line102">line 102</a>
-    </li></ul></dd>
+    <dd class="tag-source"><ul class="dummy">
+        <li>
+            <a href="envs.js.html">envs.js</a>, <a href="envs.js.html#line29">line 29</a>
+        </li></ul></dd>
     
 
     
@@ -465,76 +343,7 @@ Currently, there are <strong>6</strong> palettes which are derived from the <a h
 </dl>
 
 
-
-
-
-
-        
-            
-<h4 class="name" id="preDefinedPalettesList"><span class="type-signature">(constant) </span>preDefinedPalettesList<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Build in palettes
-Currently, there are <strong>6</strong> palettes which are derived from the <a href="https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html">ggsci</a> package.</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="envs.js.html">envs.js</a>, <a href="envs.js.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="radius"><span class="type-signature"></span>radius<span class="type-signature"></span></h4>
+    <h4 class="name" id="radius"><span class="type-signature"></span>radius<span class="type-signature"></span></h4>
 
 
 
@@ -577,9 +386,144 @@ Currently, there are <strong>6</strong> palettes which are derived from the <a h
 
     
     <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="layout.js.html">layout.js</a>, <a href="layout.js.html#line139">line 139</a>
-    </li></ul></dd>
+    <dd class="tag-source"><ul class="dummy">
+        <li>
+            <a href="layout.js.html">layout.js</a>, <a href="layout.js.html#line166">line 166</a>
+        </li></ul></dd>
+
+
+</dl>
+
+
+    <h3 class="subsection-title">Methods</h3>
+
+
+    <h4 class="name" id="calculateCoarseGraph"><span class="type-signature"></span>calculateCoarseGraph<span
+            class="signature">(options)</span><span class="type-signature"></span></h4>
+
+
+    <div class="description">
+        <p>calculate layout for coarse graph</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>options</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>plotOption</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="tag-source">Source:</dt>
+        <dd class="tag-source">
+            <ul class="dummy">
+                <li>
+                    <a href="layout.js.html">layout.js</a>, <a href="layout.js.html#line32">line 32</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h4 class="name" id="calculateFullGraph"><span class="type-signature"></span>calculateFullGraph<span
+            class="signature">(options)</span><span class="type-signature"></span></h4>
+
+
+    <div class="description">
+        <p>calculate layout for full graph</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>options</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>plotOption</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy">
+        <li>
+            <a href="layout.js.html">layout.js</a>, <a href="layout.js.html#line213">line 213</a>
+        </li></ul></dd>
     
 
     
@@ -590,22 +534,6 @@ Currently, there are <strong>6</strong> palettes which are derived from the <a h
 </dl>
 
 
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="calLineHitArea"><span class="type-signature"></span>calLineHitArea<span class="signature">(sourcex, sourcey, targetx, targety, lineWidth)</span><span class="type-signature"></span></h4>
     
 
@@ -857,13 +785,36 @@ pointDx, pointDy
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="HapNet.html">HapNet</a></li><li><a href="LINK.html">LINK</a></li><li><a href="Network.html">Network</a></li><li><a href="SINGLEPIE.html">SINGLEPIE</a></li></ul><h3>Global</h3><ul><li><a href="global.html#calLineHitArea">calLineHitArea</a></li><li><a href="global.html#defaultInitOption">defaultInitOption</a></li><li><a href="global.html#defaultInitOptions">defaultInitOptions</a></li><li><a href="global.html#defaultOptions">defaultOptions</a></li><li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li><li><a href="global.html#hapnetConfig">hapnetConfig</a></li><li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li><li><a href="global.html#preDefinedPalettesList">preDefinedPalettesList</a></li><li><a href="global.html#radius">radius</a></li></ul>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Classes</h3>
+    <ul>
+        <li><a href="HapNet.html">HapNet</a></li>
+        <li><a href="LINK.html">LINK</a></li>
+        <li><a href="Network.html">Network</a></li>
+        <li><a href="SINGLEPIE.html">SINGLEPIE</a></li>
+        <li><a href="UINodeColorLegend.html">UINodeColorLegend</a></li>
+        <li><a href="UINodeColorLegendUnit.html">UINodeColorLegendUnit</a></li>
+        <li><a href="UIPanel.html">UIPanel</a></li>
+        <li><a href="UIToolTipNode.html">UIToolTipNode</a></li>
+    </ul>
+    <h3>Global</h3>
+    <ul>
+        <li><a href="global.html#calculateCoarseGraph">calculateCoarseGraph</a></li>
+        <li><a href="global.html#calculateFullGraph">calculateFullGraph</a></li>
+        <li><a href="global.html#calLineHitArea">calLineHitArea</a></li>
+        <li><a href="global.html#defaultInitOption">defaultInitOption</a></li>
+        <li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li>
+        <li><a href="global.html#hapnetConfig">hapnetConfig</a></li>
+        <li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li>
+        <li><a href="global.html#radius">radius</a></li>
+    </ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Oct 10 2022 14:26:36 GMT+0800 (China Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Oct 11 2022 17:04:27
+    GMT+0800 (China Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
