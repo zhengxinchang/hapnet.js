@@ -29,7 +29,7 @@ import {
   isArray,
   isNumber
 } from "lodash-es";
-import {Network} from "./Network";
+import {Network} from "./network";
 import {
   defaultInitOption,
   defaultPlotOption,

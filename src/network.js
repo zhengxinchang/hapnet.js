@@ -56,14 +56,14 @@ class Network {
     store.runtimeGlobal.pixiApp.networkContainer.interactive = true;
     store.runtimeGlobal.pixiApp.networkContainer.buttonMode = true;
     /* setup mouse status for the networkContainer */
-    store.runtimeGlobal.pixiApp.networkContainer.on("mouseover", event => {
-      store.runtimeGlobal.mouseStatus.onNetworkContainer = true;
-      // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
-    });
-    store.runtimeGlobal.pixiApp.networkContainer.on("mouseout", event => {
-      store.runtimeGlobal.mouseStatus.onNetworkContainer = false;
-      // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
-    });
+    // store.runtimeGlobal.pixiApp.networkContainer.on("mouseover", event => {
+    //   store.runtimeGlobal.mouseStatus.onNetworkContainer = true;
+    //   // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
+    // });
+    // store.runtimeGlobal.pixiApp.networkContainer.on("mouseout", event => {
+    //   store.runtimeGlobal.mouseStatus.onNetworkContainer = false;
+    //   // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
+    // });
     /* setup ui contianer(layer)*/
     store.runtimeGlobal.pixiApp.ui = store.runtimeGlobal.pixiApp.app.stage.addChild(new PIXI.Container());
     store.runtimeGlobal.pixiApp.ui.interactive = true;
@@ -147,19 +147,20 @@ class Network {
         store.runtimeGlobal.pixiApp.networkContainer.y += (e.offsetY - lastPos.y);
         lastPos = {x: e.offsetX, y: e.offsetY}; //然后更新lastPos
       }
+      // store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
     }
 
-    store.runtimeGlobal.pixiApp.canvas.onmouseover = (e) => {
-
-      const hit = store.runtimeGlobal.pixiApp.app.renderer.plugins.interaction.hitTest({x: e.offsetX, y: e.offsetY})
-      console.log(hit)
-      if (hit instanceof SINGLEPIE) {
-        alert("moseouver")
-        console.log("mouse over single pie")
-      }
-
-
-    }
+    // store.runtimeGlobal.pixiApp.canvas.onmouseover = (e) => {
+    //
+    //   const hit = store.runtimeGlobal.pixiApp.app.renderer.plugins.interaction.hitTest({x: e.offsetX, y: e.offsetY})
+    //   console.log(hit)
+    //   if (hit instanceof SINGLEPIE) {
+    //     alert("moseouver")
+    //     console.log("mouse over single pie")
+    //   }
+    //
+    //
+    // }
   }
 
   /**
