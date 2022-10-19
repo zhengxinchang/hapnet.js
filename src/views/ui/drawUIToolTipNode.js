@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 import * as PIXI from 'pixi.js'
-import store from './store'
+import store from '../../store'
 import {capitalize} from "lodash-es";
 
 /**

@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import store from './store'
+import store from '../../store'
 import {UINodePanelUnit} from "./drawUINodePanelUnit";
 
 /**

@@ -24,7 +24,7 @@ SOFTWARE.
 
 import * as PIXI from 'pixi.js'
 import {conformsTo, defaultsDeep, isArray, isBoolean, isNull, isNumber, isObject} from 'lodash-es';
-import store from './store'
+import store from '../../store'
 
 
 /**
