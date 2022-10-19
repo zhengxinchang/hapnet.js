@@ -159,18 +159,18 @@ class SINGLEPIE extends PIXI.Container {
 
     // console.log(this.total,this.sectorsWithPercent)
 
-    if (this.debug == true) {
-      const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
-      const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
-      this.chart.beginFill(0x000000, 0.1)
-        .lineStyle(4, 0xFFFFFF)
-        .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
-        .endFill();
-    }
+    // if (this.debug == true) {
+    //   const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
+    //   const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
+    //   this.chart.beginFill(0x000000, 0.1)
+    //     .lineStyle(4, 0xFFFFFF)
+    //     .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
+    //     .endFill();
+    // }
 
     return {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: this.x,
+      y: this.y
     }
   }
 
@@ -179,8 +179,9 @@ class SINGLEPIE extends PIXI.Container {
 
     this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
       .lineStyle(this.nodeStyles.lineWidth, this.nodeStyles.lineColor)
-      .drawCircle(this.nodeOptions.x, this.nodeOptions.y, this.nodeOptions.radius)
+      .drawCircle(0, 0, this.nodeOptions.radius)
       .endFill();
+
   }
 
 
@@ -226,28 +227,27 @@ class SINGLEPIE extends PIXI.Container {
 
     // console.log(this.total,this.sectorsWithPercent)
 
-    if (this.debug == true) {
-      const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
-      const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
-      this.chart.beginFill(0x000000, 0.1)
-        .lineStyle(8, 0xFFFFFF)
-        .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
-        .endFill();
-    }
+    // if (this.debug == true) {
+    //   const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
+    //   const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
+    //   this.chart.beginFill(0x000000, 0.1)
+    //     .lineStyle(8, 0xFFFFFF)
+    //     .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
+    //     .endFill();
+    // }
 
     return {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: this.x,
+      y: this.y
     }
   }
 
 
   _drawHeighLightCircle() {
 
-
     this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
       .lineStyle(this.nodeOptions.radius * 0.05, store.runtimeGlobal.plotOption.style.highlightColor)
-      .drawCircle(this.nodeOptions.x, this.nodeOptions.y, this.nodeOptions.radius)
+      .drawCircle(0, 0, this.nodeOptions.radius)
       .endFill();
   }
 
