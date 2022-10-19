@@ -22,15 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import {LINK, SINGLEPIE} from "./drawElement";
+import {LINK, SINGLEPIE} from "./views/network/drawElement";
 import * as PIXI from 'pixi.js';
-import {UIToolTipNode} from './drawUIToolTipNode'
+import {UIToolTipNode} from './views/ui/drawUIToolTipNode'
 import store from './store'
-import {UINodeColorLegend} from "./drawUINodeColorLegend";
-import {UINodeColorLegendUnit} from './drawUINodeColorLegendUnit'
-import {UINodePanel} from './drawUINodePanel'
-import {UINodePanelUnit} from "./drawUINodePanelUnit";
-import {NodePanelUnitSub} from "./drawUINodePanelUnitSub";
+import {UINodeColorLegend} from "./views/ui/drawUINodeColorLegend";
+import {UINodeColorLegendUnit} from './views/ui/drawUINodeColorLegendUnit'
+import {UINodePanel} from './views/ui/drawUINodePanel'
+import {UINodePanelUnit} from "./views/ui/drawUINodePanelUnit";
+import {NodePanelUnitSub} from "./views/ui/drawUINodePanelUnitSub";
 
 /**
  * class to draw Netowrk

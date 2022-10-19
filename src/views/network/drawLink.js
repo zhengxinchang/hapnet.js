@@ -23,19 +23,20 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import { conformsTo, isNumber, isObject, defaultsDeep } from 'lodash-es';
-import { calLineHitArea } from './utils'
-import store from './store'
+import {conformsTo, isNumber, isObject, defaultsDeep} from 'lodash-es';
+import {calLineHitArea} from '../../utils'
+import store from '../../store'
+
 /**
  * Link object
  */
 class LINK extends PIXI.Container {
 
-    constructor(linkOptions, linkStyles, drawCoarseGraph = false, debug = false) {
-        super();
+  constructor(linkOptions, linkStyles, drawCoarseGraph = false, debug = false) {
+    super();
 
-        const isValidate = conformsTo(linkOptions, {
-            source: d => isObject(d),
+    const isValidate = conformsTo(linkOptions, {
+      source: d => isObject(d),
             target: d => isObject(d),
             distance: d => isNumber(d),
             meta: d => isObject(d)

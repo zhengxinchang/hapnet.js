@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import store from './store'
+import store from '../../store'
 import {isPlainObject, isFunction, isArray, isString} from 'lodash-es'
 import {NodePanelUnitSub} from './drawUINodePanelUnitSub'
 
