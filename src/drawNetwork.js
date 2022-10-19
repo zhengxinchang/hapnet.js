@@ -29,6 +29,8 @@ import store from './store'
 import {UINodeColorLegend} from "./drawUINodeColorLegend";
 import {UINodeColorLegendUnit} from './drawUINodeColorLegendUnit'
 import {UINodePanel} from './drawUINodePanel'
+import {UINodePanelUnit} from "./drawUINodePanelUnit";
+import {NodePanelUnitSub} from "./drawUINodePanelUnitSub";
 
 /**
  * class to draw Netowrk
@@ -136,6 +138,11 @@ class Network {
         } else if (hit instanceof UINodeColorLegend || hit instanceof UINodeColorLegendUnit) {
           const deltaFixed = e.deltaY < 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.scroll(deltaFixed);
+        } else if (hit instanceof UINodePanel || hit instanceof UINodePanelUnit || hit instanceof NodePanelUnitSub) {
+          // alert("aa")
+          const deltaFixed = e.deltaY < 0 ? 1 : -1;
+          store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel.scroll(deltaFixed);
+
         }
 
       }

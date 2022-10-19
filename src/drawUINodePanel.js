@@ -46,8 +46,8 @@ class UINodePanel extends PIXI.Container {
     this.boundMask = this.addChild(new PIXI.Graphics());
     this.content = this.addChild(new PIXI.Container()); // Container of color codes.
     this.chartTitle = new PIXI.Text();
-    this.chartLegendContainer = this.content.addChild(new PIXI.Container());
-    this.chartLegendContainer.sortableChildren = true;
+    // this.chartLegendContainer = this.content.addChild(new PIXI.Container());
+    // this.chartLegendContainer.sortableChildren = true;
     this.content.x = 10;
     this.content.y = 10;
     this.sortableChildren = true;
@@ -67,6 +67,28 @@ class UINodePanel extends PIXI.Container {
     this.paddingTop = this.toolTipHeight * 0.02;
     this.x = 1;
     this.y = store.runtimeGlobal.initOption.height * 0.41;
+  }
+
+
+  scroll(deltaFixed) {
+
+
+    const scrollContentDelta = this.height * deltaFixed / 20;
+    const nextYPosition = this.content.y + scrollContentDelta;
+
+    this.content.y = nextYPosition
+
+    // if (nextYPosition > 0) {
+    //   if (Math.abs(nextYPosition - this.paddingTop) < 0.01) {
+    //     this.content.y = this.paddingTop
+    //   }
+    // } else {
+    //   /*
+    //       TODO:
+    //       set bottom border detection.
+    //   */
+    //   this.content.y = nextYPosition
+    // }
   }
 
   setAndShow(node) {
@@ -131,11 +153,11 @@ class UINodePanel extends PIXI.Container {
     /* set mask */
 
     this.boundMask.beginFill(0xff19ff, 1)
-      .moveTo(this.paddingLeft, this.content.width)
-      .lineTo(this.toolTipWidth - this.paddingLeft, this.chartTitleHeight)
+      .moveTo(this.paddingLeft, this.chartTitle.height * 2)
+      .lineTo(this.toolTipWidth - this.paddingLeft, this.chartTitle.height * 2)
       .lineTo(this.toolTipWidth - this.paddingLeft, this.toolTipHeight - this.paddingTop)
       .lineTo(0, this.toolTipHeight - this.paddingTop)
-      .lineTo(0, this.chartTitleHeight)
+      .lineTo(0, this.chartTitle.height * 1.5)
       .endFill();
     this.content.mask = this.boundMask;
   }

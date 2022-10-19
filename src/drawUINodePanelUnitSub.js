@@ -57,8 +57,7 @@ class NodePanelUnitSub extends PIXI.Container {
 
     if (this.dataType == "string") {
 
-
-      this.chartText.text = this.subUnitData + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+      this.chartText.text = this.subUnitData;
       this.chartText.style = new PIXI.TextStyle({
         fill: 0x000000,
         fontSize: this.toolTipFontSize,
@@ -69,7 +68,20 @@ class NodePanelUnitSub extends PIXI.Container {
       });
 
     } else if (this.dataType == "object") {
+      let conentText = "";
+      // console.log(this.subUnitData)
+      for (const [k, v] of Object.entries(this.subUnitData)) {
+        conentText += `${k}: ${v}\n`
+      }
+      this.chartText.text = conentText;
+      this.chartText.style = new PIXI.TextStyle({
+        fill: 0x000000,
+        fontSize: this.toolTipFontSize,
+        breakWords: true,
+        wordWrap: true,
+        wordWrapWidth: this.contentWidth * 0.95,
 
+      });
     }
 
 

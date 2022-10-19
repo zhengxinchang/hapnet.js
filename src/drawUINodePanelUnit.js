@@ -119,6 +119,11 @@ class UINodePanelUnit extends PIXI.Container {
 
     if (isPlainObject(this.data)) {
       console.log(`object detected ${this.dataName} for ${this.nodeName}`)
+
+      let offSet = 0;
+      let oneNodePanelUnitSub = new NodePanelUnitSub(this.data, "object", offSet)
+      this.content.addChild(oneNodePanelUnitSub);
+
     } else if (isArray(this.data)) {
       if (isPlainObject(this.data[0])) {
         console.log(`arrayObject detected ${this.dataName} for ${this.nodeName}`)
@@ -132,6 +137,15 @@ class UINodePanelUnit extends PIXI.Container {
                        }
                     ],
         */
+
+        let offSet = 0;
+        for (const onedata of this.data) {
+          let oneNodePanelUnitSub = new NodePanelUnitSub(onedata, "object", offSet)
+          offSet = oneNodePanelUnitSub.getNewOffset();
+          this.content.addChild(oneNodePanelUnitSub);
+
+        }
+
 
       } else if (isString(this.data[0])) {
         console.log(`ArrayString detected ${this.dataName} for ${this.nodeName}`)
@@ -179,7 +193,7 @@ class UINodePanelUnit extends PIXI.Container {
   }
 
   getNewOffset() {
-    return this.offset + this.height;
+    return this.offset + this.height + 10;
   }
 }
 
