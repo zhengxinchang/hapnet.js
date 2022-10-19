@@ -24,7 +24,7 @@ SOFTWARE.
 
 import * as PIXI from 'pixi.js'
 import store from '../../store'
-import {UINodePanelUnit} from "./drawUINodePanelUnit";
+import {UINodePanelUnit} from "./UINodePanelUnit";
 
 /**
  * class to draw panel data from nodes -> one node -> meta -> panel.
@@ -46,8 +46,6 @@ class UINodePanel extends PIXI.Container {
     this.boundMask = this.addChild(new PIXI.Graphics());
     this.content = this.addChild(new PIXI.Container()); // Container of color codes.
     this.chartTitle = new PIXI.Text();
-    // this.chartLegendContainer = this.content.addChild(new PIXI.Container());
-    // this.chartLegendContainer.sortableChildren = true;
     this.content.x = 10;
     this.content.y = 10;
     this.sortableChildren = true;
@@ -55,7 +53,6 @@ class UINodePanel extends PIXI.Container {
     /* init drawing parameters */
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
     this.toolTipWidth = store.runtimeGlobal.initOption.width * 0.2;
-    // debugger;
     this.toolTipHeight = store.runtimeGlobal.initOption.height * 0.55;
     this.toolTipFontSize = store.runtimeGlobal.plotOption.nodeMetaPanel.fontSize;
     this.toolTipBackGroundColor = store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor;
@@ -71,24 +68,15 @@ class UINodePanel extends PIXI.Container {
 
 
   scroll(deltaFixed) {
-
-
     const scrollContentDelta = this.height * deltaFixed / 20;
     const nextYPosition = this.content.y + scrollContentDelta;
 
     this.content.y = nextYPosition
 
-    // if (nextYPosition > 0) {
-    //   if (Math.abs(nextYPosition - this.paddingTop) < 0.01) {
-    //     this.content.y = this.paddingTop
-    //   }
-    // } else {
-    //   /*
-    //       TODO:
-    //       set bottom border detection.
-    //   */
-    //   this.content.y = nextYPosition
-    // }
+    /*
+     TODO:
+     set bottom border detection.
+    */
   }
 
   setAndShow(node) {
@@ -97,12 +85,10 @@ class UINodePanel extends PIXI.Container {
     *  */
     this.content.removeChildren();
 
-
     this.chartBackGround.x = 0;
     this.chartBackGround.y = 0;
     this.chartBackGround.visible = true;
     this.zIndex = 2;
-
 
     /* the position of this.chartBackGround is based on parent container. */
     this.chartBackGround
@@ -115,7 +101,6 @@ class UINodePanel extends PIXI.Container {
       .lineTo(0, 0)
       .endFill();
 
-
     this.chartTitle.text = `Metadata of ${node.id}`
     this.chartTitle.style = new PIXI.TextStyle({
       fill: 0x000000,
@@ -123,7 +108,6 @@ class UINodePanel extends PIXI.Container {
       breakWords: true,
       wordWrap: true,
       wordWrapWidth: this.toolTipWidth * 0.95,
-
     });
     this.chartTitle.x = this.paddingLeft;
     this.chartTitle.y = this.paddingTop;
@@ -131,27 +115,20 @@ class UINodePanel extends PIXI.Container {
     /* finally, the title of panel is added in this.content*/
     this.addChild(this.chartTitle);
 
-    console.log(node.meta.panel)
-
+    /* setup the y of container for NodeBlocks*/
     this.content.y = this.chartTitle.height * 1.5 + this.paddingTop;
-    /*the offset indicate the offset y value for the current unit and this value will be passed to next unit, thus the next unit will start with offset y vlaue.*/
-    let offset = 0;
 
     /* Iteratively draw unit */
+    /*the offset indicate the offset y value for the current unit and this value will be passed to next unit, thus the next unit will start with offset y vlaue.*/
+    let offset = 0;
     for (const [onePanelMetaKey, onePanelMetaValue] of Object.entries(node.meta.panel)) {
-
-      console.log(this)
-
       /* UINodePanelUnit is the unit for one entry in the meta -> panel */
       let onePanelUnit = this.content.addChild(new UINodePanelUnit(onePanelMetaValue, onePanelMetaKey, node.id, offset, this.toolTipWidth * 0.95));
-
-      console.log(offset)
       onePanelUnit.draw();
       offset = onePanelUnit.getNewOffset();
     }
 
     /* set mask */
-
     this.boundMask.beginFill(0xff19ff, 1)
       .moveTo(this.paddingLeft, this.chartTitle.height * 2)
       .lineTo(this.toolTipWidth - this.paddingLeft, this.chartTitle.height * 2)

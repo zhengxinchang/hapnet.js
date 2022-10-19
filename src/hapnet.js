@@ -24,16 +24,16 @@ SOFTWARE.
 
 import chroma from "chroma-js";
 import {
-    cloneDeep,
-    defaultsDeep,
-    isArray,
-    isNumber
+  cloneDeep,
+  defaultsDeep,
+  isArray,
+  isNumber
 } from "lodash-es";
-import { Network } from "./drawNetwork";
+import {Network} from "./Network";
 import {
-    defaultInitOption,
-    defaultPlotOption,
-    predefinedPalettesList
+  defaultInitOption,
+  defaultPlotOption,
+  predefinedPalettesList
 } from './constant'
 import { 
     calculateCoarseGraph, 
@@ -203,7 +203,7 @@ class HapNet {
         }
 
         Network.create(); // Will read store.runtimeGlobal
-        // network.drawBackground();
+      // networkElements.drawBackground();
         calculateCoarseGraph(store.runtimeGlobal.plotOption);
         calculateFullGraph(store.runtimeGlobal.plotOption);
         Network.init();

@@ -22,15 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import {LINK, SINGLEPIE} from "./views/network/drawElement";
+import {LINK, SINGLEPIE} from "./views/networkElements/Element";
 import * as PIXI from 'pixi.js';
-import {UIToolTipNode} from './views/ui/drawUIToolTipNode'
+import {UIToolTipNode} from './views/ui/UIToolTipNode'
 import store from './store'
-import {UINodeColorLegend} from "./views/ui/drawUINodeColorLegend";
-import {UINodeColorLegendUnit} from './views/ui/drawUINodeColorLegendUnit'
-import {UINodePanel} from './views/ui/drawUINodePanel'
-import {UINodePanelUnit} from "./views/ui/drawUINodePanelUnit";
-import {NodePanelUnitSub} from "./views/ui/drawUINodePanelUnitSub";
+import {UINodeColorLegend} from "./views/ui/UINodeColorLegend";
+import {UINodeColorLegendUnit} from './views/ui/UINodeColorLegendUnit'
+import {UINodePanel} from './views/ui/UINodePanel'
+import {UINodePanelUnit} from "./views/ui/UINodePanelUnit";
+import {NodePanelUnitSub} from "./views/ui/UINodePanelUnitSub";
 
 /**
  * class to draw Netowrk
@@ -57,7 +57,7 @@ class Network {
       .appendChild(store.runtimeGlobal.pixiApp.app.view);
 
 
-    /* setup network container(layer) */
+    /* setup networkElements container(layer) */
     store.runtimeGlobal.pixiApp.networkContainer = store.runtimeGlobal.pixiApp.app.stage.addChild(new PIXI.Container())
     store.runtimeGlobal.pixiApp.networkContainer.interactive = true;
     store.runtimeGlobal.pixiApp.networkContainer.buttonMode = true;
