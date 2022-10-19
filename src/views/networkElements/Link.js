@@ -30,7 +30,7 @@ import store from '../../store'
 /**
  * Link object
  */
-class LINK extends PIXI.Container {
+class LINK extends PIXI.Graphics {
 
   constructor(linkOptions, linkStyles, drawCoarseGraph = false, debug = false) {
     super();
@@ -56,17 +56,17 @@ class LINK extends PIXI.Container {
     //
     this.name = [linkOptions.source.id, linkOptions.target.id].sort().join("_"); // set unique name for each link.
 
-    this.chart = this.addChild(new PIXI.Graphics());
-    this.chart.interactive = true;
-    this.chart.buttonMode = true;
+
+    this.interactive = true;
+    this.buttonMode = true;
 
     /* trigger tooltip when hover */
-    this.chart.on('mouseover', (event) => {
+    this.on('mouseover', (event) => {
 
       store.runtimeGlobal.mouseStatus.onLink = true;
       // console.log(store.runtimeGlobal.mouseStatus.onLink)
     });
-    this.chart.on('mouseout', (event) => {
+    this.on('mouseout', (event) => {
       store.runtimeGlobal.mouseStatus.onLink = false;
     });
 
@@ -81,14 +81,14 @@ class LINK extends PIXI.Container {
       heighLight: false
     }
     defaultsDeep(drawOptions, defaultDrawOptions);
-    this.chart.clear();
+    this.clear();
     if (drawOptions.heighLight == false) {
-      this.chart
+      this
         .lineStyle(this.linkStyles.linkWidth, this.linkStyles.linkColor, 1)
         .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
         .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
     } else {
-      this.chart
+      this
         .lineStyle(this.linkStyles.linkWidth * 2, store.runtimeGlobal.plotOption.style.highlightColor, 1)
         .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
         .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
@@ -103,7 +103,7 @@ class LINK extends PIXI.Container {
       this.linkOptions.target.y,
       this.linkStyles.linkWidth
     )
-    this.chart.hitArea = new PIXI.Polygon(hitPath)
+    this.hitArea = new PIXI.Polygon(hitPath)
   }
 }
 
