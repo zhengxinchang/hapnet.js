@@ -25,7 +25,7 @@ SOFTWARE.
 import * as PIXI from 'pixi.js'
 import store from '../../store'
 import {isPlainObject, isFunction, isArray, isString} from 'lodash-es'
-import {NodePanelUnitSub} from './drawUINodePanelUnitSub'
+import {NodePanelUnitSub} from './UINodePanelUnitSub'
 
 /**
  * Class to draw unit block to show data in the nodes -> one node -> meta -> panel

@@ -24,7 +24,7 @@ SOFTWARE.
 
 import * as PIXI from 'pixi.js'
 import store from '../../store'
-import {UINodeColorLegendUnit} from './drawUINodeColorLegendUnit'
+import {UINodeColorLegendUnit} from './UINodeColorLegendUnit'
 
 /**
  * Class to draw color legend ui to show data in the nodes -> one node -> meta -> panel
