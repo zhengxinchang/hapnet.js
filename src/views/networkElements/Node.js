@@ -73,10 +73,10 @@ class SINGLEPIE extends PIXI.Container {
 
       /* trigger tooltip when hover */
       this.on('mouseover', (event) => {
-        this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
-        console.log(this.nodeOptions)
-        console.log(event)
-        console.log(store)
+        // this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
+        // console.log(this.nodeOptions)
+        // console.log(event)
+        // console.log(store)
         const globalPost = this.toGlobal({x: 0, y: 0})
         const zoomPosX = globalPost.x;
         const zoomPosY = globalPost.y;
@@ -85,8 +85,8 @@ class SINGLEPIE extends PIXI.Container {
         console.log(this.toGlobal(this.position))
 
         console.log(`zoomPosX${zoomPosX},zoomPosY${zoomPosY}`)
-        this.toolTip.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
-        this.toolTip.visible = true;
+        store.runtimeGlobal.pixiApp.hapnetToolTip.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
+        store.runtimeGlobal.pixiApp.hapnetToolTip.visible = true;
         store.runtimeGlobal.mouseStatus.onNode = true;
 
         /* show the color legend when hover one node */
@@ -97,7 +97,7 @@ class SINGLEPIE extends PIXI.Container {
       });
       this.on('mouseout', (event) => {
         store.runtimeGlobal.mouseStatus.onNode = false;
-        this.toolTip.visible = false;
+        // store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
       });
 
     }
