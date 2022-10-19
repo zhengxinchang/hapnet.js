@@ -39,8 +39,8 @@ SOFTWARE.
  */
 function calLineHitArea(sourcex, sourcey, targetx, targety, lineWidth) {
 
-    const lineLen = Math.sqrt((sourcex - targetx) * (sourcex - targetx), (sourcey - targety) * (sourcey - targety));
-    const halfLineWdith = lineWidth / 2;
+    const lineLen = Math.sqrt((sourcex - targetx) * (sourcex - targetx) + (sourcey - targety) * (sourcey - targety));
+  const halfLineWdith = lineWidth / 2;
     const sinTheta = Math.abs(sourcey - targety) / lineLen;
     const cosTheta = Math.abs(sourcex - targetx) / lineLen;
     const pointAx = sourcex - halfLineWdith * sinTheta;
