@@ -1,5 +1,3 @@
-
-
 const preDefinedPalettesList = {
     npg: [
         "#E64B35FF", "#4DBBD5FF", "#00A087FF", "#3C5488FF", "#F39B7FFF", "#8491B4FF", "#91D1C2FF", "#DC0000FF", "#7E6148FF", "#B09C85FF"
@@ -24,12 +22,10 @@ const preDefinedPalettesList = {
 
 const defaultOptions = {
     el: null,
-    nodes: [
-    ],
-    links: [
-    ],
-    radiusMax:5500,
-    radiusMin:250,
+    nodes: [],
+    links: [],
+    radiusMax: 5500,
+    radiusMin: 250,
     width: window.innerWidth,
     height: window.innerHeight,
     debug: false,
@@ -39,12 +35,12 @@ const defaultOptions = {
     zoom: 1,
     toolTip: {
         show: true,
-        fontSize:10,
-        backgroundColor:"#FFFFFF",
-        borderColor:"#616161",
+        fontSize: 10,
+        backgroundColor: "#FFFFFF",
+        borderColor: "#616161",
         borderWidth: 10,
-        width:window.innerWidth*0.2,
-        height:window.innerHeight*0.5,
+        width: window.innerWidth * 0.2,
+        height: window.innerHeight * 0.5,
         formatter: function (meta) {
             return null
         },
@@ -59,16 +55,16 @@ const defaultOptions = {
         forceLinkDistance: 5,
         forceLinkStrength: 2,
     },
-    fullGraph:{
-        tickIteration:150,
+    fullGraph: {
+        tickIteration: 150,
         collideIteration: 2,
         forceLinkDistance: 1,
         forceLinkStrength: 1,
         eachNodePadding: 100,
         chargeStrength: 800000,
-        chargeTheta:0.99,
+        chargeTheta: 0.99,
     },
-    
+
     style: {
         linkWidth: 40,
         linkColor: "#FFFFFF", //white
@@ -85,12 +81,12 @@ const defaultOptions = {
  * Copy of global options
  */
 let hapnetConfig = {
-    options:{},
-    highlightedObjList:{
-        nodes:[],
-        links:[],
+    options: {},
+    highlightedObjList: {
+        nodes: [],
+        links: [],
     },
-    nodeFirstLevel:{
+    nodeFirstLevel: {
         /**
          * nodeID:[
          *      {
@@ -101,28 +97,32 @@ let hapnetConfig = {
          *
          */
     },
-    plotBorders : {
-        x:{
-            max:0,
-            min:0,
+    plotBorders: {
+        x: {
+            max: 0,
+            min: 0,
         },
-        y:{
-            max:0,
-            min:0,
+        y: {
+            max: 0,
+            min: 0,
         }
     },
-    initScale:1,
-    zoomScale:{
-        x:1,
-        y:1,
+    initScale: 1,
+    zoomScale: {
+        x: 1,
+        y: 1,
     },
-    initStageHeight:null,
-    initStageWidth:null,
-    currentStageWidth:null,
-    currentStageHeight:null,
-}; 
+    initStageHeight: null,
+    initStageWidth: null,
+    currentStageWidth: null,
+    currentStageHeight: null,
+};
 
 
 
 
-export {hapnetConfig,preDefinedPalettesList,defaultOptions}
+export {
+    hapnetConfig,
+    preDefinedPalettesList,
+    defaultOptions
+}
