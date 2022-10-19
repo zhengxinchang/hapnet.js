@@ -60,6 +60,8 @@ class SINGLEPIE extends PIXI.Container {
       console.error("can not draw haplotype!")
     }
 
+    this.x = this.nodeOptions.x;
+    this.y = this.nodeOptions.y;
 
     this.name = this.nodeOptions.id; // set unique name for each node.
     if (this.nodeOptions != null) {
@@ -72,7 +74,18 @@ class SINGLEPIE extends PIXI.Container {
       /* trigger tooltip when hover */
       this.on('mouseover', (event) => {
         this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
-        this.toolTip.setAndShow(this.nodeOptions, event.data.global.x, event.data.global.y);
+        console.log(this.nodeOptions)
+        console.log(event)
+        console.log(store)
+        const globalPost = this.toGlobal({x: 0, y: 0})
+        const zoomPosX = globalPost.x;
+        const zoomPosY = globalPost.y;
+        console.log(this.localTransform)
+        console.log(this.position)
+        console.log(this.toGlobal(this.position))
+
+        console.log(`zoomPosX${zoomPosX},zoomPosY${zoomPosY}`)
+        this.toolTip.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
         this.toolTip.visible = true;
         store.runtimeGlobal.mouseStatus.onNode = true;
 
@@ -111,8 +124,8 @@ class SINGLEPIE extends PIXI.Container {
     let endAngle = 360 * percent + startAngle;
 
     let center = {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: 0,
+      y: 0
     }
 
     const radius = this.nodeOptions.radius;
@@ -176,8 +189,8 @@ class SINGLEPIE extends PIXI.Container {
     let endAngle = 360 * percent + startAngle;
 
     let center = {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: 0,
+      y: 0
     }
 
     const radius = this.nodeOptions.radius;

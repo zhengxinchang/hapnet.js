@@ -52,14 +52,18 @@ export default {
       }
     },
     initScale: 1,
-    zoomScale: {
-      x: 1,
-      y: 1,
-    },
+    // zoomScale: {
+    //   x: 1,
+    //   y: 1,
+    // },
     initStageHeight: null,
     initStageWidth: null,
     currentStageWidth: null,
     currentStageHeight: null,
+    currentZoomScale: {
+      x: 1,
+      y: 1,
+    },
     mouseStatus: {
       onNode: false,
       onLink: false,
