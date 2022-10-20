@@ -73,20 +73,12 @@ class SINGLEPIE extends PIXI.Container {
 
       /* trigger tooltip when hover */
       this.on('mouseover', (event) => {
-        // this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
-        // console.log(this.nodeOptions)
-        // console.log(event)
-        // console.log(store)
         const globalPost = this.toGlobal({x: 0, y: 0})
         const zoomPosX = globalPost.x;
         const zoomPosY = globalPost.y;
-        console.log(this.localTransform)
-        console.log(this.position)
-        console.log(this.toGlobal(this.position))
-
-        console.log(`zoomPosX${zoomPosX},zoomPosY${zoomPosY}`)
-        store.runtimeGlobal.pixiApp.hapnetToolTip.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
-        store.runtimeGlobal.pixiApp.hapnetToolTip.visible = true;
+        store.runtimeGlobal.pixiApp.hapnetToolTipNode.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
+        store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = true;
+        store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = false;
         store.runtimeGlobal.mouseStatus.onNode = true;
 
         /* show the color legend when hover one node */
@@ -103,7 +95,6 @@ class SINGLEPIE extends PIXI.Container {
     }
     this._calculatePercent();
   }
-
   _calculatePercent() {
 
     this.total = 0;
@@ -114,11 +105,9 @@ class SINGLEPIE extends PIXI.Container {
     });
 
   }
-
   _angle2radian(angle) {
     return (angle - 90) * PIXI.DEG_TO_RAD;
   }
-
   _drawOneSector(startAngle, percent, color) {
 
     let endAngle = 360 * percent + startAngle;
@@ -148,8 +137,6 @@ class SINGLEPIE extends PIXI.Container {
 
     return endAngle;
   }
-
-
   _drawPie() {
 
     this.startAngle = 0;
@@ -173,7 +160,6 @@ class SINGLEPIE extends PIXI.Container {
       y: this.y
     }
   }
-
   _drawCircle() {
 
 
@@ -183,8 +169,6 @@ class SINGLEPIE extends PIXI.Container {
       .endFill();
 
   }
-
-
   _drawHeighLightOneSector(startAngle, percent, color) {
 
     let endAngle = 360 * percent + startAngle;
@@ -214,8 +198,6 @@ class SINGLEPIE extends PIXI.Container {
       .endFill();
     return endAngle;
   }
-
-
   _drawHeightLightPie() {
 
     this.startAngle = 0;
@@ -241,8 +223,6 @@ class SINGLEPIE extends PIXI.Container {
       y: this.y
     }
   }
-
-
   _drawHeighLightCircle() {
 
     this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
@@ -250,7 +230,6 @@ class SINGLEPIE extends PIXI.Container {
       .drawCircle(0, 0, this.nodeOptions.radius)
       .endFill();
   }
-
   draw(drawOptions) {
 
     if (drawOptions === undefined) {
@@ -303,7 +282,6 @@ class SINGLEPIE extends PIXI.Container {
       }
     }
   }
-
 }
 
 export {SINGLEPIE}

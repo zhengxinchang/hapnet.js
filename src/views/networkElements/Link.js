@@ -55,16 +55,33 @@ class LINK extends PIXI.Graphics {
 
     //
     this.name = [linkOptions.source.id, linkOptions.target.id].sort().join("_"); // set unique name for each link.
-
-
+    // this.id = [linkOptions.source.id, linkOptions.target.id].sort().join("_");
     this.interactive = true;
     this.buttonMode = true;
+
+    /*
+     * calculate hit area of the link and register it
+     */
+    this.hitArea = new PIXI.Polygon(calLineHitArea(
+      this.linkOptions.source.x,
+      this.linkOptions.source.y,
+      this.linkOptions.target.x,
+      this.linkOptions.target.y,
+      this.linkStyles.linkWidth
+    ));
 
     /* trigger tooltip when hover */
     this.on('mouseover', (event) => {
 
+      console.log(event.data)
+      console.log(this)
       store.runtimeGlobal.mouseStatus.onLink = true;
+      store.runtimeGlobal.pixiApp.hapnetToolTipLink.setAndShow(this.linkOptions, event.data.global.x, event.data.global.y);
+      store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = true;
+      /*turn off tooltip node*/
+      store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = false;
       // console.log(store.runtimeGlobal.mouseStatus.onLink)
+      // alert("link hover")
     });
     this.on('mouseout', (event) => {
       store.runtimeGlobal.mouseStatus.onLink = false;
@@ -93,17 +110,7 @@ class LINK extends PIXI.Graphics {
         .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
         .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
     }
-    /*
-     * calculate hit area of the link
-     */
-    const hitPath = calLineHitArea(
-      this.linkOptions.source.x,
-      this.linkOptions.source.y,
-      this.linkOptions.target.x,
-      this.linkOptions.target.y,
-      this.linkStyles.linkWidth
-    )
-    this.hitArea = new PIXI.Polygon(hitPath)
+
   }
 }
 

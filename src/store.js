@@ -32,7 +32,8 @@ export default {
       networkContainer: null,
       ui: null,
       canvas: null,
-      hapnetToolTip: null,
+      hapnetToolTipNode: null,
+      hapnetToolTipLink: null,
       hapnetNodeColorLegend: null,
       hapnetNodeMetadatPanel: null,
     },
@@ -52,10 +53,6 @@ export default {
       }
     },
     initScale: 1,
-    // zoomScale: {
-    //   x: 1,
-    //   y: 1,
-    // },
     initStageHeight: null,
     initStageWidth: null,
     currentStageWidth: null,
@@ -67,7 +64,8 @@ export default {
     mouseStatus: {
       onNode: false,
       onLink: false,
-      onToolTip: false,
+      onToolTipNode: false,
+      onToolTipLink: false,
       onPanel: false,
       onNetworkContainer: false,
       onUI: false,

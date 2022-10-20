@@ -25,34 +25,23 @@ import * as PIXI from 'pixi.js'
 import store from '../../store'
 import {capitalize} from "lodash-es";
 
-/**
- * Class of tooltip to show data in  the nodes -> one node -> meta -> hover
- */
-class UIToolTipNode extends PIXI.Container {
+class UIToolTipLink extends PIXI.Container {
 
-  /**
-   * @constructor
-   */
   constructor() {
     super();
-    // this.name = "hapnet_menu";
-    //sub objects must be initialized in the constructor(), otherwise, accidents will occur!
     this.chartBackGround = this.addChild(new PIXI.Graphics())
     this.chartText = this.addChild(new PIXI.Text());
     this.boundMask = this.addChild(new PIXI.Graphics());
-
     /* turn on the interactive mode */
     this.interactive = true;
     this.buttonMode = true;
-
     /* set mouse status */
     this.on('mouseover', (event) => {
-      store.runtimeGlobal.mouseStatus.onToolTipNode = true;
+      store.runtimeGlobal.mouseStatus.onToolTipLink = true;
     });
     this.on('mouseout', (event) => {
-      store.runtimeGlobal.mouseStatus.onToolTipNode = false;
+      store.runtimeGlobal.mouseStatus.onToolTipLink = false;
     });
-
     /* init parameters */
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
     this.toolTipWidth = store.runtimeGlobal.initOption.width * 0.15
@@ -63,13 +52,10 @@ class UIToolTipNode extends PIXI.Container {
     /* init padding of text on the left and top */
     this.paddingLeft = this.toolTipWidth * 0.02;
     this.paddingTop = this.toolTipHeight * 0.02;
-
   }
 
   clear() {
-
     console.log('toolTip code cleaning....')
-
   }
 
   scroll(deltaFixed) {
@@ -87,15 +73,17 @@ class UIToolTipNode extends PIXI.Container {
       this.chartText.y = nextYPosition
     }
   }
-  setAndShow(node, posX, posY) {
-    /* offset one px as padding */
+
+  setAndShow(link, posX, posY) {
     this.x = posX + 1;
     this.y = posY + 1;
     // this.chartBackGround.x = 0;
     // this.chartBackGround.y = 0;
-    // this.chartBackGround.visible = true;
-    // this.chartBackGround.interactive = true;
-    // this.zIndex = 2;
+    this.chartText.x = this.paddingLeft;
+    this.chartText.y = this.paddingTop;
+    this.chartText.resolution = 2;
+    this.chartText.zIndex = 4;
+
     const style = new PIXI.TextStyle({
       fill: store.runtimeGlobal.plotOption.toolTip.fontColor,
       fontSize: this.toolTipFontSize,
@@ -104,30 +92,15 @@ class UIToolTipNode extends PIXI.Container {
       wordWrapWidth: this.toolTipWidth * 0.95,
       // width:toolTipWidth ,
     });
-    // let textMetricsMeasure = PIXI.TextMetrics.measureText('hello woo000000000000000000000000000000oorld', style)
-    this.chartText.x = this.paddingLeft;
-    this.chartText.y = this.paddingTop;
-    this.chartText.resolution = 2;
-    this.chartText.zIndex = 4;
-    this.chartText.style = style
-
-    let toolTipText = `Haplotype : ${node.id}\n\nSize: ${node.size}\n\n`
-    Object.keys(node.meta.hover).forEach(d => {
-      toolTipText += `${capitalize(d)}: ${node.meta.hover[d]}\n\n`
+    this.chartText.style = style;
+    let toolTipText = `Link: ${link.source.id} -> ${link.target.id} \n\nDistance: ${link.distance}\n\n`
+    console.log(link)
+    console.log(link.meta.hover)
+    Object.keys(link.meta.hover).forEach(d => {
+      toolTipText += `${capitalize(d)}: ${link.meta.hover[d]}\n\n`
     })
-
-    // console.log(toolTipText)
-    // console.log(node)
     this.chartText.text = toolTipText;
-    // this.chartText.width = toolTipWidth *0.95
-    // this.chartText.visible = true;
-
-    this.textMetricsMeasure = PIXI.TextMetrics.measureText(toolTipText, style)
-
-
     const minHeight = Math.min(this.toolTipHeight, this.chartText.height)
-    // const minHeight = 100
-
     /* the position of this.chartBackGround is based on parent container. */
     this.chartBackGround
       .beginFill(this.toolTipBackGroundColor, 1)
@@ -138,9 +111,6 @@ class UIToolTipNode extends PIXI.Container {
       .lineTo(0, minHeight)
       .lineTo(0, 0)
       .endFill();
-
-    // console.log(textMetrics)
-    // Add the rectangular area to show
     this.boundMask.beginFill(0xff19ff, 1)
       .moveTo(0, 0)
       .lineTo(this.toolTipWidth, 0)
@@ -148,9 +118,8 @@ class UIToolTipNode extends PIXI.Container {
       .lineTo(0, minHeight)
       .lineTo(0, 0)
       .endFill();
-        this.mask = this.boundMask;
-    }
+    this.mask = this.boundMask;
+  }
 }
 
-
-export {UIToolTipNode}
+export {UIToolTipLink}
