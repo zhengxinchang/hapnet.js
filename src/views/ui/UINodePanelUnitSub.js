@@ -23,8 +23,7 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import store from './store'
-import {isPlainObject, isFunction, isArray, isString} from 'lodash-es'
+import store from '../../store'
 
 /**
  * class to draw sub-unit in one panel unit.
@@ -33,22 +32,15 @@ import {isPlainObject, isFunction, isArray, isString} from 'lodash-es'
 class NodePanelUnitSub extends PIXI.Container {
 
   constructor(subUnitData, dataType, offSet) {
-    // alert(offSet)
     super();
-    // console.log(contentWidth)
 
     this.subUnitData = subUnitData;
     this.dataType = dataType;
     this.offSet = offSet;
     this.contentWidth = store.runtimeGlobal.initOption.width * 0.2 * 0.95;
     this.chartText = this.addChild(new PIXI.Text());
-    // this.rawText =
-
     this.y = this.offSet;
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
-
-    // console.log(this)
-
     this.toolTipFontSize = store.runtimeGlobal.plotOption.nodeMetaPanel.fontSize;
     this.toolTipBackGroundColor = store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor;
     this.toolTipBorderColor = store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor;
@@ -57,8 +49,7 @@ class NodePanelUnitSub extends PIXI.Container {
 
     if (this.dataType == "string") {
 
-
-      this.chartText.text = this.subUnitData + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+      this.chartText.text = this.subUnitData;
       this.chartText.style = new PIXI.TextStyle({
         fill: 0x000000,
         fontSize: this.toolTipFontSize,
@@ -69,10 +60,19 @@ class NodePanelUnitSub extends PIXI.Container {
       });
 
     } else if (this.dataType == "object") {
-
+      let conentText = "";
+      for (const [k, v] of Object.entries(this.subUnitData)) {
+        conentText += `${k}: ${v}\n`
+      }
+      this.chartText.text = conentText;
+      this.chartText.style = new PIXI.TextStyle({
+        fill: 0x000000,
+        fontSize: this.toolTipFontSize,
+        breakWords: true,
+        wordWrap: true,
+        wordWrapWidth: this.contentWidth * 0.95,
+      });
     }
-
-
   }
 
   getNewOffset() {

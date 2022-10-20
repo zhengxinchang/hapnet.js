@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { SINGLEPIE } from "./drawNode";
-import {LINK} from './drawLink';
-export { SINGLEPIE, LINK }
+import {SINGLEPIE} from "./Node";
+import {LINK} from './Link';
+
+export {SINGLEPIE, LINK}

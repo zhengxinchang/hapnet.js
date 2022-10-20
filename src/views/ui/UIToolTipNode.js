@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 import * as PIXI from 'pixi.js'
-import store from './store'
+import store from '../../store'
 import {capitalize} from "lodash-es";
 
 /**
@@ -77,26 +77,12 @@ class UIToolTipNode extends PIXI.Container {
 
     const scrollContentDelta = this.toolTipHeight * deltaFixed / 30;
     const nextYPosition = this.chartText.y + scrollContentDelta;
-    const scrollContent = Math.max((this.textMetricsMeasure.lineHeight * this.textMetrics.lines.length), this.toolTipHeight)
-    // console.log(`
-    // this.chartText.y:${this.chartText.y},
-    // deltaFixed:${deltaFixed},
-    // this.textMetricsMeasure.height:${this.textMetricsMeasure.height},
-    // this.toolTipHeight ${this.toolTipHeight}
-    // nextYPosition ${nextYPosition}
-    // this.paddingTop ${this.paddingTop}
-    // scrollContent ${scrollContent}
-    // `)
-    // console.log(this.textMetricsMeasure)
-
-    /* use delta to compare two value */
 
     if (nextYPosition > 0) {
       if (Math.abs(nextYPosition - this.paddingTop) < 0.01) {
         this.chartText.y = this.paddingTop
       }
     } else {
-
       /*
           TODO:
           set bottom border detection.

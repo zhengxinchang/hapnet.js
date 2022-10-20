@@ -24,7 +24,7 @@ SOFTWARE.
 
 import * as PIXI from 'pixi.js'
 import {conformsTo, defaultsDeep, isArray, isBoolean, isNull, isNumber, isObject} from 'lodash-es';
-import store from './store'
+import store from '../../store'
 
 
 /**
@@ -60,6 +60,8 @@ class SINGLEPIE extends PIXI.Container {
       console.error("can not draw haplotype!")
     }
 
+    this.x = this.nodeOptions.x;
+    this.y = this.nodeOptions.y;
 
     this.name = this.nodeOptions.id; // set unique name for each node.
     if (this.nodeOptions != null) {
@@ -71,9 +73,20 @@ class SINGLEPIE extends PIXI.Container {
 
       /* trigger tooltip when hover */
       this.on('mouseover', (event) => {
-        this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
-        this.toolTip.setAndShow(this.nodeOptions, event.data.global.x, event.data.global.y);
-        this.toolTip.visible = true;
+        // this.toolTip = store.runtimeGlobal.pixiApp.hapnetToolTip;
+        // console.log(this.nodeOptions)
+        // console.log(event)
+        // console.log(store)
+        const globalPost = this.toGlobal({x: 0, y: 0})
+        const zoomPosX = globalPost.x;
+        const zoomPosY = globalPost.y;
+        console.log(this.localTransform)
+        console.log(this.position)
+        console.log(this.toGlobal(this.position))
+
+        console.log(`zoomPosX${zoomPosX},zoomPosY${zoomPosY}`)
+        store.runtimeGlobal.pixiApp.hapnetToolTip.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
+        store.runtimeGlobal.pixiApp.hapnetToolTip.visible = true;
         store.runtimeGlobal.mouseStatus.onNode = true;
 
         /* show the color legend when hover one node */
@@ -84,7 +97,7 @@ class SINGLEPIE extends PIXI.Container {
       });
       this.on('mouseout', (event) => {
         store.runtimeGlobal.mouseStatus.onNode = false;
-        this.toolTip.visible = false;
+        // store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
       });
 
     }
@@ -111,8 +124,8 @@ class SINGLEPIE extends PIXI.Container {
     let endAngle = 360 * percent + startAngle;
 
     let center = {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: 0,
+      y: 0
     }
 
     const radius = this.nodeOptions.radius;
@@ -146,18 +159,18 @@ class SINGLEPIE extends PIXI.Container {
 
     // console.log(this.total,this.sectorsWithPercent)
 
-    if (this.debug == true) {
-      const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
-      const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
-      this.chart.beginFill(0x000000, 0.1)
-        .lineStyle(4, 0xFFFFFF)
-        .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
-        .endFill();
-    }
+    // if (this.debug == true) {
+    //   const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
+    //   const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
+    //   this.chart.beginFill(0x000000, 0.1)
+    //     .lineStyle(4, 0xFFFFFF)
+    //     .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
+    //     .endFill();
+    // }
 
     return {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: this.x,
+      y: this.y
     }
   }
 
@@ -166,8 +179,9 @@ class SINGLEPIE extends PIXI.Container {
 
     this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
       .lineStyle(this.nodeStyles.lineWidth, this.nodeStyles.lineColor)
-      .drawCircle(this.nodeOptions.x, this.nodeOptions.y, this.nodeOptions.radius)
+      .drawCircle(0, 0, this.nodeOptions.radius)
       .endFill();
+
   }
 
 
@@ -176,8 +190,8 @@ class SINGLEPIE extends PIXI.Container {
     let endAngle = 360 * percent + startAngle;
 
     let center = {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: 0,
+      y: 0
     }
 
     const radius = this.nodeOptions.radius;
@@ -213,28 +227,27 @@ class SINGLEPIE extends PIXI.Container {
 
     // console.log(this.total,this.sectorsWithPercent)
 
-    if (this.debug == true) {
-      const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
-      const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
-      this.chart.beginFill(0x000000, 0.1)
-        .lineStyle(8, 0xFFFFFF)
-        .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
-        .endFill();
-    }
+    // if (this.debug == true) {
+    //   const thisPosX = this.nodeOptions.x < 0 ? -1 * this.width : this.width;
+    //   const thisPosY = this.nodeOptions.y < 0 ? -1 * this.height : this.height;
+    //   this.chart.beginFill(0x000000, 0.1)
+    //     .lineStyle(8, 0xFFFFFF)
+    //     .drawRect(this.x - this.nodeOptions.radius, this.y - this.nodeOptions.radius, thisPosX, thisPosY)
+    //     .endFill();
+    // }
 
     return {
-      x: this.nodeOptions.x,
-      y: this.nodeOptions.y
+      x: this.x,
+      y: this.y
     }
   }
 
 
   _drawHeighLightCircle() {
 
-
     this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
       .lineStyle(this.nodeOptions.radius * 0.05, store.runtimeGlobal.plotOption.style.highlightColor)
-      .drawCircle(this.nodeOptions.x, this.nodeOptions.y, this.nodeOptions.radius)
+      .drawCircle(0, 0, this.nodeOptions.radius)
       .endFill();
   }
 

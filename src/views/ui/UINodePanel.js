@@ -23,83 +23,68 @@ SOFTWARE.
 */
 
 import * as PIXI from 'pixi.js'
-import store from './store'
-import {UINodeColorLegendUnit} from './drawUINodeColorLegendUnit'
+import store from '../../store'
+import {UINodePanelUnit} from "./UINodePanelUnit";
 
 /**
- * Class to draw color legend ui to show data in the nodes -> one node -> meta -> panel
+ * class to draw panel data from nodes -> one node -> meta -> panel.
+ *  最外层的容器，内部this.content中应该包含子容器(drawUINodePanelUnit)，子容器中包含多个item项目(drawUINodePanelUnitSub)。
  */
-class UINodeColorLegend extends PIXI.Container {
+class UINodePanel extends PIXI.Container {
 
   /**
    * @constructor
    */
-  constructor() {
+  constructor(data) {
     super();
 
-    /* init UINodeColorLegend object*/
-    this.name = "hapnet_ui_color_legend";
+    // this.name =  "hapnet_ui_date_panel_node";
     this.interactive = true;
 
-    /* initialize objects */
+    /* init parameters*/
     this.chartBackGround = this.addChild(new PIXI.Graphics());
     this.boundMask = this.addChild(new PIXI.Graphics());
     this.content = this.addChild(new PIXI.Container()); // Container of color codes.
-    this.chartTitle = this.content.addChild(new PIXI.Text());
-    this.chartLegendContainer = this.content.addChild(new PIXI.Container());
-    this.chartLegendContainer.sortableChildren = true;
-    // this.chartLegendContainer.x = 10;
-    // this.chartLegendContainer.y = 10;
+    this.chartTitle = new PIXI.Text();
     this.content.x = 10;
     this.content.y = 10;
     this.sortableChildren = true;
 
-
     /* init drawing parameters */
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
-    this.toolTipWidth = store.runtimeGlobal.initOption.width * 0.2
-    this.toolTipHeight = store.runtimeGlobal.initOption.height * 0.4
-    this.toolTipFontSize = store.runtimeGlobal.plotOption.nodeColorLegend.fontSize;
-    this.toolTipBackGroundColor = store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor;
-    this.toolTipBorderColor = store.runtimeGlobal.plotOption.nodeColorLegend.borderColor;
+    this.toolTipWidth = store.runtimeGlobal.initOption.width * 0.2;
+    this.toolTipHeight = store.runtimeGlobal.initOption.height * 0.55;
+    this.toolTipFontSize = store.runtimeGlobal.plotOption.nodeMetaPanel.fontSize;
+    this.toolTipBackGroundColor = store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor;
+    this.toolTipBorderColor = store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor;
     this.chartTitleHeight = 40;
+
     /* init padding of text on the left and top */
     this.paddingLeft = this.toolTipWidth * 0.02;
     this.paddingTop = this.toolTipHeight * 0.02;
+    this.x = 1;
+    this.y = store.runtimeGlobal.initOption.height * 0.41;
   }
 
-  clear() {
-
-    console.log('toolTip code cleaning....')
-
-  }
 
   scroll(deltaFixed) {
+    const scrollContentDelta = this.height * deltaFixed / 20;
+    const nextYPosition = this.content.y + scrollContentDelta;
 
+    this.content.y = nextYPosition
 
-    const scrollContentDelta = this.toolTipHeight * deltaFixed / 30;
-    const nextYPosition = this.chartLegendContainer.y + scrollContentDelta;
-
-    this.chartLegendContainer.y = nextYPosition;
-
-    // if (nextYPosition > 0) {
-    //   if (Math.abs(nextYPosition - this.paddingTop) < 0.01) {
-    //     this.chartText.y = this.paddingTop
-    //   }
-    // } else {
-    //
-    //   /*
-    //       TODO:
-    //       set bottom border detection.
-    //   */
-    //   this.chartText.y = nextYPosition
-    // }
+    /*
+     TODO:
+     set bottom border detection.
+    */
   }
 
-
   setAndShow(node) {
-    this.x = 1;
-    this.y = 1;
+    /* remove all children from this.meta
+    *  the chartTitle are also be removed.
+    *  */
+    this.content.removeChildren();
+
     this.chartBackGround.x = 0;
     this.chartBackGround.y = 0;
     this.chartBackGround.visible = true;
@@ -116,37 +101,44 @@ class UINodeColorLegend extends PIXI.Container {
       .lineTo(0, 0)
       .endFill();
 
-    /* draw chartTitie*/
-    this.chartTitle.text = `Color code of ${node.id}`
-
+    this.chartTitle.text = `Metadata of ${node.id}`
     this.chartTitle.style = new PIXI.TextStyle({
       fill: 0x000000,
       fontSize: this.toolTipFontSize,
       breakWords: true,
       wordWrap: true,
       wordWrapWidth: this.toolTipWidth * 0.95,
-      // width:toolTipWidth ,
     });
+    this.chartTitle.x = this.paddingLeft;
+    this.chartTitle.y = this.paddingTop;
 
-    /* remove all children */
-    this.chartLegendContainer.y = this.chartTitleHeight;
-    this.chartLegendContainer.removeChildren();
+    /* finally, the title of panel is added in this.content*/
+    this.addChild(this.chartTitle);
 
-    node.sectors.forEach((sector, idx) => {
+    /* setup the y of container for NodeBlocks*/
+    this.content.y = this.chartTitle.height * 1.5 + this.paddingTop;
 
-      this.chartLegendContainer.addChild(new UINodeColorLegendUnit(sector, node.id, idx));
-    });
+    /* Iteratively draw unit */
+    /*the offset indicate the offset y value for the current unit and this value will be passed to next unit, thus the next unit will start with offset y vlaue.*/
+    let offset = 0;
+    for (const [onePanelMetaKey, onePanelMetaValue] of Object.entries(node.meta.panel)) {
+      /* UINodePanelUnit is the unit for one entry in the meta -> panel */
+      let onePanelUnit = this.content.addChild(new UINodePanelUnit(onePanelMetaValue, onePanelMetaKey, node.id, offset, this.toolTipWidth * 0.95));
+      onePanelUnit.draw();
+      offset = onePanelUnit.getNewOffset();
+    }
 
+    /* set mask */
     this.boundMask.beginFill(0xff19ff, 1)
-      .moveTo(0, this.chartTitleHeight)
-      .lineTo(this.toolTipWidth - this.paddingLeft, this.chartTitleHeight)
+      .moveTo(this.paddingLeft, this.chartTitle.height * 2)
+      .lineTo(this.toolTipWidth - this.paddingLeft, this.chartTitle.height * 2)
       .lineTo(this.toolTipWidth - this.paddingLeft, this.toolTipHeight - this.paddingTop)
       .lineTo(0, this.toolTipHeight - this.paddingTop)
-      .lineTo(0, this.chartTitleHeight)
+      .lineTo(0, this.chartTitle.height * 1.5)
       .endFill();
-    this.chartLegendContainer.mask = this.boundMask;
-
+    this.content.mask = this.boundMask;
   }
+
 }
 
-export {UINodeColorLegend}
+export {UINodePanel}
