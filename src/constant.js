@@ -77,6 +77,8 @@ const defaultPlotOption = {
   },
   radiusMax: 3500,
   radiusMin: 250,
+  distanceNormalizedMin: 0.1,
+  distanceNormalizedMax: 0.9,
   backgroundColor: '#e4e5ec',
   palette: "jco",
   paletteArray: null,
@@ -138,7 +140,7 @@ const defaultPlotOption = {
       lineWidth: 1,
       lineColor: "#FFFFFF"
     },
-    highlightColor: "#EE4C97"
+    highlightColor: "#f30606"
   }
 }
 

@@ -8,4 +8,4 @@
 6. [X] link hover
 7. [ ] documentation
 8. [ ] demo pages
-9. [ ] summarize of node information (panel in the top-right corner)
+9. [ ] summarize of node information (the panel in the top-right corner)
