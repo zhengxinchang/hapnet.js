@@ -11,14 +11,10 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
-// let dat = JSON.parse(httpGet("/A.2.mini.json"));
+let dat = JSON.parse(httpGet("/A.2.mini.json"));
 // let dat = JSON.parse(httpGet("/AY.3.mini.json")) ;
-let dat = JSON.parse(httpGet("/B.1.1.10.mini.json"));
+// let dat = JSON.parse(httpGet("/B.1.1.10.mini.json"));
 // let dat = JSON.parse(httpGet("/haplotype0508.mini.json")) ;
-// console.log(dat);
-// console.log(dat)
-
-// let nodes= 
 
 
 
@@ -44,17 +40,18 @@ const customOptions = {
             target: d.target,
             distance: d.distance,
             meta: function (d) {
-                let meta = {}
-                Object.keys(d).filter(x => {
-                    if (!["source", "target", "distance"].includes(x)) {
-                        return true
-                    } else {
-                      return false
-                    }
-                }).forEach(k => {
-                  meta[k] = d[k]
-                })
-              return meta
+              let meta = {}
+              Object.keys(d).filter(x => {
+                if (!["source", "target", "distance"].includes(x)) {
+                  return true
+                } else {
+                  return false
+                }
+              }).forEach(k => {
+                meta[k] = d[k]
+              })
+
+              return meta.meta
             }(d)
         }
     }),

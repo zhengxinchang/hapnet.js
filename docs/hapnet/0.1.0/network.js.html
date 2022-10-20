@@ -1,4 +1,28 @@
-/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: network.js</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: network.js</h1>
+
+
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
 MIT License
 
 Copyright (c) 2022 zhengxinchang
@@ -83,7 +107,7 @@ class Network {
     store.runtimeGlobal.pixiApp.app.renderer.backgroundColor = store.runtimeGlobal.plotOption.backgroundColor;
     /* define zoom function  */
     const zoom = (s, x, y) => {
-      s = s < 0 ? 1.1 : 0.9;
+      s = s &lt; 0 ? 1.1 : 0.9;
       let worldPos = {
         x: (x - store.runtimeGlobal.pixiApp.networkContainer.x) / store.runtimeGlobal.pixiApp.networkContainer.scale.x,
         y: (y - store.runtimeGlobal.pixiApp.networkContainer.y) / store.runtimeGlobal.pixiApp.networkContainer.scale.y
@@ -124,24 +148,24 @@ class Network {
         // console.log("mouse on ui detected...")
         // if (hit instanceof UIToolTipNode) {
         //   console.log("mouse on UIToolTipNode detected...")
-        //   const deltaFixed = e.deltaY < 0 ? 1 : -1; // s = s < 0 ? 1.1 : 0.9;
+        //   const deltaFixed = e.deltaY &lt; 0 ? 1 : -1; // s = s &lt; 0 ? 1.1 : 0.9;
         //   hit.scroll(deltaFixed);
         // } else
         /* hitTest 检测不到toolTip的对象，而是可以检测到下层的PIE或者LINK，这是有问题的，还好可以在toolTip对象内部检测到是否有mouseover的状态*/
         if (store.runtimeGlobal.mouseStatus.onToolTipNode == true) {
-          const deltaFixed = e.deltaY < 0 ? 1 : -1; // s = s < 0 ? 1.1 : 0.9;
+          const deltaFixed = e.deltaY &lt; 0 ? 1 : -1; // s = s &lt; 0 ? 1.1 : 0.9;
           store.runtimeGlobal.pixiApp.hapnetToolTipNode.scroll(deltaFixed);
         }
         if (store.runtimeGlobal.mouseStatus.onToolTipLink == true) {
-          const deltaFixed = e.deltaY < 0 ? 1 : -1;
+          const deltaFixed = e.deltaY &lt; 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetToolTipLink.scroll(deltaFixed);
         }
 
         if (hit instanceof UINodeColorLegend || hit instanceof UINodeColorLegendUnit) {
-          const deltaFixed = e.deltaY < 0 ? 1 : -1;
+          const deltaFixed = e.deltaY &lt; 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.scroll(deltaFixed);
         } else if (hit instanceof UINodePanel || hit instanceof UINodePanelUnit || hit instanceof NodePanelUnitSub) {
-          const deltaFixed = e.deltaY < 0 ? 1 : -1;
+          const deltaFixed = e.deltaY &lt; 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel.scroll(deltaFixed);
         }
       }
@@ -191,9 +215,9 @@ class Network {
     store.runtimeGlobal.plotOption.nodes.forEach(node => {
       // console.log(store.runtimeGlobal.plotBorders.x.max)
       // console.log(node)
-      if (store.runtimeGlobal.plotBorders.x.max < node.x) store.runtimeGlobal.plotBorders.x.max = node.x;
+      if (store.runtimeGlobal.plotBorders.x.max &lt; node.x) store.runtimeGlobal.plotBorders.x.max = node.x;
       if (store.runtimeGlobal.plotBorders.x.min > node.x) store.runtimeGlobal.plotBorders.x.min = node.x;
-      if (store.runtimeGlobal.plotBorders.y.max < node.y) store.runtimeGlobal.plotBorders.y.max = node.y;
+      if (store.runtimeGlobal.plotBorders.y.max &lt; node.y) store.runtimeGlobal.plotBorders.y.max = node.y;
       if (store.runtimeGlobal.plotBorders.y.min > node.y) store.runtimeGlobal.plotBorders.y.min = node.y;
     });
     const scaleNumberX = store.runtimeGlobal.pixiApp.canvas.width / (store.runtimeGlobal.plotBorders.x.max - store.runtimeGlobal.plotBorders.x.min)
@@ -322,4 +346,49 @@ class Network {
     })
   }
 }
-export {Network}
+export {Network}</code></pre>
+        </article>
+    </section>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Classes</h3>
+    <ul>
+        <li><a href="HapNet.html">HapNet</a></li>
+        <li><a href="LINK.html">LINK</a></li>
+        <li><a href="Network.html">Network</a></li>
+        <li><a href="NodePanelUnitSub.html">NodePanelUnitSub</a></li>
+        <li><a href="SINGLEPIE.html">SINGLEPIE</a></li>
+        <li><a href="UINodeColorLegend.html">UINodeColorLegend</a></li>
+        <li><a href="UINodeColorLegendUnit.html">UINodeColorLegendUnit</a></li>
+        <li><a href="UINodePanel.html">UINodePanel</a></li>
+        <li><a href="UINodePanelUnit.html">UINodePanelUnit</a></li>
+        <li><a href="UIToolTipNode.html">UIToolTipNode</a></li>
+    </ul>
+    <h3>Global</h3>
+    <ul>
+        <li><a href="global.html#calculateCoarseGraph">calculateCoarseGraph</a></li>
+        <li><a href="global.html#calculateFullGraph">calculateFullGraph</a></li>
+        <li><a href="global.html#calLineHitArea">calLineHitArea</a></li>
+        <li><a href="global.html#defaultInitOption">defaultInitOption</a></li>
+        <li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li>
+        <li><a href="global.html#hapnetConfig">hapnetConfig</a></li>
+        <li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li>
+        <li><a href="global.html#radius">radius</a></li>
+    </ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Oct 20 2022 15:30:19
+    GMT+0800 (China Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

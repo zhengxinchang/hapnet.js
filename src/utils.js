@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import chroma from "chroma-js";
+
 /**
  *
  * @param {Number} sourcex x position of the start point of the line
@@ -61,7 +63,9 @@ function calLineHitArea(sourcex, sourcey, targetx, targety, lineWidth) {
 
 }
 
+function linkDistanceColorScale(disNormalValue) {
+  const s = chroma.scale(['ff0c1b', 'f4f51f', '1c26f5'])
+  return chroma(s(disNormalValue)).num()
+}
 
-// console.log(calLineHitArea(2,2,1,1,0.5))
-
-export {calLineHitArea}
+export {calLineHitArea, linkDistanceColorScale}
