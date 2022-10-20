@@ -25,6 +25,7 @@ SOFTWARE.
 import * as PIXI from 'pixi.js';
 import {LINK, SINGLEPIE} from "./views/networkElements/Element";
 import {UIToolTipNode} from './views/ui/UIToolTipNode';
+import {UIToolTipLink} from "./views/ui/UIToolTipLink";
 import {UINodeColorLegend} from "./views/ui/UINodeColorLegend";
 import {UINodeColorLegendUnit} from './views/ui/UINodeColorLegendUnit';
 import {UINodePanel} from './views/ui/UINodePanel';
@@ -56,20 +57,21 @@ class Network {
     store.runtimeGlobal.pixiApp.networkContainer.interactive = true;
     store.runtimeGlobal.pixiApp.networkContainer.buttonMode = true;
     /* setup mouse status for the networkContainer */
-    // store.runtimeGlobal.pixiApp.networkContainer.on("mouseover", event => {
-    //   store.runtimeGlobal.mouseStatus.onNetworkContainer = true;
-    //   // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
-    // });
-    // store.runtimeGlobal.pixiApp.networkContainer.on("mouseout", event => {
-    //   store.runtimeGlobal.mouseStatus.onNetworkContainer = false;
-    //   // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
-    // });
+    store.runtimeGlobal.pixiApp.networkContainer.on("mouseover", event => {
+      store.runtimeGlobal.mouseStatus.onNetworkContainer = true;
+      // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
+    });
+    store.runtimeGlobal.pixiApp.networkContainer.on("mouseout", event => {
+      store.runtimeGlobal.mouseStatus.onNetworkContainer = false;
+      // console.log(`store.runtimeGlobal.mouseStatus.networkContainer ${store.runtimeGlobal.mouseStatus.onNetworkContainer}`)
+    });
     /* setup ui contianer(layer)*/
     store.runtimeGlobal.pixiApp.ui = store.runtimeGlobal.pixiApp.app.stage.addChild(new PIXI.Container());
     store.runtimeGlobal.pixiApp.ui.interactive = true;
     store.runtimeGlobal.pixiApp.ui.buttonMode = true;
     /* setup mouse status for the ui */
     store.runtimeGlobal.pixiApp.ui.on("mouseover", event => {
+      // alert("aa")
       store.runtimeGlobal.mouseStatus.onUI = true;
       // console.log(`store.runtimeGlobal.mouseStatus.onUI ${store.runtimeGlobal.mouseStatus.onUI}`)
     });
@@ -104,9 +106,12 @@ class Network {
     };
     /* handle wheel event */
     store.runtimeGlobal.pixiApp.canvas.onwheel = function (e) {
+
+      console.log(store.runtimeGlobal.mouseStatus)
       e.preventDefault();
       if (store.runtimeGlobal.mouseStatus.onUI === false) {
-        store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
+        store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = false;
+        store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = false;
         zoom(e.deltaY, e.offsetX, e.offsetY);
       } else if (store.runtimeGlobal.mouseStatus.onUI === true) {
         /*
@@ -114,11 +119,25 @@ class Network {
         code is inspired by this repo: https://github.com/Mwni/pixi-mousewheel
         */
         const hit = store.runtimeGlobal.pixiApp.app.renderer.plugins.interaction.hitTest({x: e.offsetX, y: e.offsetY})
+        console.log(hit)
+
         console.log("mouse on ui detected...")
-        if (hit instanceof UIToolTipNode) {
+        // if (hit instanceof UIToolTipNode) {
+        //   console.log("mouse on UIToolTipNode detected...")
+        //   const deltaFixed = e.deltaY < 0 ? 1 : -1; // s = s < 0 ? 1.1 : 0.9;
+        //   hit.scroll(deltaFixed);
+        // } else
+        /* hitTest 检测不到toolTip的对象，而是可以检测到下层的PIE或者LINK，这是有问题的，还好可以在toolTip对象内部检测到是否有mouseover的状态*/
+        if (store.runtimeGlobal.mouseStatus.onToolTipNode == true) {
           const deltaFixed = e.deltaY < 0 ? 1 : -1; // s = s < 0 ? 1.1 : 0.9;
-          hit.scroll(deltaFixed);
-        } else if (hit instanceof UINodeColorLegend || hit instanceof UINodeColorLegendUnit) {
+          store.runtimeGlobal.pixiApp.hapnetToolTipNode.scroll(deltaFixed);
+        }
+        if (store.runtimeGlobal.mouseStatus.onToolTipLink == true) {
+          const deltaFixed = e.deltaY < 0 ? 1 : -1;
+          store.runtimeGlobal.pixiApp.hapnetToolTipLink.scroll(deltaFixed);
+        }
+
+        if (hit instanceof UINodeColorLegend || hit instanceof UINodeColorLegendUnit) {
           const deltaFixed = e.deltaY < 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.scroll(deltaFixed);
         } else if (hit instanceof UINodePanel || hit instanceof UINodePanelUnit || hit instanceof NodePanelUnitSub) {
@@ -132,7 +151,9 @@ class Network {
     store.runtimeGlobal.pixiApp.canvas.onmousedown = (e) => {
       e.preventDefault();
       if (store.runtimeGlobal.mouseStatus.onUI === false) {
-        store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
+        store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = false;
+        store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = false;
+
         lastPos = {x: e.offsetX, y: e.offsetY};
       }
     }
@@ -189,10 +210,11 @@ class Network {
      * enable zindex layer.
      */
     store.runtimeGlobal.pixiApp.app.stage.sortableChildren = true
-    store.runtimeGlobal.pixiApp.hapnetToolTip = store.runtimeGlobal.pixiApp.ui.addChild(new UIToolTipNode());
+    store.runtimeGlobal.pixiApp.hapnetToolTipNode = store.runtimeGlobal.pixiApp.ui.addChild(new UIToolTipNode());
+    store.runtimeGlobal.pixiApp.hapnetToolTipLink = store.runtimeGlobal.pixiApp.ui.addChild(new UIToolTipLink());
     store.runtimeGlobal.pixiApp.hapnetNodeColorLegend = store.runtimeGlobal.pixiApp.ui.addChild(new UINodeColorLegend());
     store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel = store.runtimeGlobal.pixiApp.ui.addChild(new UINodePanel());
-    console.log(store)
+    // console.log(store)
   }
   static draw() {
     const nodeStyle = store.runtimeGlobal.plotOption.style.NodeOutline;
@@ -282,17 +304,20 @@ class Network {
         this.hapnetNodeMetadatPanel = store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel;
         this.hapnetNodeMetadatPanel.setAndShow(e.target.nodeOptions);
       }
-      if (e.target.parent instanceof LINK) {
+      if (e.target instanceof LINK) {
+
+        console.log(e.target)
+
         /*
          * highlight link self
          */
-        e.target.parent.draw({heighLight: true});
-        store.runtimeGlobal.highlightedObjList.links.push(e.target.parent.name)
+        e.target.draw({heighLight: true});
+        store.runtimeGlobal.highlightedObjList.links.push(e.target.name)
         /*
          * highlight link related source node and target node
          */
-        store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.parent.linkOptions.source.id).draw({heighLight: true})
-        store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.parent.linkOptions.target.id).draw({heighLight: true})
+        store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.linkOptions.source.id).draw({heighLight: true})
+        store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.linkOptions.target.id).draw({heighLight: true})
       }
     })
   }
