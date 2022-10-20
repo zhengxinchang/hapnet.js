@@ -1,8 +1,22 @@
 import * as PIXI from 'pixi.js'
-import { conformsTo, isNull, isNumber, isArray, isObject, isBoolean, isString } from 'lodash-es';
-import { calLineHitArea } from './utils'
-import {defaultsDeep} from 'lodash-es'
-import {hapnet_options} from './envs'
+import {
+    conformsTo,
+    isNull,
+    isNumber,
+    isArray,
+    isObject,
+    isBoolean,
+    isString
+} from 'lodash-es';
+import {
+    calLineHitArea
+} from './utils'
+import {
+    defaultsDeep
+} from 'lodash-es'
+import {
+    hapnet_options
+} from './envs'
 // const defaultNodeOptions = {
 //     id:null,
 //     radius:null,
@@ -80,18 +94,18 @@ class SINGLEPIE extends PIXI.Container {
                 /**
                  * add node_menu to the center of node
                  */
-                    // console.log("nodeMessageBox")
-                    // this.nodeMessageBox = this.parent.getChildByName("node_menu");
-                    // console.log(this.nodeMessageBox)
-                    
-                    // this.nodeMessageBox.x = this.nodeOptions.x;
-                    // this.nodeMessageBox.y = this.nodeOptions.y;
-                    // this.nodeMessageBox.visible = true;
-                    
-                    this.toolTip = this.parent.getChildByName("hapnet_menu");
-                    this.toolTip.setAndShow(this.nodeOptions);
-                    console.log("tooltip")
-                    console.log(this.toolTip)
+                // console.log("nodeMessageBox")
+                // this.nodeMessageBox = this.parent.getChildByName("node_menu");
+                // console.log(this.nodeMessageBox)
+
+                // this.nodeMessageBox.x = this.nodeOptions.x;
+                // this.nodeMessageBox.y = this.nodeOptions.y;
+                // this.nodeMessageBox.visible = true;
+
+                this.toolTip = this.parent.getChildByName("hapnet_menu");
+                this.toolTip.setAndShow(this.nodeOptions);
+                console.log("tooltip")
+                console.log(this.toolTip)
 
 
             });
@@ -231,7 +245,7 @@ class SINGLEPIE extends PIXI.Container {
 
 
         this.chart.beginFill(color, 1)
-            .lineStyle(radius*0.05, 0xFF0000)
+            .lineStyle(radius * 0.05, 0xFF0000)
             .moveTo(center.x, center.y)
             .lineTo(circleStartPoint.x, circleStartPoint.y)
             .arc(center.x, center.y, radius, startAngle, this._angle2radian(endAngle), false)
@@ -287,14 +301,14 @@ class SINGLEPIE extends PIXI.Container {
 
 
         this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
-            .lineStyle(this.nodeOptions.radius * 0.05,  0xFF0000)
+            .lineStyle(this.nodeOptions.radius * 0.05, 0xFF0000)
             .drawCircle(this.nodeOptions.x, this.nodeOptions.y, this.nodeOptions.radius)
             .endFill();
     }
 
     draw(drawOptions) {
-        
-        if(drawOptions === undefined ){
+
+        if (drawOptions === undefined) {
             drawOptions = {}
         }
         this.chart.clear();
@@ -302,8 +316,8 @@ class SINGLEPIE extends PIXI.Container {
          * TODO:
          * To optimize performance, the defaultDrawOptions should be move to class level.
          */
-        const defaultDrawOptions = { 
-            heighLight:false
+        const defaultDrawOptions = {
+            heighLight: false
         }
         defaultsDeep(drawOptions, defaultDrawOptions);
 
@@ -319,24 +333,24 @@ class SINGLEPIE extends PIXI.Container {
              */
             // console.log(this.nodeOptions)
 
-            if (drawOptions.heighLight == false){
+            if (drawOptions.heighLight == false) {
                 if (this.nodeOptions.sectors.length == 1) {
                     // draw a circle with outline
                     // this._drawCircle();
                     this._drawCircle();
-    
+
                 } else {
                     // draw a pie with outline
                     this._drawPie();
                 }
-            }else{
+            } else {
 
                 this.chart.clear();
                 if (this.nodeOptions.sectors.length == 1) {
                     // draw a circle with outline
                     // this._drawCircle();
                     this._drawHeighLightCircle();
-    
+
                 } else {
                     // draw a pie with outline
                     this._drawHeightLightPie();
@@ -349,4 +363,6 @@ class SINGLEPIE extends PIXI.Container {
 
 }
 
-export {SINGLEPIE}
+export {
+    SINGLEPIE
+}
