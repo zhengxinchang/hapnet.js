@@ -217,6 +217,7 @@ class HapNet {
     Network.init();
     Network.draw();
     console.log(store.runtimeGlobal)
+    console.log(store.runtimeGlobal.plotOption);
   }
 
 

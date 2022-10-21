@@ -117,7 +117,7 @@ class UINodeColorLegend extends PIXI.Container {
       .endFill();
 
     /* draw chartTitie*/
-    this.chartTitle.text = `Color code of ${node.id}`
+    this.chartTitle.text = `Color code of Haplotype ${node.id}`
 
     this.chartTitle.style = new PIXI.TextStyle({
       fill: 0x000000,

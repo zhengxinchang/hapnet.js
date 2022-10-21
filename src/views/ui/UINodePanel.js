@@ -82,12 +82,12 @@ class UINodePanel extends PIXI.Container {
   setAndShow(node) {
     /* remove all children from this.meta
     *  the chartTitle are also be removed.
-    *  */
+    */
     this.content.removeChildren();
 
     this.chartBackGround.x = 0;
     this.chartBackGround.y = 0;
-    this.chartBackGround.visible = true;
+    // this.chartBackGround.visible = true;
     this.zIndex = 2;
 
     /* the position of this.chartBackGround is based on parent container. */
@@ -101,7 +101,7 @@ class UINodePanel extends PIXI.Container {
       .lineTo(0, 0)
       .endFill();
 
-    this.chartTitle.text = `Metadata of ${node.id}`
+    this.chartTitle.text = `Metadata of Haplotype ${node.id}`
     this.chartTitle.style = new PIXI.TextStyle({
       fill: 0x000000,
       fontSize: this.toolTipFontSize,
