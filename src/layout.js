@@ -244,7 +244,8 @@ function calculateFullGraph(options) {
     let nodesWithPosition = Object.values(nodesDict);
 
     const simulation = d3.forceSimulation(nodesWithPosition)
-        .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
+      // .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
+      .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(d => d.distanceNormalizedValue).strength(forceLinkStrength))
         .force("collide", d3.forceCollide().radius(d => d.radius +eachNodePadding ).iterations(collideIteration))
         .force("charge", d3.forceManyBody().strength(chargeStrength * -1).theta(chargeTheta)) // charge 决定full graph的点的距离
         // .force("x", d3.forceX().strength(0.01))
