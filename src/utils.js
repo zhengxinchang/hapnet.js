@@ -63,8 +63,14 @@ function calLineHitArea(sourcex, sourcey, targetx, targety, lineWidth) {
 
 }
 
+
+/**
+ * convert distance value to color
+ * @param disNormalValue distance normalized value. range is (0,1)
+ * @returns {*}
+ */
 function linkDistanceColorScale(disNormalValue) {
-  const s = chroma.scale(['ff0c1b', 'f4f51f', '1c26f5'])
+  const s = chroma.scale(['ff0c1b', 'f4f51f', '1c26f5']);
   return chroma(s(disNormalValue)).num()
 }
 
