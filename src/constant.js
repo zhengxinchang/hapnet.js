@@ -133,7 +133,7 @@ const defaultPlotOption = {
     chargeTheta: 0.99,
   },
   style: {
-    linkWidth: 40,
+    linkWidth: 60,
     linkColor: "#312e2e", //white
     NodeOutline: {
       show: true,
