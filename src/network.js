@@ -277,7 +277,10 @@ class Network {
         const highlightedNode = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
         highlightedNode.draw({heighLight: false});
       });
+
       // set all highlighted links to normal
+
+
       store.runtimeGlobal.highlightedObjList.links.forEach(d => {
         const highlightedLink = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
         highlightedLink.draw({heighLight: false});
