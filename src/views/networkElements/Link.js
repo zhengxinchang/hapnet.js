@@ -75,8 +75,8 @@ class LINK extends PIXI.Graphics {
     /* trigger tooltip when hover */
     this.on('mouseover', (event) => {
 
-      console.log(event.data)
-      console.log(this)
+      // console.log(event.data)
+      // console.log(this)
       store.runtimeGlobal.mouseStatus.onLink = true;
       store.runtimeGlobal.pixiApp.hapnetToolTipLink.setAndShow(this.linkOptions, event.data.global.x, event.data.global.y);
       store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = true;
@@ -104,13 +104,13 @@ class LINK extends PIXI.Graphics {
 
     const lineWidth = this.linkStyles.linkWidth
 
-    console.log(`distance:${this.linkOptions.distance}, transparency${this.linkOptions.distanceNormalizedValue}`)
+    // console.log(`distance:${this.linkOptions.distance}, transparency${this.linkOptions.distanceNormalizedValue}`)
     if (drawOptions.heighLight == false) {
       this
         .lineStyle(lineWidth, linkDistanceColorScale(this.linkOptions.distanceNormalizedValue), 1)
         .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
         .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
-      console.log(linkDistanceColorScale(this.linkOptions.distanceNormalizedValue))
+      // console.log(linkDistanceColorScale(this.linkOptions.distanceNormalizedValue))
     } else {
       this
         .lineStyle(lineWidth * 1.5, store.runtimeGlobal.plotOption.style.highlightColor, 1)

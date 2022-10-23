@@ -1,9 +1,9 @@
 # Roadmap
 
 1. [X] auto-scale and center the network
-2. [X] hover function
+2. [X] hover function (node and link)
 3. [ ] async loading
-4. [ ] distance marks in the links
+4. [X] distance marks in the links ( link colors are used to indicate the distance)
 5. [ ] drug node
 6. [X] link hover
 7. [ ] documentation

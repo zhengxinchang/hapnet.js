@@ -25,23 +25,19 @@ SOFTWARE.
 import * as PIXI from 'pixi.js'
 import store from '../../store'
 
-/**
- * class to draw sub-unit in one panel unit.
- * input is a string or an object
- */
-class UINodePanelUnitSub extends PIXI.Container {
+class UILinkPanelUnitSub extends PIXI.Container {
 
   constructor(subUnitData, dataType, offSet) {
     super();
-
     this.subUnitData = subUnitData;
     this.dataType = dataType;
     this.offSet = offSet;
+
     this.contentWidth = store.runtimeGlobal.initOption.width * 0.2 * 0.95;
     this.chartText = this.addChild(new PIXI.Text());
     this.y = this.offSet;
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
-    this.toolTipFontSize = store.runtimeGlobal.plotOption.nodeMetaPanel.fontSize;
+    this.uiFontSize = store.runtimeGlobal.plotOption.linkMetaPanel.fontSize;
 
 
     if (this.dataType == "string") {
@@ -49,22 +45,32 @@ class UINodePanelUnitSub extends PIXI.Container {
       this.chartText.text = this.subUnitData;
       this.chartText.style = new PIXI.TextStyle({
         fill: 0x000000,
-        fontSize: this.toolTipFontSize,
+        fontSize: this.uiFontSize,
         breakWords: true,
         wordWrap: true,
         wordWrapWidth: this.contentWidth * 0.95,
-
       });
 
     } else if (this.dataType == "object") {
       let conentText = "";
+
       for (const [k, v] of Object.entries(this.subUnitData)) {
+        console.log(`subUnitData ${k},${v}`)
         conentText += `${k}: ${v}\n`
       }
       this.chartText.text = conentText;
       this.chartText.style = new PIXI.TextStyle({
         fill: 0x000000,
-        fontSize: this.toolTipFontSize,
+        fontSize: this.uiFontSize,
+        breakWords: true,
+        wordWrap: true,
+        wordWrapWidth: this.contentWidth * 0.95,
+      });
+    } else if (this.dataType == "singleValue") {
+      this.chartText.text = `value:  ${this.subUnitData}`;
+      this.chartText.style = new PIXI.TextStyle({
+        fill: 0x000000,
+        fontSize: this.uiFontSize,
         breakWords: true,
         wordWrap: true,
         wordWrapWidth: this.contentWidth * 0.95,
@@ -79,4 +85,4 @@ class UINodePanelUnitSub extends PIXI.Container {
 
 }
 
-export {UINodePanelUnitSub}
+export {UILinkPanelUnitSub}

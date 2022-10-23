@@ -118,6 +118,9 @@ class HapNet {
     store.runtimeGlobal.plotOption.nodeColorLegend.borderColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.borderColor).num();
     store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor = chroma(store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor).num();
     store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor = chroma(store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor).num();
+    store.runtimeGlobal.plotOption.linkMetaPanel.backgroundColor = chroma(store.runtimeGlobal.plotOption.linkMetaPanel.backgroundColor).num();
+    store.runtimeGlobal.plotOption.linkMetaPanel.borderColor = chroma(store.runtimeGlobal.plotOption.linkMetaPanel.borderColor).num();
+
     store.runtimeGlobal.plotOption.style.highlightColor = chroma(store.runtimeGlobal.plotOption.style.highlightColor).num();
 
     /**

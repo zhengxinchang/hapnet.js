@@ -57,7 +57,7 @@ const customOptions = {
     }),
   palette: "jama",
   fullGraph: {
-    tickIteration: 60,
+    tickIteration: 120,
   },
   coarseGraph: {
     tickIteration: 1000,
@@ -66,11 +66,9 @@ const customOptions = {
   // coarseGraph:{
   //     hubNumOFLinksThreshold:10,
   //     chargeStrength: 20000,
-    // }
+  // }
 }
 
-
-console.log(customOptions);
 
 const hapnet = HapNet.init({
     el: "hapnet",

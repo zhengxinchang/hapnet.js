@@ -25,7 +25,7 @@ SOFTWARE.
 import * as PIXI from 'pixi.js'
 import store from '../../store'
 import {isPlainObject, isArray, isString} from 'lodash-es'
-import {NodePanelUnitSub} from './UINodePanelUnitSub'
+import {UINodePanelUnitSub} from './UINodePanelUnitSub'
 
 /**
  * Class to draw unit block to show data in the nodes -> one node -> meta -> panel
@@ -121,7 +121,7 @@ class UINodePanelUnit extends PIXI.Container {
       // console.log(`object detected ${this.dataName} for ${this.nodeName}`)
 
       let offSet = 0;
-      let oneNodePanelUnitSub = new NodePanelUnitSub(this.data, "object", offSet)
+      let oneNodePanelUnitSub = new UINodePanelUnitSub(this.data, "object", offSet)
       this.content.addChild(oneNodePanelUnitSub);
 
     } else if (isArray(this.data)) {
@@ -140,7 +140,7 @@ class UINodePanelUnit extends PIXI.Container {
 
         let offSet = 0;
         for (const onedata of this.data) {
-          let oneNodePanelUnitSub = new NodePanelUnitSub(onedata, "object", offSet)
+          let oneNodePanelUnitSub = new UINodePanelUnitSub(onedata, "object", offSet)
           offSet = oneNodePanelUnitSub.getNewOffset();
           this.content.addChild(oneNodePanelUnitSub);
 
@@ -162,7 +162,7 @@ class UINodePanelUnit extends PIXI.Container {
          */
         let offSet = 0;
         for (const onedata of this.data) {
-          let oneNodePanelUnitSub = new NodePanelUnitSub(onedata, "string", offSet)
+          let oneNodePanelUnitSub = new UINodePanelUnitSub(onedata, "string", offSet)
           offSet = oneNodePanelUnitSub.getNewOffset();
           this.content.addChild(oneNodePanelUnitSub);
 
