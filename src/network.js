@@ -33,6 +33,8 @@ import {UINodePanelUnit} from "./views/ui/UINodePanelUnit";
 import {UINodePanelUnitSub} from "./views/ui/UINodePanelUnitSub";
 import store from './store';
 import {UILinkPanel} from "./views/ui/UILinkPanel";
+import {UILinkPanelUnit} from "./views/ui/UILinkPanelUnit";
+import {UILinkPanelUnitSub} from "./views/ui/UILinkPanelUnitSub";
 
 /**
  * class to draw Netowrk
@@ -110,6 +112,9 @@ class Network {
 
       // console.log(store.runtimeGlobal.mouseStatus)
       e.preventDefault();
+      // console.log(hit)
+      let hit = store.runtimeGlobal.pixiApp.app.renderer.plugins.interaction.hitTest({x: e.offsetX, y: e.offsetY})
+      console.log(hit)
       if (store.runtimeGlobal.mouseStatus.onUI === false) {
         store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = false;
         store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = false;
@@ -119,7 +124,7 @@ class Network {
         handle wheel event that fired from the UI layer
         code is inspired by this repo: https://github.com/Mwni/pixi-mousewheel
         */
-        const hit = store.runtimeGlobal.pixiApp.app.renderer.plugins.interaction.hitTest({x: e.offsetX, y: e.offsetY})
+
         // console.log(hit)
 
         // console.log("mouse on ui detected...")
@@ -144,7 +149,12 @@ class Network {
         } else if (hit instanceof UINodePanel || hit instanceof UINodePanelUnit || hit instanceof UINodePanelUnitSub) {
           const deltaFixed = e.deltaY < 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel.scroll(deltaFixed);
+        } else if (hit instanceof UILinkPanel || hit instanceof UILinkPanelUnit || hit instanceof UILinkPanelUnitSub) {
+          const deltaFixed = e.deltaY < 0 ? 1 : -1;
+          store.runtimeGlobal.pixiApp.hapnetLinkMetadatPanel.scroll(deltaFixed);
         }
+
+
       }
     }
     /* handle mousedown event */

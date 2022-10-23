@@ -107,7 +107,7 @@ class UILinkPanel extends PIXI.Container {
     this.addChild(this.chartTitle);
 
     /* setup the y of container for NodeBlocks*/
-    this.content.y = this.chartTitle.height * 1.5 + this.paddingTop;
+    this.content.y = this.chartTitle.height * 2 + this.paddingTop;
 
     let offset = 0;
     for (const [onePanelMetaKey, onePanelMetaValue] of Object.entries(link.meta.panel)) {
@@ -117,6 +117,15 @@ class UILinkPanel extends PIXI.Container {
       onePanelUnit.draw();
       offset = onePanelUnit.getNewOffset();
     }
+
+    this.boundMask.beginFill(0xff19ff, 1)
+      .moveTo(this.paddingLeft, this.chartTitle.height * 2)
+      .lineTo(this.uiWidth - this.paddingLeft, this.chartTitle.height * 2)
+      .lineTo(this.uiWidth - this.paddingLeft, this.uiHeight - this.paddingTop)
+      .lineTo(0, this.uiHeight - this.paddingTop)
+      .lineTo(0, this.chartTitle.height * 1.5)
+      .endFill();
+    this.content.mask = this.boundMask;
   }
 
 }
