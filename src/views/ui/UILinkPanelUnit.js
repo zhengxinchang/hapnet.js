@@ -24,8 +24,8 @@ SOFTWARE.
 
 import * as PIXI from 'pixi.js'
 import store from '../../store'
-import {isPlainObject, isArray, isString} from 'lodash-es'
-import {NodePanelUnitSub} from "./UINodePanelUnitSub";
+import {isPlainObject, isArray, isString, isNumber} from 'lodash-es'
+import {UILinkPanelUnitSub} from "./UILinkPanelUnitSub";
 
 /**
  * unit class to draw data block from node panel data
@@ -56,25 +56,21 @@ class UILinkPanelUnit extends PIXI.Container {
     this.content = this.addChild(new PIXI.Container()); // Container of color codes.
     this.chartTitle = this.addChild(new PIXI.Text());
 
-
     /* init drawing parameters */
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
     this.uiWidth = this.maxWidth;
-    this.uiFontSize = store.runtimeGlobal.plotOption.nodeMetaPanel.fontSize;
-    this.uiBackGroundColor = store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor;
-    this.uiBorderColor = store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor;
-    this.UIFrontColor = store.runtimeGlobal.plotOption.nodeMetaPanel.fontColor
+    this.uiFontSize = store.runtimeGlobal.plotOption.linkMetaPanel.fontSize;
+    this.uiBackGroundColor = store.runtimeGlobal.plotOption.linkMetaPanel.backgroundColor;
+    this.uiBorderColor = store.runtimeGlobal.plotOption.linkMetaPanel.borderColor;
+    this.UIFrontColor = store.runtimeGlobal.plotOption.linkMetaPanel.fontColor
     this.chartTitleHeight = 40;
 
     /* init padding of text on the left and top */
     this.paddingLeft = this.uiWidth * 0.02;
     this.content.x = this.paddingLeft
-
   }
 
   draw() {
-
-
     /* setup title for each panel meta data item
     *
     */
@@ -87,18 +83,14 @@ class UILinkPanelUnit extends PIXI.Container {
       breakWords: true,
       wordWrap: true,
       wordWrapWidth: this.uiWidth * 0.95,
-
     });
-
+    // debugger;
     this.content.y = this.chartTitle.height * 1.5 /* here we setup y coordinate of this.content, the unit-sub y will against content */
-
     if (isPlainObject(this.data)) {
       // console.log(`object detected ${this.dataName} for ${this.nodeName}`)
-
       let offSet = 0;
-      let oneNodePanelUnitSub = new NodePanelUnitSub(this.data, "object", offSet)
+      let oneNodePanelUnitSub = new UILinkPanelUnitSub(this.data, "object", offSet)
       this.content.addChild(oneNodePanelUnitSub);
-
     } else if (isArray(this.data)) {
       if (isPlainObject(this.data[0])) {
         // console.log(`arrayObject detected ${this.dataName} for ${this.nodeName}`)
@@ -112,16 +104,12 @@ class UILinkPanelUnit extends PIXI.Container {
                        }
                     ],
         */
-
         let offSet = 0;
         for (const onedata of this.data) {
-          let oneNodePanelUnitSub = new NodePanelUnitSub(onedata, "object", offSet)
+          let oneNodePanelUnitSub = new UILinkPanelUnitSub(onedata, "object", offSet)
           offSet = oneNodePanelUnitSub.getNewOffset();
           this.content.addChild(oneNodePanelUnitSub);
-
         }
-
-
       } else if (isString(this.data[0])) {
         // console.log(`ArrayString detected ${this.dataName} for ${this.nodeName}`)
         /* process data structure like:
@@ -137,16 +125,18 @@ class UILinkPanelUnit extends PIXI.Container {
          */
         let offSet = 0;
         for (const onedata of this.data) {
-          let oneNodePanelUnitSub = new NodePanelUnitSub(onedata, "string", offSet)
+          let oneNodePanelUnitSub = new UILinkPanelUnitSub(onedata, "string", offSet)
           offSet = oneNodePanelUnitSub.getNewOffset();
           this.content.addChild(oneNodePanelUnitSub);
-
         }
-
-
       }
 
+    } else if (isString(this.data) || isNumber(this.data)) {
+      let offSet = 0;
+      let oneNodePanelUnitSub = new UILinkPanelUnitSub(this.data, "singleValue", offSet)
+      this.content.addChild(oneNodePanelUnitSub);
     }
+
     this.chartBackGround.x = 0;
     this.chartBackGround.y = 0;
     this.chartBackGround.visible = true;

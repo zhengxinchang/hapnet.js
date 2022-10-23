@@ -94,8 +94,8 @@ class UIToolTipLink extends PIXI.Container {
     });
     this.chartText.style = style;
     let toolTipText = `Link: ${link.source.id} -> ${link.target.id} \n\nDistance: ${link.distance}\n\n`
-    console.log(link)
-    console.log(link.meta.hover)
+    // console.log(link)
+    // console.log(link.meta.hover)
     Object.keys(link.meta.hover).forEach(d => {
       toolTipText += `${capitalize(d)}: ${link.meta.hover[d]}\n\n`
     })

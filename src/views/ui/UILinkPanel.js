@@ -25,19 +25,18 @@ SOFTWARE.
 import * as PIXI from 'pixi.js'
 import store from '../../store'
 import {UILinkPanelUnit} from "./UILinkPanelUnit";
-
+import {getLinkName} from '../../utils'
 class UILinkPanel extends PIXI.Container {
   constructor(data) {
     super();
-
 
     /* init drawing parameters */
     this.scaleBorderWidth = store.runtimeGlobal.initOption.width * 0.002;
     this.uiWidth = store.runtimeGlobal.initOption.width * 0.2;
     this.uiHeight = store.runtimeGlobal.initOption.height * 0.55;
-    this.uiFontSize = store.runtimeGlobal.plotOption.nodeMetaPanel.fontSize;
-    this.uiBackGroundColor = store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor;
-    this.uiBorderColor = store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor;
+    this.uiFontSize = store.runtimeGlobal.plotOption.linkMetaPanel.fontSize;
+    this.uiBackGroundColor = store.runtimeGlobal.plotOption.linkMetaPanel.backgroundColor;
+    this.uiBorderColor = store.runtimeGlobal.plotOption.linkMetaPanel.borderColor;
     this.chartTitleHeight = 40;
 
 
@@ -54,7 +53,7 @@ class UILinkPanel extends PIXI.Container {
     this.interactive = true;
     this.paddingLeft = this.uiWidth * 0.02;
     this.paddingTop = this.uiHeight * 0.02;
-    this.x = 1;
+    this.x = store.runtimeGlobal.initOption.width * 0.795;
     this.y = store.runtimeGlobal.initOption.height * 0.41;
   }
 
@@ -81,6 +80,8 @@ class UILinkPanel extends PIXI.Container {
     this.chartBackGround.y = 0;
     this.zIndex = 2;
 
+    // debugger;
+
     this.chartBackGround
       .beginFill(this.uiBackGroundColor, 1)
       .lineStyle(this.scaleBorderWidth, this.uiBorderColor)
@@ -92,7 +93,8 @@ class UILinkPanel extends PIXI.Container {
       .endFill();
 
     /* deal with header text */
-    this.chartTitle.text = `Metadata of Link ${node.id}`
+    console.log(link)
+    this.chartTitle.text = `Metadata of Link ${getLinkName(link)}`
     this.chartTitle.style = new PIXI.TextStyle({
       fill: 0x000000,
       fontSize: this.uiFontSize,
@@ -111,10 +113,12 @@ class UILinkPanel extends PIXI.Container {
     for (const [onePanelMetaKey, onePanelMetaValue] of Object.entries(link.meta.panel)) {
       /* UINodePanelUnit is the unit for one entry in the meta -> panel */
 
-      let onePanelUnit = this.content.addChild(new UILinkPanelUnit(onePanelMetaValue, onePanelMetaKey, node.id, offset, this.uiWidth * 0.95));
+      let onePanelUnit = this.content.addChild(new UILinkPanelUnit(onePanelMetaValue, onePanelMetaKey, getLinkName(link), offset, this.uiWidth * 0.95));
       onePanelUnit.draw();
       offset = onePanelUnit.getNewOffset();
     }
   }
 
 }
+
+export {UILinkPanel}

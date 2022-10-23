@@ -36,6 +36,7 @@ export default {
       hapnetToolTipLink: null,
       hapnetNodeColorLegend: null,
       hapnetNodeMetadatPanel: null,
+      hapnetLinkMetadatPanel: null,
     },
     highlightedObjList: {
       nodes: [],

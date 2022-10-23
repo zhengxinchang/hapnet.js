@@ -74,4 +74,14 @@ function linkDistanceColorScale(disNormalValue) {
   return chroma(s(disNormalValue)).num()
 }
 
-export {calLineHitArea, linkDistanceColorScale}
+/**
+ * get link id based on the source and target id.
+ * @param {object} linkOptions linkOptions
+ * @returns {string} link id like Node12_Node23
+ */
+function getLinkName(linkOptions, sep = "->") {
+  // console.log(linkOptions)
+  return linkOptions.source.id + " " + sep + " " + linkOptions.target.id
+}
+
+export {calLineHitArea, linkDistanceColorScale, getLinkName}

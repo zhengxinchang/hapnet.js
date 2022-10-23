@@ -30,8 +30,9 @@ import {UINodeColorLegend} from "./views/ui/UINodeColorLegend";
 import {UINodeColorLegendUnit} from './views/ui/UINodeColorLegendUnit';
 import {UINodePanel} from './views/ui/UINodePanel';
 import {UINodePanelUnit} from "./views/ui/UINodePanelUnit";
-import {NodePanelUnitSub} from "./views/ui/UINodePanelUnitSub";
+import {UINodePanelUnitSub} from "./views/ui/UINodePanelUnitSub";
 import store from './store';
+import {UILinkPanel} from "./views/ui/UILinkPanel";
 
 /**
  * class to draw Netowrk
@@ -140,7 +141,7 @@ class Network {
         if (hit instanceof UINodeColorLegend || hit instanceof UINodeColorLegendUnit) {
           const deltaFixed = e.deltaY < 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.scroll(deltaFixed);
-        } else if (hit instanceof UINodePanel || hit instanceof UINodePanelUnit || hit instanceof NodePanelUnitSub) {
+        } else if (hit instanceof UINodePanel || hit instanceof UINodePanelUnit || hit instanceof UINodePanelUnitSub) {
           const deltaFixed = e.deltaY < 0 ? 1 : -1;
           store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel.scroll(deltaFixed);
         }
@@ -148,6 +149,7 @@ class Network {
     }
     /* handle mousedown event */
     var lastPos = null;
+
     store.runtimeGlobal.pixiApp.canvas.onmousedown = (e) => {
       e.preventDefault();
       if (store.runtimeGlobal.mouseStatus.onUI === false) {
@@ -214,6 +216,8 @@ class Network {
     store.runtimeGlobal.pixiApp.hapnetToolTipLink = store.runtimeGlobal.pixiApp.ui.addChild(new UIToolTipLink());
     store.runtimeGlobal.pixiApp.hapnetNodeColorLegend = store.runtimeGlobal.pixiApp.ui.addChild(new UINodeColorLegend());
     store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel = store.runtimeGlobal.pixiApp.ui.addChild(new UINodePanel());
+    store.runtimeGlobal.pixiApp.hapnetLinkMetadatPanel = store.runtimeGlobal.pixiApp.ui.addChild(new UILinkPanel());
+
     // console.log(store)
   }
   static draw() {
@@ -271,7 +275,13 @@ class Network {
      */
     store.runtimeGlobal.pixiApp.app.stage.interactive = true;
     store.runtimeGlobal.pixiApp.app.stage.buttonMode = true;
+
+    /*
+     * the mousedown event to show panel and colorLegend
+     */
     store.runtimeGlobal.pixiApp.app.stage.on("mousedown", (e) => {
+
+      // debugger;
       // set all highlighted nodes to normal
       store.runtimeGlobal.highlightedObjList.nodes.forEach(d => {
         const highlightedNode = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
@@ -279,8 +289,6 @@ class Network {
       });
 
       // set all highlighted links to normal
-
-
       store.runtimeGlobal.highlightedObjList.links.forEach(d => {
         const highlightedLink = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
         highlightedLink.draw({heighLight: false});
@@ -289,6 +297,13 @@ class Network {
        * handle the click event in the pie
        */
       if (e.target instanceof SINGLEPIE) {
+
+        /*
+        make link panel invisible
+         */
+        store.runtimeGlobal.pixiApp.hapnetLinkMetadatPanel.visible = false;
+        store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel.visible = true;
+        store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.visible = true;
         /* highlight node self */
         e.target.draw({heighLight: true}) // Named parameters are not permitted. Probably due to the way to call draw().
         store.runtimeGlobal.highlightedObjList.nodes.push(e.target.name)
@@ -309,7 +324,21 @@ class Network {
       }
       if (e.target instanceof LINK) {
 
-        console.log(e.target)
+        // console.log(e.target)
+        /*
+        make node panels invisible
+         */
+        store.runtimeGlobal.pixiApp.hapnetLinkMetadatPanel.visible = true;
+        store.runtimeGlobal.pixiApp.hapnetNodeMetadatPanel.visible = false;
+        store.runtimeGlobal.pixiApp.hapnetNodeColorLegend.visible = false;
+        /*
+          set all highlighted node to normal
+         */
+        // store.runtimeGlobal.highlightedObjList.nodes.forEach(d=>{
+        //   const highlightedNode = store.runtimeGlobal.pixiApp.networkContainer.getChildByName(d);
+        //   highlightedNode.draw({heighLight: false});
+        // })
+
 
         /*
          * highlight link self
@@ -321,6 +350,15 @@ class Network {
          */
         store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.linkOptions.source.id).draw({heighLight: true})
         store.runtimeGlobal.pixiApp.networkContainer.getChildByName(e.target.linkOptions.target.id).draw({heighLight: true})
+
+        /*
+        push link related node to highlighted node list
+         */
+        store.runtimeGlobal.highlightedObjList.nodes.push(e.target.linkOptions.source.id)
+        store.runtimeGlobal.highlightedObjList.nodes.push(e.target.linkOptions.target.id)
+
+        this.hapneLinkMetadatPanel = store.runtimeGlobal.pixiApp.hapnetLinkMetadatPanel;
+        this.hapneLinkMetadatPanel.setAndShow(e.target.linkOptions);
       }
     })
   }

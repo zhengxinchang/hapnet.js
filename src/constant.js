@@ -112,6 +112,16 @@ const defaultPlotOption = {
     height: window.innerHeight * 0.4,
     formatter: null,
   },
+  linkMetaPanel: {
+    fontSize: 20,
+    fontColor: '#FFFFFF',
+    backgroundColor: "#e3ecea",
+    borderColor: "#616161",
+    borderWidth: 10,
+    width: window.innerWidth * 0.2,
+    height: window.innerHeight * 0.4,
+    formatter: null,
+  },
   resolution: devicePixelRatio || 1,
   coarseGraph: {
     tickIteration: 1000,
