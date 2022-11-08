@@ -31,17 +31,17 @@ with open(sys.argv[1]) as fj:
                     "SNPs":item['SNPs'],
                     "Virus":item['Virus'],
                     "degree":{
-                        "total_degree":item['total_degree'],
-                        "in_degree":item['in_degree'],
-                        "out_degree":item['out_degree'],
+                        "total_degree":item.get('total_degree',"Empty"),
+                        "in_degree":item.get('in_degree',"Empty"),
+                        "out_degree":item.get('out_degree',"Empty") ,
                     }
                 },
                 "hover":{
-                    "date":item['date'],
-                    "group":item['group'],
-                    "jump":item['jump'],
+                    "date": item.get('date',"Empty"),
+                    "group":item.get('group',"Empty"),
+                    "jump":item.get('jump',"Empty"),
 
-                    "entropy":item['entropy'],
+                    "entropy":item.get('entropy',"Empty") ,
                 }
             }
         }
