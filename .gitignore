@@ -3,7 +3,7 @@ node_modules
 /dist
 upload.js
 examples/haplotype0508.json
-
+/examples/
 # local env files
 .env.local
 .env.*.local
