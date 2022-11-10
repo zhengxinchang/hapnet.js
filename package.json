@@ -29,7 +29,8 @@
     "chroma-js": "^2.4.2",
     "d3-force": "^3.0.0",
     "lodash-es": "^4.17.21",
-    "pixi.js": "^6.5.2"
+    "pixi.js": "^6.5.2",
+    "vue": "^2.7.10"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.0",

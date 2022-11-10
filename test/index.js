@@ -50,7 +50,6 @@ const customOptions = {
               }).forEach(k => {
                 meta[k] = d[k]
               })
-
               return meta.meta
             }(d)
         }
@@ -62,11 +61,6 @@ const customOptions = {
   coarseGraph: {
     tickIteration: 1000,
   }
-
-  // coarseGraph:{
-  //     hubNumOFLinksThreshold:10,
-  //     chargeStrength: 20000,
-  // }
 }
 
 
