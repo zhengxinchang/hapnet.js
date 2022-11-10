@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: hapnet.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: hapnet.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+MIT License
+
+Copyright (c) 2022 zhengxinchang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+import chroma from "chroma-js";
+import {
+  cloneDeep,
+  defaultsDeep,
+  isArray,
+  isNumber
+} from "lodash-es";
+import {Network} from "./network";
+import {
+  defaultInitOption,
+  defaultPlotOption,
+  predefinedPalettesList
+} from './constant'
+import { 
+    calculateCoarseGraph, 
+    calculateFullGraph 
+} from './layout'
+// import { hapnetConfig, preDefinedPalettesList, defaultOptions } from "./envs";
+import store from './store'
+
+/**
+ * Main class of hapnet.js
+ */
+class HapNet {
+
+    /**
+     * @param {Object} initOption &lt;pre> initialization option 
+     *   {
+     *      el: string , // Id of the DOM element
+     *      width: number, // Width of the plot area
+     *      height: number, // Height of the plot area
+     *   }
+     *  &lt;pre>
+     *  @return {HapNet} Instance of HapNet class.
+     */
+    static init(initOption) {
+        /*
+            Format validation
+        */
+        if (!initOption instanceof Object) {
+            throw TypeError("initOption MUST be an Object.")
+        };
+        if (! 'el' in initOption) {
+            throw Error("attr 'el' is required.")
+        }
+        /*
+        validate el point
+         */
+        try {
+            document.getElementById(initOption.el)
+        } catch (error) {
+            throw Error(`can not get element ${initOption.el}`)
+        }
+        /*
+        set width and height
+        */
+        if (!initOption.hasOwnProperty("width")) {
+            initOption.width = window.innerWidth;
+        } else {
+            if (!isNumber(initOption.width)) {
+                throw Error(`attr width is invalid ${initOption.width}`)
+            }
+        }
+        if (!initOption.hasOwnProperty("height")) {
+            initOption.height = window.innerHeight;
+        } else {
+            if (!isNumber(initOption.height)) {
+                throw Error(`attr height is invalid ${initOption.height}`)
+            }
+        }
+
+        /*
+        Add initialization options to instance 
+        */
+        store.runtimeGlobal.initOption = initOption;
+        store.runtimeGlobal.hapnetMainInstance = new HapNet();
+        return store.runtimeGlobal.hapnetMainInstance;
+    }
+
+    // /**
+    //  * @hideconstructor
+    //  * @constructor
+    //  * @param {Object} options hapnet global configure
+    //  */
+    // constructor() {
+
+
+    // }
+    /**
+     * 
+     * @param {Object} plotOption &lt;pre>setup the plot option
+     * &lt;/pre>
+     */
+    setOption(plotOption) {
+
+      store.runtimeGlobal.plotOption = this.plotOption = cloneDeep(plotOption);
+      // console.log(store.runtimeGlobal.plotOption)
+      defaultsDeep(store.runtimeGlobal.plotOption, defaultPlotOption);
+      store.runtimeGlobal.plotOption.backgroundColor = chroma(store.runtimeGlobal.plotOption.backgroundColor).num();
+      store.runtimeGlobal.plotOption.style.linkColor = chroma(store.runtimeGlobal.plotOption.style.linkColor).num();
+      store.runtimeGlobal.plotOption.style.NodeOutline.lineColor = chroma(store.runtimeGlobal.plotOption.style.NodeOutline.lineColor).num();
+      store.runtimeGlobal.plotOption.toolTip.backgroundColor = chroma(store.runtimeGlobal.plotOption.toolTip.backgroundColor).num();
+      store.runtimeGlobal.plotOption.toolTip.borderColor = chroma(store.runtimeGlobal.plotOption.toolTip.borderColor).num();
+      store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.backgroundColor).num();
+      store.runtimeGlobal.plotOption.nodeColorLegend.borderColor = chroma(store.runtimeGlobal.plotOption.nodeColorLegend.borderColor).num();
+      store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor = chroma(store.runtimeGlobal.plotOption.nodeMetaPanel.backgroundColor).num();
+      store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor = chroma(store.runtimeGlobal.plotOption.nodeMetaPanel.borderColor).num();
+      store.runtimeGlobal.plotOption.style.highlightColor = chroma(store.runtimeGlobal.plotOption.style.highlightColor).num();
+
+      /**
+       * TODO:
+       * if paletteArray is not null and  like [{category:A, color:'#FFFFFF'}],
+       * this Array will be applied to draw pie chart. If the length of the
+       * Array is less than real category in all nodes. it will be filled by
+       * palette which is spicified in the 'palette' option.
+       *
+       * if paletteArray is null. Hapnet.js will assingn all category accroding
+       * to the 'palette' option.
+         * 
+         */
+        let nodeColors = new Set();
+        let maxRadius = 0;
+        let minRadius = 0;
+        store.runtimeGlobal.plotOption.nodes.forEach(d => {
+          d.sectors &amp;&amp; d.sectors.forEach(x => {
+            nodeColors.add(x.category);
+            if (d.radius > maxRadius) maxRadius = d.radius;
+            if (d.radius &lt; minRadius) minRadius = d.radius;
+          })
+          /* sort sectors by number, larger rank to top */
+          d.sectors &amp;&amp; d.sectors.sort((a, b) => {
+            if (a.number > b.number) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+
+        });
+
+        nodeColors = Array.from(nodeColors);
+        const radiusInterval = store.runtimeGlobal.plotOption.radiusMax - store.runtimeGlobal.plotOption.radiusMin
+        store.runtimeGlobal.plotOption.nodes.forEach(d => {
+            d.size = cloneDeep(d.radius);
+            d.radius = store.runtimeGlobal.plotOption.radiusMin + radiusInterval / (maxRadius - minRadius) * (d.radius - minRadius);
+        });
+
+        if (isArray(store.runtimeGlobal.plotOption.paletteArray)) {
+            /**
+             * 1. validate paletteArray
+             * 2. assign color to each category accorrding to paletteArray
+             * 3. fill the reset catetory by palette
+             */
+        } else {
+            /**
+             * check wether the palette is in the pre-defined list
+             */
+            if (!predefinedPalettesList[store.runtimeGlobal.plotOption.palette]) {
+                console.error(`Palette is not valid, please select one from: ${Object.keys(predefinedPalettesList)}`)
+            } else {
+                /**
+                 * calculate palette and convert them to number
+                 */
+                const nodeColorsPalette = chroma.scale(predefinedPalettesList[store.runtimeGlobal.plotOption.palette]).colors(nodeColors.length).map(d => chroma(d).num());
+                let tmpPalette = {}
+                nodeColors.forEach((d, idx) => {
+                    tmpPalette[d] = nodeColorsPalette[idx]
+                })
+                store.runtimeGlobal.plotOption.nodeColors = tmpPalette
+                store.runtimeGlobal.plotOption.nodes.forEach(node => {
+                    node.sectors.forEach(sector => {
+                        sector.color = store.runtimeGlobal.plotOption.nodeColors[sector.category];
+                        return sector;
+                    });
+                    return node;
+                });
+            }
+
+        }
+
+        Network.create(); // Will read store.runtimeGlobal
+      // networkElements.drawBackground();
+        calculateCoarseGraph(store.runtimeGlobal.plotOption);
+        calculateFullGraph(store.runtimeGlobal.plotOption);
+        Network.init();
+        Network.draw();
+        console.log(store.runtimeGlobal)
+    }
+
+
+
+}
+
+
+export { HapNet }</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Classes</h3>
+    <ul>
+        <li><a href="HapNet.html">HapNet</a></li>
+        <li><a href="LINK.html">LINK</a></li>
+        <li><a href="Network.html">Network</a></li>
+        <li><a href="NodePanelUnitSub.html">NodePanelUnitSub</a></li>
+        <li><a href="SINGLEPIE.html">SINGLEPIE</a></li>
+        <li><a href="UINodeColorLegend.html">UINodeColorLegend</a></li>
+        <li><a href="UINodeColorLegendUnit.html">UINodeColorLegendUnit</a></li>
+        <li><a href="UINodePanel.html">UINodePanel</a></li>
+        <li><a href="UINodePanelUnit.html">UINodePanelUnit</a></li>
+        <li><a href="UIToolTipNode.html">UIToolTipNode</a></li>
+    </ul>
+    <h3>Global</h3>
+    <ul>
+        <li><a href="global.html#calculateCoarseGraph">calculateCoarseGraph</a></li>
+        <li><a href="global.html#calculateFullGraph">calculateFullGraph</a></li>
+        <li><a href="global.html#calLineHitArea">calLineHitArea</a></li>
+        <li><a href="global.html#defaultInitOption">defaultInitOption</a></li>
+        <li><a href="global.html#defaultPlotOption">defaultPlotOption</a></li>
+        <li><a href="global.html#hapnetConfig">hapnetConfig</a></li>
+        <li><a href="global.html#predefinedPalettesList">predefinedPalettesList</a></li>
+        <li><a href="global.html#radius">radius</a></li>
+    </ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Oct 20 2022 15:30:19
+    GMT+0800 (China Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

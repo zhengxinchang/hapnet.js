@@ -1,7 +1,34 @@
+/*
+MIT License
 
+Copyright (c) 2022 zhengxinchang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 import * as d3 from 'd3-force'
-import { DEG_TO_RAD } from 'pixi.js';
 
+
+
+/**
+ * calculate layout for coarse graph
+ * @param {Object} options plotOption
+ */
 function calculateCoarseGraph(options) {
     let nodes = options.nodes;
     let links = options.links;
@@ -178,6 +205,11 @@ function calculateCoarseGraph(options) {
     options.coarseLinks = Object.values(hubLink);
 };
 
+
+/**
+ * calculate layout for full graph
+ * @param {Object} options plotOption
+ */
 function calculateFullGraph(options) {
 
     const tickIteration = options.fullGraph.tickIteration;
@@ -194,14 +226,14 @@ function calculateFullGraph(options) {
     });
     
     /**
-     * assign postion of hubnode to 
+     * assign position of hub-node and non-hub node
      */
     options.coarseNodes.forEach(cnode => {
         nodesDict[cnode.id].x = cnode.x
         nodesDict[cnode.id].y = cnode.y
-        // nodesDict[cnode.id].fx = cnode.x // setup fix postion of hubnode
-        // nodesDict[cnode.id].fy = cnode.y
         nodesDict[cnode.id].isHub = true;
+
+        // assign non-hub-node position
         cnode.neighborList.forEach(neighbor => {
             nodesDict[neighbor].isHub = false;
             nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(Math.random() * Math.PI * 2);
@@ -211,16 +243,9 @@ function calculateFullGraph(options) {
 
     let nodesWithPosition = Object.values(nodesDict);
 
-    // const simulation = d3.forceSimulation(nodesWithPosition)
-    // .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(10).strength(2))
-    // .force("collide", d3.forceCollide().radius(d => d.radius).iterations(2))
-    // .force("charge", d3.forceManyBody().strength(-10e5).theta(0.99))
-    // .force("x", d3.forceX())
-    // .force("y", d3.forceY())
-    // .stop()
-    // .tick(200);
     const simulation = d3.forceSimulation(nodesWithPosition)
-        .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
+      // .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
+      .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(d => d.distanceNormalizedValue).strength(forceLinkStrength))
         .force("collide", d3.forceCollide().radius(d => d.radius +eachNodePadding ).iterations(collideIteration))
         .force("charge", d3.forceManyBody().strength(chargeStrength * -1).theta(chargeTheta)) // charge 决定full graph的点的距离
         // .force("x", d3.forceX().strength(0.01))

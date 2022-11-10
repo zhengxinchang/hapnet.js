@@ -24,9 +24,25 @@ with open(sys.argv[1]) as fj:
         tmpnode = {
             "id": item["id"],
             "name": 'name_' + item["id"],
-                    "radius": item["radius"],
-                    "values": tmpvalue,
-                    "meta": {
+            "radius": item["radius"],
+            "values": tmpvalue,
+            "meta": {
+                "panel":{
+                    "SNPs":item['SNPs'],
+                    "Virus":item['Virus'],
+                    "degree":{
+                        "total_degree":item.get('total_degree',"Empty"),
+                        "in_degree":item.get('in_degree',"Empty"),
+                        "out_degree":item.get('out_degree',"Empty") ,
+                    }
+                },
+                "hover":{
+                    "date": item.get('date',"Empty"),
+                    "group":item.get('group',"Empty"),
+                    "jump":item.get('jump',"Empty"),
+
+                    "entropy":item.get('entropy',"Empty") ,
+                }
             }
         }
         minidat['nodes'].append(tmpnode)
@@ -40,9 +56,17 @@ with open(sys.argv[1]) as fj:
             "source": item["source"],
             "target":   item["target"],
             "distance": item["distance"],
-            "minTime": item["minTime"],
-            "subset": item["subset"],
+            "meta":{
+                "panel":{
+                    "minTime": item["minTime"]
+                },
+                "hover":{
+                    "subset": item["subset"]
+                }
+            }
+            
+            
         }
         minidat['edges'].append(tmpedge)
 
-    print(json.dumps(minidat))
+    print(json.dumps(minidat,indent=4))

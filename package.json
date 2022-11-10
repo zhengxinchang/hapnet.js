@@ -1,6 +1,6 @@
 {
   "name": "hapnet",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Javascript library to draw haplotype network.",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "serve": "webpack serve --mode development --config webpack.config.js",
-    "build": "webpack build --mode production --config webpack.config.js"
+    "build": "webpack build --mode production --config webpack.config.js",
+    "doc": "jsdoc src -r -c jsdoc.config.json -d docs -P package.json --readme README.md"
   },
   "repository": {
     "type": "git",
@@ -17,16 +18,19 @@
   "keywords": [
     "haplotype network",
     "webGL",
-    "visualization"
+    "visualization",
+    "covid-19",
+    "evolution",
+    "bioinformatics"
   ],
   "author": "Xinchang Zheng",
   "license": "MIT",
   "dependencies": {
-    "@pixi/events": "^6.5.5",
     "chroma-js": "^2.4.2",
     "d3-force": "^3.0.0",
     "lodash-es": "^4.17.21",
-    "pixi.js": "^6.5.2"
+    "pixi.js": "^6.5.2",
+    "vue": "^2.7.10"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.0",
