@@ -20,4 +20,27 @@ module.exports = {
         }),
     
     ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/, //正则表达式，匹配文件类型
+        use: [
+          { loader: 'style-loader' }, //申明使用什么loader进行处理
+          { loader: 'css-loader' }, //申明使用什么loader进行处理
+        ]
+      },
+      {
+        test: /\.(svg|eot|woff|ttf|woff2?)$/,
+        type: "asset",
+        // generator: {
+        //   filename: "static/media/[hash:8][ext][query]",
+        // },
+        parser:{
+          dataUrlCondition:{
+            maxSize : 100 * 1024 *100
+          }
+        }
+      }
+    ]
+  }
 }

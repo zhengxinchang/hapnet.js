@@ -30,15 +30,16 @@ import store from '../../store'
 /**
  *  Class Pie chart element
  */
-class SINGLEPIE extends PIXI.Container {
+class SINGLEPIE extends PIXI.Container  {
 
   /**
    *
    * @param {Object} nodeOptions one node option
    * @param {Object} nodeStyles node style from store.runtimeGlobal.plotOption
    */
-  constructor(nodeOptions, nodeStyles) {
+  constructor(nodeOptions, nodeStyles, plotOption_Style) {
     super();
+    this.plotOption_Style = plotOption_Style;
     /* Validate inputs */
     const isValidate = conformsTo(nodeOptions, {
       id: id => !isNull(id),
@@ -76,21 +77,10 @@ class SINGLEPIE extends PIXI.Container {
         const globalPost = this.toGlobal({x: 0, y: 0})
         const zoomPosX = globalPost.x;
         const zoomPosY = globalPost.y;
-
-        store.runtimeGlobal.pixiApp.hapnetToolTipNode.setAndShow(this.nodeOptions, zoomPosX, zoomPosY);
-        store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = true;
-        store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = false;
-        store.runtimeGlobal.mouseStatus.onNode = true;
-
-        /* show the color legend when hover one node */
-        // this.uiNodeColorLegend = store.runtimeGlobal.pixiApp.hapnetNodeColorLegend;
-        // this.uiNodeColorLegend.setAndShow(this.nodeOptions);
-
-
+        // alert("mouse over")
+        this.emit('aaa',{})
       });
       this.on('mouseout', (event) => {
-        store.runtimeGlobal.mouseStatus.onNode = false;
-        // store.runtimeGlobal.pixiApp.hapnetToolTip.visible = false;
       });
 
     }
@@ -141,9 +131,12 @@ class SINGLEPIE extends PIXI.Container {
   _drawPie() {
 
     this.startAngle = 0;
-    this.sectorsWithPercent.forEach(sector => {
+    for(let sector of this.sectorsWithPercent){
       this.startAngle = this._drawOneSector(this.startAngle, sector.percent, sector.color);
-    })
+    }
+    // this.sectorsWithPercent.forEach(sector => {
+    //
+    // })
 
     // console.log(this.total,this.sectorsWithPercent)
 
@@ -191,7 +184,7 @@ class SINGLEPIE extends PIXI.Container {
     const convertedHighLightWidth = radius * 0.05 * Math.log1p(radius) / 10
 
     this.chart.beginFill(color, 1)
-      .lineStyle(convertedHighLightWidth * 0.5, store.runtimeGlobal.plotOption.style.highlightColor)
+      .lineStyle(convertedHighLightWidth * 0.5, this.plotOption_Style.highlightColor)
       .moveTo(center.x, center.y)
       .lineTo(circleStartPoint.x, circleStartPoint.y)
       .arc(center.x, center.y, radius, startAngle, this._angle2radian(endAngle), false)
@@ -227,7 +220,7 @@ class SINGLEPIE extends PIXI.Container {
   _drawHeighLightCircle() {
 
     this.chart.beginFill(this.nodeOptions.sectors[0].color, 1)
-      .lineStyle(this.nodeOptions.radius * 0.05, store.runtimeGlobal.plotOption.style.highlightColor)
+      .lineStyle(this.nodeOptions.radius * 0.05, this.plotOption_Style.highlightColor)
       .drawCircle(0, 0, this.nodeOptions.radius)
       .endFill();
   }

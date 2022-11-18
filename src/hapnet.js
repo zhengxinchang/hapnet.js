@@ -130,7 +130,6 @@ class HapNet {
     store.runtimeGlobal.plotOption.nodes.forEach(d => {
       d.sectors && d.sectors.forEach(x => {
         nodeColors.add(x.category);
-
       });
       if (d.radius > maxRadius) maxRadius = d.radius;
       if (d.radius < minRadius) minRadius = d.radius;
@@ -141,18 +140,16 @@ class HapNet {
         } else {
           return 1;
         }
-      })
+      });
 
     });
 
     nodeColors = Array.from(nodeColors);
     const radiusInterval = store.runtimeGlobal.plotOption.radiusMax - store.runtimeGlobal.plotOption.radiusMin;
-
     store.runtimeGlobal.plotOption.nodes.forEach(d => {
       d.size = cloneDeep(d.radius);
       d.radius = store.runtimeGlobal.plotOption.radiusMin + radiusInterval / (maxRadius - minRadius) * (d.radius - minRadius);
     });
-
 
     let minDistance = 0;
     let maxDistance = 0;
@@ -200,7 +197,6 @@ class HapNet {
           return node;
         });
       }
-
     }
 
     Network.create(); // Will read store.runtimeGlobal

@@ -84,4 +84,8 @@ function getLinkName(linkOptions, sep = "->") {
   return linkOptions.source.id + " " + sep + " " + linkOptions.target.id
 }
 
-export {calLineHitArea, linkDistanceColorScale, getLinkName}
+function colorTransHex(c) {
+  return chroma(c).hex()
+}
+
+export {calLineHitArea, linkDistanceColorScale, getLinkName,colorTransHex}
