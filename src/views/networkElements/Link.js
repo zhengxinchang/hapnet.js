@@ -34,8 +34,10 @@ import chroma from "chroma-js";
  */
 class LINK extends PIXI.Graphics {
 
-  constructor(linkOptions, linkStyles, drawCoarseGraph = false, debug = false) {
+  constructor(linkOptions, linkStyles, plotOption_style, drawCoarseGraph = false, debug = false) {
     super();
+
+    this.plotOption_style = plotOption_style;
 
     const isValidate = conformsTo(linkOptions, {
       source: d => isObject(d),
@@ -73,21 +75,21 @@ class LINK extends PIXI.Graphics {
     ));
 
     /* trigger tooltip when hover */
-    this.on('mouseover', (event) => {
-
-      // console.log(event.data)
-      // console.log(this)
-      store.runtimeGlobal.mouseStatus.onLink = true;
-      store.runtimeGlobal.pixiApp.hapnetToolTipLink.setAndShow(this.linkOptions, event.data.global.x, event.data.global.y);
-      store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = true;
-      /*turn off tooltip node*/
-      store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = false;
-      // console.log(store.runtimeGlobal.mouseStatus.onLink)
-      // alert("link hover")
-    });
-    this.on('mouseout', (event) => {
-      store.runtimeGlobal.mouseStatus.onLink = false;
-    });
+    // this.on('mouseover', (event) => {
+    //
+    //   // console.log(event.data)
+    //   // console.log(this)
+    //   store.runtimeGlobal.mouseStatus.onLink = true;
+    //   store.runtimeGlobal.pixiApp.hapnetToolTipLink.setAndShow(this.linkOptions, event.data.global.x, event.data.global.y);
+    //   store.runtimeGlobal.pixiApp.hapnetToolTipLink.visible = true;
+    //   /*turn off tooltip node*/
+    //   store.runtimeGlobal.pixiApp.hapnetToolTipNode.visible = false;
+    //   // console.log(store.runtimeGlobal.mouseStatus.onLink)
+    //   // alert("link hover")
+    // });
+    // this.on('mouseout', (event) => {
+    //   store.runtimeGlobal.mouseStatus.onLink = false;
+    // });
 
 
   }
@@ -113,7 +115,7 @@ class LINK extends PIXI.Graphics {
       // console.log(linkDistanceColorScale(this.linkOptions.distanceNormalizedValue))
     } else {
       this
-        .lineStyle(lineWidth * 1.5, store.runtimeGlobal.plotOption.style.highlightColor, 1)
+        .lineStyle(lineWidth * 1.5, this.plotOption_style.highlightColor, 1)
         .moveTo(this.linkOptions.source.x, this.linkOptions.source.y)
         .lineTo(this.linkOptions.target.x, this.linkOptions.target.y);
     }

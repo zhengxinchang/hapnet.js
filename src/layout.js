@@ -205,7 +205,6 @@ function calculateCoarseGraph(options) {
     options.coarseLinks = Object.values(hubLink);
 };
 
-
 /**
  * calculate layout for full graph
  * @param {Object} options plotOption

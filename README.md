@@ -16,6 +16,10 @@ HapNet.js provides a series of features especially designed for visulize haploty
 
 ![](./imgs/screen.png)
 
+[demo](https://ngdc.cncb.ac.cn/ccas/hapnetjs/dist/index.html) (tested on MS Edge and Firefox)
+
+
+
 ## How to use
 
 ## API reference
