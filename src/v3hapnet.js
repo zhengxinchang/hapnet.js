@@ -1,4 +1,3 @@
-
 /*
 MIT License
 
@@ -25,7 +24,7 @@ SOFTWARE.
 
 
 import {cloneDeep, defaultsDeep, isNumber} from "lodash-es";
-import {defaultInitOption, defaultPlotOption, predefinedPalettesList} from "./defaults";
+import {defaultPlotOption, predefinedPalettesList} from "./constant";
 import chroma from "chroma-js";
 import * as PIXI from 'pixi.js'
 import {LINK} from "./views/networkElements/Link";
@@ -34,12 +33,12 @@ import {calculateCoarseGraph, calculateFullGraph} from "./layout";
 import domui from './views/dom-ui/domUI'
 
 /**
- * Main class of hapnet_deprecaed.js
+ * Main class of hapnet.js
  */
 class HapNet {
 
   /**
-   * create hapnet_deprecaed.js
+   * create hapnet.js
    * validate init options
    * add initOption to instance
    * @param initOption
@@ -48,8 +47,8 @@ class HapNet {
   static init(initOption) {
     HapNet.validateInitOption(initOption);
     let hapnet = new HapNet();
-    // assign default settings
-    hapnet.initOption = defaultsDeep( initOption, defaultInitOption);;
+    hapnet.initOption = initOption;
+
     return hapnet
   }
 
@@ -70,14 +69,14 @@ class HapNet {
       throw Error(`can not get element ${initOption.el}`)
     }
     if (!initOption.hasOwnProperty("width")) {
-      // initOption.width = window.innerWidth;
+      initOption.width = window.innerWidth;
     } else {
       if (!isNumber(initOption.width)) {
         throw Error(`attr width is invalid ${initOption.width}`)
       }
     }
     if (!initOption.hasOwnProperty("height")) {
-      // initOption.height = window.innerHeight;
+      initOption.height = window.innerHeight;
     } else {
       if (!isNumber(initOption.height)) {
         throw Error(`attr height is invalid ${initOption.height}`);
@@ -86,22 +85,24 @@ class HapNet {
   }
 
   /**
-   * Main plot function of hapnet_deprecaed.js
+   * Main plot function of hapnet.js
    * @param plotOption
    */
   setOption(plotOption) {
-    this.plotOption = defaultsDeep(plotOption, defaultPlotOption);
+    this.plotOption = plotOption;
+    defaultsDeep(this.plotOption, defaultPlotOption);
     this._validatePlotOption();
     this._translateColor();
     this._normalizeRadiusAndGetNodeColors();
     this._normalizeDistance();
     this._calculatePalette();
-    this._createNetworkAndDomUI();
+    this._createNetwork();
     this._calculateLayout();
     this._calculatePlotBorderAndSetInitScale();
     this._drawNetwork();
     this._addEventZoom();
     this._addEventClick();
+    console.log(this)
   }
 
   /**
@@ -109,6 +110,7 @@ class HapNet {
    * @private
    */
   _validatePlotOption() {
+
     if (!predefinedPalettesList[this.plotOption.palette]) {
       throw Error(`Palette is not valid, please select one from: ${Object.keys(predefinedPalettesList)}`);
     }
@@ -228,7 +230,7 @@ class HapNet {
    * create network
    * @private
    */
-  _createNetworkAndDomUI() {
+  _createNetwork() {
     this.network = {}
     this.network.app = new PIXI.Application({
       width: this.initOption.width,
@@ -237,11 +239,7 @@ class HapNet {
       resolution: this.initOption.resolution
     });
 
-    /*
-     * Create hook element.
-     */
     let main_el = document.getElementById(this.initOption.el)
-
     main_el.style.position = "relative"
     let plot_el = document.createElement("div")
     plot_el.setAttribute("id","plot_el")
@@ -250,22 +248,24 @@ class HapNet {
     let ui_el = document.createElement("div")
     ui_el.setAttribute("id","ui_el")
 
-    plot_el.appendChild(ui_el)
+    // ui_el.style.position="absolute"
+    // ui_el.style.width="300px"
+    // ui_el.style.height="300px"
+    // ui_el.style.backgroundColor="red"
+
+    main_el.appendChild(ui_el)
+
+
 
     this.network.canvas =plot_el
       .appendChild(this.network.app.view);
     this.network.app.renderer.backgroundColor = this.plotOption.backgroundColor;
     this.domui = new domui(ui_el);
     // alert(this.network.app.view.width)
-    this.domui.init(this.initOption.width,this.initOption.height,this.plotOption.nodes.length,this.plotOption.links.length)
+    this.domui.init(this.network.app.view.width,this.network.app.view.height,this.plotOption.nodes.length,this.plotOption.links.length)
     this.domui.hide();
   }
 
-
-  /**
-   * Calculate layouts
-   * @private
-   */
   _calculateLayout() {
     calculateCoarseGraph(this.plotOption)
     calculateFullGraph(this.plotOption)
@@ -479,7 +479,6 @@ class HapNet {
       }
       else {
         this.domui.hide();
-        this.domui.hideHover();
         this._clearHighLightList();
       }
 
@@ -523,4 +522,5 @@ class HapNet {
   }
 
 }
+
 export {HapNet}
