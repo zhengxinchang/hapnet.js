@@ -123,23 +123,22 @@ export default function createDomUI(el) {
       }
 
     },
-
     computed: {
       uiStyleComputed() {
         return {
           topBar: {
-            width: this.uiStyle.globalWidth + 'px',
             height: this.uiStyle.globalHeight * 0.05 + 'px',
-            top: "0px",
-            left: "0px",
+            width: this.uiStyle.globalWidth +'px',
+            top: "0%",
+            left: "0%",
             opacity: 0.9,
             backgroundColor: chroma(this.uiStyle.topBarBackgroundColor).hex()
           },
           bottomBar: {
-            width: this.uiStyle.globalWidth + 'px',
             height: this.uiStyle.globalHeight * 0.05 + 'px',
-            bottom: "0px",
-            left: "0px",
+            width: this.uiStyle.globalWidth +'px',
+            bottom: "0%",
+            left: "0%",
             opacity: 0.9,
             backgroundColor: chroma(this.uiStyle.topBarBackgroundColor).hex()
           },

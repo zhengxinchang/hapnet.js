@@ -50,12 +50,14 @@ const predefinedPalettesList = {
 }
 
 /**
- *  Default init options. default value of width and height is 'auto', if set, hapnet.js will use the width and height of dom element.
+ *  Default init options. default value of width and height is 'auto', if set, hapnet_deprecaed.js will use the width and height of dom element.
  */
 const defaultInitOption = {
   el: null,
-  width: 'auto',
-  height: 'auto',
+  width: document.documentElement.clientWidth ,
+  height: document.documentElement.clientHeight,
+
+
 }
 
 /**
