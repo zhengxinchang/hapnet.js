@@ -1,0 +1,26 @@
+.DS_Store
+node_modules
+/dist
+upload.js
+examples/haplotype0508.json
+/examples/
+# local env files
+.env.local
+.env.*.local
+/.vscode
+.idea/
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+web/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

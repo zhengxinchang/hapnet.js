@@ -1,0 +1,108 @@
+0000000000000000000000000000000000000000 cc48b071b109a533ab6fb7ea152dcb3a2fca4230 zhengxc <zhengxc@z-notebook.localdomain> 1662724098 +0800	clone: from https://gitee.com/zhengxinchang/HapNet.js.git
+cc48b071b109a533ab6fb7ea152dcb3a2fca4230 1869e87bcb17ba6b426888352b331ba718e313b0 zhengxinchang <zhengxinchang1993@163.com> 1663141284 +0800	commit: init commit
+1869e87bcb17ba6b426888352b331ba718e313b0 4dfd23d184474a31c066e08ca5ea4e7538cd0d4d zhengxinchang <zhengxinchang1993@163.com> 1663291766 +0800	commit: full layout
+4dfd23d184474a31c066e08ca5ea4e7538cd0d4d 0000000000000000000000000000000000000000 zhengxinchang <zhengxinchang1993@163.com> 1663492652 +0800	Branch: renamed refs/heads/master to refs/heads/main
+0000000000000000000000000000000000000000 4dfd23d184474a31c066e08ca5ea4e7538cd0d4d zhengxinchang <zhengxinchang1993@163.com> 1663492652 +0800	Branch: renamed refs/heads/master to refs/heads/main
+4dfd23d184474a31c066e08ca5ea4e7538cd0d4d 0000000000000000000000000000000000000000 zhengxinchang <zhengxinchang1993@163.com> 1663493475 +0800	Branch: renamed refs/heads/main to refs/heads/main
+4dfd23d184474a31c066e08ca5ea4e7538cd0d4d 4dfd23d184474a31c066e08ca5ea4e7538cd0d4d zhengxinchang <zhengxinchang1993@163.com> 1663493475 +0800	Branch: renamed refs/heads/main to refs/heads/main
+4dfd23d184474a31c066e08ca5ea4e7538cd0d4d f904e8ceba0be70d36a9f14bd3e9bfcd44d562df zhengxinchang <zhengxinchang1993@163.com> 1663493567 +0800	commit: ignore examples
+f904e8ceba0be70d36a9f14bd3e9bfcd44d562df 7caf0a4c2760e7a480fcfa187da18a7c5002e3c7 zhengxinchang <zhengxinchang1993@163.com> 1663493567 +0800	filter-branch: rewrite
+7caf0a4c2760e7a480fcfa187da18a7c5002e3c7 82cf302c0965820381a84215a209681aac68e7d9 zhengxinchang <zhengxinchang1993@163.com> 1664194966 +0800	commit: adjust parameters for the full graph
+82cf302c0965820381a84215a209681aac68e7d9 ea4ff1642a9bdd9fd45927d3ee3ceb3beb6de245 zhengxinchang <zhengxinchang1993@163.com> 1664195003 +0800	commit: adjust default options
+ea4ff1642a9bdd9fd45927d3ee3ceb3beb6de245 5ead36a9ad57958cebb934a9a81f8b2ca799918a zhengxinchang <zhengxinchang1993@163.com> 1664195085 +0800	commit: set the init of background when the HapNet Class is init
+5ead36a9ad57958cebb934a9a81f8b2ca799918a 3cb65b27d2bfbf48a90a15dfb6f5a772f89347fe zhengxinchang <zhengxinchang1993@163.com> 1664260638 +0800	commit: fix indent
+3cb65b27d2bfbf48a90a15dfb6f5a772f89347fe 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664619109 +0800	commit: make links clickable
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664864787 +0800	checkout: moving from main to dev
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664864837 +0800	checkout: moving from dev to dev
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664864857 +0800	checkout: moving from dev to main
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664864901 +0800	checkout: moving from main to dev
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664864997 +0800	checkout: moving from dev to dev
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664865002 +0800	checkout: moving from dev to main
+002954df59a7625368fc75a7ad633cf7752e35fc 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664865199 +0800	checkout: moving from main to dev
+002954df59a7625368fc75a7ad633cf7752e35fc d620b01d0a5b77034de6d644c928027a93d955b3 zhengxinchang <zhengxinchang1993@163.com> 1664866716 +0800	commit: update README.md
+d620b01d0a5b77034de6d644c928027a93d955b3 2dda06ec044052a8ea07ccb22bb934f725d4a5fd zhengxinchang <zhengxinchang1993@163.com> 1664866789 +0800	commit: update package.json
+2dda06ec044052a8ea07ccb22bb934f725d4a5fd f279e9328225db252b218c02f735630bfe3323d1 zhengxinchang <zhengxinchang1993@163.com> 1664866811 +0800	commit: code clean
+f279e9328225db252b218c02f735630bfe3323d1 002954df59a7625368fc75a7ad633cf7752e35fc zhengxinchang <zhengxinchang1993@163.com> 1664867127 +0800	checkout: moving from dev to main
+002954df59a7625368fc75a7ad633cf7752e35fc f279e9328225db252b218c02f735630bfe3323d1 zhengxinchang <zhengxinchang1993@163.com> 1664867133 +0800	merge dev: Fast-forward
+f279e9328225db252b218c02f735630bfe3323d1 f279e9328225db252b218c02f735630bfe3323d1 zhengxinchang <zhengxinchang1993@163.com> 1664867203 +0800	checkout: moving from main to dev
+f279e9328225db252b218c02f735630bfe3323d1 f279e9328225db252b218c02f735630bfe3323d1 zhengxinchang <zhengxinchang1993@163.com> 1664867236 +0800	checkout: moving from dev to main
+f279e9328225db252b218c02f735630bfe3323d1 d4f27612377047ce6131b185260cd4f13900b8ed zhengxinchang <zhengxinchang1993@163.com> 1664875281 +0800	commit: full graph layout params from hard coding to global options
+d4f27612377047ce6131b185260cd4f13900b8ed d4f27612377047ce6131b185260cd4f13900b8ed zhengxinchang <zhengxinchang1993@163.com> 1664875575 +0800	checkout: moving from main to feature/highght-click
+d4f27612377047ce6131b185260cd4f13900b8ed d4f27612377047ce6131b185260cd4f13900b8ed zhengxinchang <zhengxinchang1993@163.com> 1664875598 +0800	checkout: moving from feature/highght-click to main
+d4f27612377047ce6131b185260cd4f13900b8ed d4f27612377047ce6131b185260cd4f13900b8ed zhengxinchang <zhengxinchang1993@163.com> 1664875620 +0800	checkout: moving from main to feature/highlight-click
+d4f27612377047ce6131b185260cd4f13900b8ed c681f130991d658d5083f9037a373cfbc65fd650 zhengxinchang <zhengxinchang1993@163.com> 1664958443 +0800	commit: highlight function
+c681f130991d658d5083f9037a373cfbc65fd650 d4f27612377047ce6131b185260cd4f13900b8ed zhengxinchang <zhengxinchang1993@163.com> 1664958461 +0800	checkout: moving from feature/highlight-click to main
+d4f27612377047ce6131b185260cd4f13900b8ed c681f130991d658d5083f9037a373cfbc65fd650 zhengxinchang <zhengxinchang1993@163.com> 1664958475 +0800	merge feature/highlight-click: Fast-forward
+c681f130991d658d5083f9037a373cfbc65fd650 3844eedbaa6772c097e9b755c2841748d116c4a6 zhengxinchang <zhengxinchang1993@163.com> 1664979063 +0800	commit: snapshot
+3844eedbaa6772c097e9b755c2841748d116c4a6 85b4c0fddb031b5fc4bef330ee380befe36cab00 zhengxinchang <zhengxinchang1993@163.com> 1665149366 +0800	commit: snapshot add tooltip
+85b4c0fddb031b5fc4bef330ee380befe36cab00 1d7c8349b9928532edb89cb0cbfd2b9e2ecc4acb zhengxinchang <zhengxinchang1993@163.com> 1665197180 +0800	commit: snapshot
+1d7c8349b9928532edb89cb0cbfd2b9e2ecc4acb 1d7c8349b9928532edb89cb0cbfd2b9e2ecc4acb zhengxinchang <zhengxinchang1993@163.com> 1665197202 +0800	checkout: moving from main to feature/ui
+1d7c8349b9928532edb89cb0cbfd2b9e2ecc4acb f03b246e58e17f441bb902c036df37a8183657d8 zhengxinchang <zhengxinchang1993@163.com> 1665227603 +0800	commit: add hover panel
+f03b246e58e17f441bb902c036df37a8183657d8 3e6fa327943a6eee57ea964ff5b4861165aef1e5 zhengxinchang <zhengxinchang1993@163.com> 1665299415 +0800	commit: add jsdoc
+3e6fa327943a6eee57ea964ff5b4861165aef1e5 06db9921891e0773b2d8d737369d407ebac3cb84 zhengxinchang <zhengxinchang1993@163.com> 1665300922 +0800	commit: add keywords
+06db9921891e0773b2d8d737369d407ebac3cb84 54f379a354ed78f496692770dca5704a7200f23e zhengxinchang <zhengxinchang1993@163.com> 1665302995 +0800	commit: ui snapshot
+54f379a354ed78f496692770dca5704a7200f23e 54f379a354ed78f496692770dca5704a7200f23e zhengxinchang <zhengxinchang1993@163.com> 1665303046 +0800	checkout: moving from feature/ui to feature/v0.2
+54f379a354ed78f496692770dca5704a7200f23e 9a2364e6ccc61672bce8418f67b672978b3a9954 zhengxinchang <zhengxinchang1993@163.com> 1665320660 +0800	commit: add LICENSE to each file
+9a2364e6ccc61672bce8418f67b672978b3a9954 54f379a354ed78f496692770dca5704a7200f23e zhengxinchang <zhengxinchang1993@163.com> 1665320715 +0800	checkout: moving from feature/v0.2 to feature/ui
+54f379a354ed78f496692770dca5704a7200f23e 9a2364e6ccc61672bce8418f67b672978b3a9954 zhengxinchang <zhengxinchang1993@163.com> 1665320743 +0800	checkout: moving from feature/ui to feature/v0.2
+9a2364e6ccc61672bce8418f67b672978b3a9954 1d7c8349b9928532edb89cb0cbfd2b9e2ecc4acb zhengxinchang <zhengxinchang1993@163.com> 1665320758 +0800	checkout: moving from feature/v0.2 to main
+1d7c8349b9928532edb89cb0cbfd2b9e2ecc4acb 9a2364e6ccc61672bce8418f67b672978b3a9954 zhengxinchang <zhengxinchang1993@163.com> 1665320773 +0800	checkout: moving from main to feature/v0.2
+9a2364e6ccc61672bce8418f67b672978b3a9954 32d9a8bcd9adff3314a408d7ce69c1f368861dfa zhengxinchang <zhengxinchang1993@163.com> 1665396975 +0800	commit: snapshot
+32d9a8bcd9adff3314a408d7ce69c1f368861dfa 54f379a354ed78f496692770dca5704a7200f23e zhengxinchang <zhengxinchang1993@163.com> 1665396981 +0800	checkout: moving from feature/v0.2 to feature/ui
+54f379a354ed78f496692770dca5704a7200f23e 32d9a8bcd9adff3314a408d7ce69c1f368861dfa zhengxinchang <zhengxinchang1993@163.com> 1665397009 +0800	checkout: moving from feature/ui to feature/v0.2
+32d9a8bcd9adff3314a408d7ce69c1f368861dfa 5d39e1a32035d177072bf06479b0d0d315d4fea1 zhengxinchang <zhengxinchang1993@163.com> 1665413058 +0800	commit: add scroll tooltip
+5d39e1a32035d177072bf06479b0d0d315d4fea1 7d94cea3ce9bd33235987bec50f76b3aaa09d505 zhengxinchang <zhengxinchang1993@163.com> 1665458410 +0800	commit: fix scroll boundary detection.
+7d94cea3ce9bd33235987bec50f76b3aaa09d505 97ee54efe13a2e2e9b2b7c36a6cd7a9711726b1b zhengxinchang <zhengxinchang1993@163.com> 1665478864 +0800	commit: node color legend ui
+97ee54efe13a2e2e9b2b7c36a6cd7a9711726b1b 553560659c9868778a2014f875f3fc0af9599ea9 zhengxinchang <zhengxinchang1993@163.com> 1666099998 +0800	commit: node panel meta data snapshot
+553560659c9868778a2014f875f3fc0af9599ea9 86aaa17f686916cd6e863aa21022c9feeed615fa zhengxinchang <zhengxinchang1993@163.com> 1666149331 +0800	commit: meta panel scroll and visualization.
+86aaa17f686916cd6e863aa21022c9feeed615fa 7a51eb54754861d41a8cc79a1a8683b0dee87b6c zhengxinchang <zhengxinchang1993@163.com> 1666149684 +0800	commit: TODO list
+7a51eb54754861d41a8cc79a1a8683b0dee87b6c eb7536a3330802b2d97019399f0d4373ae9d60fd zhengxinchang <zhengxinchang1993@163.com> 1666169450 +0800	commit: reform the src structures
+eb7536a3330802b2d97019399f0d4373ae9d60fd 787bdd3a60c0f1366bf759b2da636f2a2450b6f2 zhengxinchang <zhengxinchang1993@163.com> 1666170164 +0800	commit: rename files
+787bdd3a60c0f1366bf759b2da636f2a2450b6f2 8bd6423a36fbf193b43a8d5c474f4d090111f2ea zhengxinchang <zhengxinchang1993@163.com> 1666179174 +0800	commit: snapshot
+8bd6423a36fbf193b43a8d5c474f4d090111f2ea 177c0c7cb5caf6fe623ac5f511d366b1eeb75019 zhengxinchang <zhengxinchang1993@163.com> 1666179629 +0800	commit: LINK will inherit the PIXI.Graphics instead of PIXI.Container.
+177c0c7cb5caf6fe623ac5f511d366b1eeb75019 a77f32f88f7573380835f6b0b1fd9798b820712a zhengxinchang <zhengxinchang1993@163.com> 1666179693 +0800	commit: fix the circle position.
+a77f32f88f7573380835f6b0b1fd9798b820712a cf6a3c1de0a79e60e84863898c6d82682099c8b2 zhengxinchang <zhengxinchang1993@163.com> 1666185006 +0800	commit: fix tooltip behavior when hover a node
+cf6a3c1de0a79e60e84863898c6d82682099c8b2 8e726887cf3e084695c3c25167991cfe1e5bc937 zhengxinchang <zhengxinchang1993@163.com> 1666187311 +0800	commit: fix calLineHitArea
+8e726887cf3e084695c3c25167991cfe1e5bc937 17cff707f1b5d93225a65067702fde211564c30a zhengxinchang <zhengxinchang1993@163.com> 1666235434 +0800	commit: link hover
+17cff707f1b5d93225a65067702fde211564c30a 4e99eaed0e0f28497e6d00274ee8a4600f254dd9 zhengxinchang <zhengxinchang1993@163.com> 1666272644 +0800	commit: link color indicates distance
+4e99eaed0e0f28497e6d00274ee8a4600f254dd9 c543bab7dd1149808ff8c711b8aa849e3ea5327b zhengxinchang <zhengxinchang1993@163.com> 1666318877 +0800	commit: force.distance use each link's distanceNormalizedValue
+c543bab7dd1149808ff8c711b8aa849e3ea5327b ec2f1c92e340cb43831080b13849d87469f74093 zhengxinchang <zhengxinchang1993@163.com> 1666319031 +0800	commit: change default link's line width
+ec2f1c92e340cb43831080b13849d87469f74093 843dbdb104c003d216a909b5de1b8d5c4c0ad9ed zhengxinchang <zhengxinchang1993@163.com> 1666341567 +0800	commit: add new demo.customOptions.json
+843dbdb104c003d216a909b5de1b8d5c4c0ad9ed 1690a8fb26fa6a4f96683b7c4343fdf328e4bcce zhengxinchang <zhengxinchang1993@163.com> 1666341790 +0800	commit: add new demo.customOptions.json
+1690a8fb26fa6a4f96683b7c4343fdf328e4bcce 8ed5f0d7e968e2d64771d776bda9a0e1e1367b15 zhengxinchang <zhengxinchang1993@163.com> 1666355654 +0800	commit: add link panel
+8ed5f0d7e968e2d64771d776bda9a0e1e1367b15 235b015ea9477d2d088e6154a827c68d3f828400 zhengxinchang <zhengxinchang1993@163.com> 1666355684 +0800	commit: code clean
+235b015ea9477d2d088e6154a827c68d3f828400 cd0422bb74fb2dbc127261c38906daebe495b431 zhengxinchang <zhengxinchang1993@163.com> 1666356026 +0800	commit: jsdoc on utils.js
+cd0422bb74fb2dbc127261c38906daebe495b431 30c9a0aadca78fbd54e0b4b4434c05096b57e0e7 zhengxinchang <zhengxinchang1993@163.com> 1666521929 +0800	commit: add link meta panel
+30c9a0aadca78fbd54e0b4b4434c05096b57e0e7 8391603255e2d85a8b9fca5b644c0aa012490626 zhengxinchang <zhengxinchang1993@163.com> 1666522879 +0800	commit: fix link meta scroll function
+8391603255e2d85a8b9fca5b644c0aa012490626 8391603255e2d85a8b9fca5b644c0aa012490626 zhengxinchang <zhengxinchang1993@163.com> 1666762135 +0800	checkout: moving from feature/v0.2 to feature/v0.2-dom-ui
+8391603255e2d85a8b9fca5b644c0aa012490626 a49b0bb1f84defceef00865dd4c43fe088895798 zhengxinchang <zhengxinchang1993@163.com> 1667875253 +0800	commit: update readme.md
+a49b0bb1f84defceef00865dd4c43fe088895798 11b48aba3875190def88bf424051dcef5495c1bb zhengxinchang <zhengxinchang1993@163.com> 1667876387 +0800	commit: fix test json file creation script
+11b48aba3875190def88bf424051dcef5495c1bb a55eee12a022df912f3dbd24f9fe6d6b6c9c49d9 zhengxinchang <zhengxinchang1993@163.com> 1668095926 +0800	commit: add vue
+a55eee12a022df912f3dbd24f9fe6d6b6c9c49d9 fe28ee1d8fe2ff22b4e0b783fffc1165318b5e89 zhengxinchang <zhengxinchang1993@163.com> 1668095933 +0800	checkout: moving from feature/v0.2-dom-ui to main
+fe28ee1d8fe2ff22b4e0b783fffc1165318b5e89 888f78aebb98ff4f043286da23b4ba9ae07dd7c2 zhengxinchang <zhengxinchang1993@163.com> 1668097284 +0800	commit (merge): merge to main
+888f78aebb98ff4f043286da23b4ba9ae07dd7c2 462545ed65168b3bd010e76cc4f149fe878cc184 zhengxinchang <zhengxinchang1993@163.com> 1668097401 +0800	commit: merge
+462545ed65168b3bd010e76cc4f149fe878cc184 a55eee12a022df912f3dbd24f9fe6d6b6c9c49d9 zhengxinchang <zhengxinchang1993@163.com> 1668097463 +0800	checkout: moving from main to feature/v0.2-dom-ui
+a55eee12a022df912f3dbd24f9fe6d6b6c9c49d9 f29cb6505e422d87e3392cd1b5a8e6c32fb2cda6 zhengxinchang <zhengxinchang1993@163.com> 1668097482 +0800	checkout: moving from feature/v0.2-dom-ui to feature/v0.2-loader
+f29cb6505e422d87e3392cd1b5a8e6c32fb2cda6 462545ed65168b3bd010e76cc4f149fe878cc184 zhengxinchang <zhengxinchang1993@163.com> 1668097494 +0800	checkout: moving from feature/v0.2-loader to main
+462545ed65168b3bd010e76cc4f149fe878cc184 bd6df1ea8a922fbfb2558bb4a6216d090c9cb53b zhengxinchang <zhengxinchang1993@163.com> 1668097518 +0800	commit: merge
+bd6df1ea8a922fbfb2558bb4a6216d090c9cb53b 6ac7245711c730e52c7c5e7d9ef2f12819aba760 zhengxinchang <zhengxinchang1993@163.com> 1668097596 +0800	commit: delete large files
+6ac7245711c730e52c7c5e7d9ef2f12819aba760 6ac7245711c730e52c7c5e7d9ef2f12819aba760 zhengxinchang <zhengxinchang1993@163.com> 1668479823 +0800	checkout: moving from main to feature/v0.3
+6ac7245711c730e52c7c5e7d9ef2f12819aba760 c65fc0953320f7f6913392a83c343784ad196b5d zhengxinchang <zhengxinchang1993@163.com> 1668740440 +0800	commit: v3
+c65fc0953320f7f6913392a83c343784ad196b5d cf03ea89820d0ac865e4f252d10caaee5bc0d3d5 zhengxinchang <zhengxinchang1993@163.com> 1668740688 +0800	commit (amend): v3
+cf03ea89820d0ac865e4f252d10caaee5bc0d3d5 ef80035040ddd375f150544eeef26e47de6fc5b6 zhengxinchang <zhengxinchang1993@163.com> 1668740688 +0800	filter-branch: rewrite
+ef80035040ddd375f150544eeef26e47de6fc5b6 5f110fc3cb6563ad6752b94c2daf226717817a4b zhengxinchang <zhengxinchang1993@163.com> 1668740688 +0800	filter-branch: rewrite
+5f110fc3cb6563ad6752b94c2daf226717817a4b 6ac7245711c730e52c7c5e7d9ef2f12819aba760 zhengxinchang <zhengxinchang1993@163.com> 1668743210 +0800	checkout: moving from feature/v0.3 to main
+6ac7245711c730e52c7c5e7d9ef2f12819aba760 38aa0c364b7944ef33eaa4d0a467af854174de7b zhengxinchang <zhengxinchang1993@163.com> 1668097596 +0800	filter-branch: rewrite
+38aa0c364b7944ef33eaa4d0a467af854174de7b d6b44a2b69d4327ac8ea7f0ae7c9d4424d4348dc zhengxinchang <zhengxinchang1993@163.com> 1668097596 +0800	filter-branch: rewrite
+d6b44a2b69d4327ac8ea7f0ae7c9d4424d4348dc 5f110fc3cb6563ad6752b94c2daf226717817a4b zhengxinchang <zhengxinchang1993@163.com> 1668743495 +0800	checkout: moving from main to feature/v0.3
+5f110fc3cb6563ad6752b94c2daf226717817a4b ccf0587f6c405fd39535307eeeb04d09aafe28e9 zhengxinchang <zhengxinchang1993@163.com> 1668743643 +0800	commit: update readme
+ccf0587f6c405fd39535307eeeb04d09aafe28e9 c193b3e7355ef4be3430f5d5dcf2fa5651595c19 zhengxinchang <zhengxinchang1993@163.com> 1668750401 +0800	commit: update demo page
+c193b3e7355ef4be3430f5d5dcf2fa5651595c19 2ed7acca0624ccaea2c10f687f4e49577ec5a5b8 zhengxinchang <zhengxinchang1993@163.com> 1668779990 +0800	commit: update readme.md
+2ed7acca0624ccaea2c10f687f4e49577ec5a5b8 2ed7acca0624ccaea2c10f687f4e49577ec5a5b8 zhengxinchang <zhengxinchang1993@163.com> 1676631630 +0800	reset: moving to HEAD
+2ed7acca0624ccaea2c10f687f4e49577ec5a5b8 5f110fc3cb6563ad6752b94c2daf226717817a4b zhengxinchang <zhengxinchang1993@163.com> 1676631674 +0800	rebase -i (start): checkout d6b44a2
+5f110fc3cb6563ad6752b94c2daf226717817a4b c6d286894e98f257eeb4d27baf331d5beea6bb53 zhengxinchang <zhengxinchang1993@163.com> 1676631674 +0800	rebase -i (squash): # This is a combination of 2 commits.
+c6d286894e98f257eeb4d27baf331d5beea6bb53 4229719b7a7413f1949595c964b47c5e9e806ebc zhengxinchang <zhengxinchang1993@163.com> 1676631674 +0800	rebase -i (squash): # This is a combination of 3 commits.
+4229719b7a7413f1949595c964b47c5e9e806ebc 4c0b7ce002c18deb7899b222eba5844cd44e3049 zhengxinchang <zhengxinchang1993@163.com> 1676631674 +0800	rebase -i (squash): v3
+4c0b7ce002c18deb7899b222eba5844cd44e3049 4c0b7ce002c18deb7899b222eba5844cd44e3049 zhengxinchang <zhengxinchang1993@163.com> 1676631674 +0800	rebase -i (finish): returning to refs/heads/feature/v0.3
+4c0b7ce002c18deb7899b222eba5844cd44e3049 a5b1ed06e9113d109dc9c3f391181a167e2ad6ea zhengxinchang <zhengxc93@gmail.com> 1708054052 -0600	commit: code clean
+a5b1ed06e9113d109dc9c3f391181a167e2ad6ea 723033732549de17b6a15f3256aceb61711d97c5 zhengxinchang <zhengxc93@gmail.com> 1708054544 -0600	commit (merge): clean code
