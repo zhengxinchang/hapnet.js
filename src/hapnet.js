@@ -177,6 +177,7 @@ class HapNet {
         });
 
         this.plotOption.nodeColors = nodeColors
+        // console.log(nodeColors);
     }
 
     /**
@@ -219,7 +220,7 @@ class HapNet {
             });
             return node;
         });
-
+        // console.log()
     }
 
     /**
@@ -261,6 +262,7 @@ class HapNet {
             this.plotOption.nodes.length,
             this.plotOption.links.length,
             this.plotOption.uiStyle,
+            this.plotOption.nodeColors,
             // {
             //   topBarBackgroundColor:'#3e999f',
             //   // leftPanelBackgroundColor: '#3e999f', //"#3e999f"d

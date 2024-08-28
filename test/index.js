@@ -75,7 +75,7 @@ const data = {
     }),
   palette: "jama",
   fullGraph: {
-    tickIteration: 1500,
+    tickIteration: 100,
       forceLinkStrength: 2,
       chargeStrength: 800000,
       forceLinkDistance: 4,
@@ -85,7 +85,7 @@ const data = {
 
   },
   coarseGraph: {
-    tickIteration: 0,
+    tickIteration: 10,
   },
 
     radiusMax: 500,

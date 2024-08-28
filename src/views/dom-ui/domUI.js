@@ -4,6 +4,7 @@ import '../../../assets/ui.css'
 import  './expandPanel'
 import './oneMetaBlock'
 import './colorCode'
+import './legend'
 import {defaultsDeep} from "lodash-es";
 
 
@@ -41,12 +42,13 @@ export default function createDomUI(el) {
         this.isShowLinkHover = true
       },
 
-      init(width, height, numNode, numLink,uiStyle) {
+      init(width, height, numNode, numLink,uiStyle,nodeColors) {
         this.uiStyle.globalWidth = width;
         this.uiStyle.globalHeight = height;
         this.numNode = numNode;
         this.numLink = numLink;
-        this.uiStyle = defaultsDeep(uiStyle,this.uiStyle)
+        this.uiStyle = defaultsDeep(uiStyle,this.uiStyle);
+        this.nodeColorLegend = nodeColors;
 
       },
       setNode(node) {
@@ -82,6 +84,7 @@ export default function createDomUI(el) {
       return {
         numNode: 0,
         numLink: 0,
+        nodeColorLegend:null,
         uiIcon: {
           expand: require('../../../assets/expand.svg'),
           collapse: require('../../../assets/collapse.svg')
@@ -212,6 +215,7 @@ export default function createDomUI(el) {
 <!--            <span style="color: white;text-align: right;margin-left: 40px">Haplotypes: {{ this.numNode }}</span>-->
 <!--            <span style="color: white;text-align: right;margin-left: 40px">Links: {{ this.numLink }}</span>-->
 <!--          </span>-->
+          <span style="position: absolute;right: 0px;margin-right: 10px; color: white;font-weight: bold;text-align: center;margin-left: 40px"> <legend-u-i :node-colors="nodeColorLegend"></legend-u-i> </span>
         </div>
 
         <!--bottom Bar-->
