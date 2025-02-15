@@ -5,7 +5,7 @@ const { library } = require('webpack')
 module.exports = {
   entry: './src/hapnet.js', //打包文件入口
   output: {               //打包文件出口
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './web'),
     filename: 'hap-net.js',
     library: {
       // name: 'hap-net',
@@ -54,6 +54,7 @@ module.exports = {
     ]
   },
   optimization: {
+    minimize: false, // 不压缩代码
     usedExports: true, // 启用 Tree Shaking
     sideEffects: false // 进一步优化未使用的模块
   }

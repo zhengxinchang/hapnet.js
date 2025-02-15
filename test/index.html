@@ -15,10 +15,13 @@
                 <div id="hapnet"> </div>
     </body>
 
-    <script>
+    <script type="module" src="test/index.js"></script>
+
+    <!-- <script>
 
 
-        import { HapNet } from "../src/hapnet";
+        // import { HapNet } from "../src/hapnet";
+        import {HapNet} from "../dist/hap-net";
 
         let start = Date.now();
 
@@ -113,5 +116,5 @@
         let end = Date.now();
 
         console.log(`time consuming : ${(end - start) / 1000}`)
-    </script>
+    </script> -->
 </html>

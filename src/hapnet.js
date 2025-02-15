@@ -91,6 +91,13 @@ class HapNet {
      */
     setOption(plotOption) {
         this.plotOption = defaultsDeep(plotOption, defaultPlotOption);
+
+
+        if (this.plotOption.debug) {
+            console.log(this.plotOption);
+        }
+        
+
         this._validatePlotOption();
         this._translateColor();
         this._normalizeRadiusAndGetNodeColors();
@@ -240,6 +247,10 @@ class HapNet {
          * Create hook element.
          */
         let main_el = document.getElementById(this.initOption.el)
+
+        if (!main_el) {
+            throw Error(`can not find element ${this.initOption.el}`)
+        }
 
         main_el.style.position = "relative"
         let plot_el = document.createElement("div")
@@ -532,4 +543,4 @@ class HapNet {
 
 }
 
-export {HapNet}
+export default HapNet;

@@ -1,5 +1,7 @@
 
-import { HapNet } from "../src/hapnet";
+// import { HapNet } from "../src/hapnet";
+
+import {HapNet} from "/dist/hap-net";
 
 let start = Date.now();
 
@@ -10,10 +12,10 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
-// let dat = JSON.parse(httpGet("B.1.1.10.mini.json"));
+let dat = JSON.parse(httpGet("B.1.1.10.mini.json"));
 
 // let dat = JSON.parse(httpGet("tree_merge.json"));
-let dat = JSON.parse(httpGet("phylo_data_H5N1_influenzaA.json"));
+// let dat = JSON.parse(httpGet("phylo_data_H5N1_influenzaA.json"));
 
 /* Processing data*/
 const data = {

@@ -22,7 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 import * as d3 from 'd3-force'
+import { randomUniform } from "d3-random";
 
+// function createSeededRandom(seed=12345) {
+//     const randomLcg = d3.randomLcg(seed); // 创建带种子的随机数生成器
+//     return () => randomLcg(); // 返回一个函数，模拟 Math.random()
+// }
+
+const random = randomUniform(0, 1);
 
 
 /**
@@ -197,7 +204,7 @@ function calculateCoarseGraph(options) {
     const simulation = d3.forceSimulation(hubNodeWithMeta)
         .force("link", d3.forceLink(Object.values(hubLink)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
         .force("collide", d3.forceCollide().radius(d => d.radius).iterations(collideIteration))
-        .force("charge", d3.forceManyBody().strength(chargeStrength * -1))
+        .force("charge", d3.forceManyBody().strength(chargeStrength ))
         .force("x", d3.forceX())
         .force("y", d3.forceY()).tick(tickIteration).stop();
 
@@ -235,8 +242,10 @@ function calculateFullGraph(options) {
         // assign non-hub-node position
         cnode.neighborList.forEach(neighbor => {
             nodesDict[neighbor].isHub = false;
-            nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(Math.random() * Math.PI * 2);
-            nodesDict[neighbor].y = cnode.y + cnode.radius * Math.cos(Math.random() * Math.PI * 2);
+            // nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(Math.random() * Math.PI * 2);
+            // nodesDict[neighbor].y = cnode.y + cnode.radius * Math.cos(Math.random() * Math.PI * 2);
+            nodesDict[neighbor].x = cnode.x + cnode.radius * Math.sin(random * Math.PI * 2);
+            nodesDict[neighbor].y = cnode.y + cnode.radius * Math.cos(random * Math.PI * 2);
         });
     });
 
@@ -246,7 +255,7 @@ function calculateFullGraph(options) {
       // .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(forceLinkDistance).strength(forceLinkStrength))
       .force("link", d3.forceLink(Object.values(options.links)).id(d => d.id).distance(d => d.distanceNormalizedValue).strength(forceLinkStrength))
         .force("collide", d3.forceCollide().radius(d => d.radius +eachNodePadding ).iterations(collideIteration))
-        .force("charge", d3.forceManyBody().strength(chargeStrength * -1).theta(chargeTheta)) // charge 决定full graph的点的距离
+        .force("charge", d3.forceManyBody().strength(chargeStrength ).theta(chargeTheta)) // charge 决定full graph的点的距离
         // .force("x", d3.forceX().strength(0.01))
         // .force("y", d3.forceY().strength(0.01))
         .force("x", d3.forceX())
